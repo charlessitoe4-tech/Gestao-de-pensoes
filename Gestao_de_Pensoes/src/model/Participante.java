@@ -1,4 +1,4 @@
-Packege model;
+package model;
 public class Participante {
     
 }
