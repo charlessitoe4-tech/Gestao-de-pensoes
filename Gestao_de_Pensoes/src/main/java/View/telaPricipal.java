@@ -5,17 +5,30 @@
 package View;
 
 import java.awt.CardLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import controller.BeneficiarioController;
+import controller.PensaoController;
 import model.Beneficiario;
+import model.Pensao;
 import model.enums.EstadoCivil;
+import model.enums.EstadoPensao;
 import model.enums.Genero;
+import model.enums.TipoPensao;
 import org.hibernate.HibernateException;
 
 /**
@@ -26,7 +39,9 @@ public class telaPricipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(telaPricipal.class.getName());
     private final BeneficiarioController beneficiarioController = new BeneficiarioController();
+    private final PensaoController pensaoController = new PensaoController();
     private Long beneficiarioSelecionadoId;
+    private Long pensaoSelecionadaId;
 
     /**
      * Creates new form telaPricipal
@@ -34,6 +49,7 @@ public class telaPricipal extends javax.swing.JFrame {
     public telaPricipal() {
         initComponents();
         inicializarCrudBeneficiarios();
+        inicializarCrudPensoes();
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent evento) {
@@ -550,19 +566,29 @@ public class telaPricipal extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel18.setText("tipo de pensao");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(
+                java.util.stream.Stream.concat(
+                        java.util.stream.Stream.of("Todos"),
+                        java.util.Arrays.stream(TipoPensao.values()).map(Enum::name))
+                        .toArray(String[]::new)));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel19.setText("beneficiario");
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Filtrar");
+        jButton2.addActionListener(this::jButton2PensaoActionPerformed);
 
-        jButton10.setText("jButton10");
+        jButton10.setText("Guardar / atualizar");
+        jButton10.addActionListener(this::jButton10PensaoActionPerformed);
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel20.setText("Estadao");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(
+                java.util.stream.Stream.concat(
+                        java.util.stream.Stream.of("Todos"),
+                        java.util.Arrays.stream(EstadoPensao.values()).map(Enum::name))
+                        .toArray(String[]::new)));
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -646,17 +672,16 @@ public class telaPricipal extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("lista de pensoes");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
+        jTable1.setModel(new DefaultTableModel(
+                new Object[0][0],
+                new String[] {"ID", "Processo", "Pensionista (ID)", "Tipo",
+                    "Estado", "Valor mensal", "Início", "Fim"}
+        ) {
+            @Override
+            public boolean isCellEditable(int linha, int coluna) {
+                return false;
             }
-        ));
+        });
         jTable1.setGridColor(new java.awt.Color(102, 255, 102));
         jTable1.setSelectionBackground(new java.awt.Color(204, 255, 204));
         jTable1.setSelectionForeground(new java.awt.Color(0, 153, 0));
@@ -688,7 +713,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(204, 255, 204));
 
-        jLabel15.setText("Beneficiario");
+        jLabel15.setText("Pensionista (ID)");
 
         jLabel24.setText("Valor mensal");
 
@@ -696,20 +721,25 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jTextField14.addActionListener(this::jTextField14ActionPerformed);
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(
+                java.util.Arrays.stream(EstadoPensao.values()).map(Enum::name).toArray(String[]::new)));
 
-        jLabel26.setText("Numero");
+        jLabel26.setText("Número do processo");
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(
+                java.util.Arrays.stream(TipoPensao.values()).map(Enum::name).toArray(String[]::new)));
 
-        jComboBox10.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox10.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+        jComboBox10.setEditable(true);
         jComboBox10.addActionListener(this::jComboBox10ActionPerformed);
 
-        jLabel27.setText("estado");
+        jLabel27.setText("Estado");
 
-        jLabel28.setText("Data");
+        jLabel28.setText("Data de início (AAAA-MM-DD)");
 
-        jLabel29.setText("tipo");
+        jLabel29.setText("Tipo");
+        jTextField13.setToolTipText("Valor mensal em meticais");
+        jTextField17.setToolTipText("Formato: AAAA-MM-DD");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -898,6 +928,49 @@ public class telaPricipal extends javax.swing.JFrame {
         executarAcaoCrud(() -> carregarTabela(jTextField4.getText()));
     }
 
+    private void jButton2PensaoActionPerformed(java.awt.event.ActionEvent evento) {
+        executarAcaoPensao(() -> {
+            String pensionistaTexto = jTextField5.getText().trim();
+            Long pensionistaId = null;
+            if (!pensionistaTexto.isEmpty()) {
+                try {
+                    pensionistaId = Long.valueOf(pensionistaTexto);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this,
+                            "O filtro de pensionista aceita apenas o respetivo ID.",
+                            "Filtro inválido", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+            String tipo = "Todos".equals(jComboBox2.getSelectedItem())
+                    ? null : (String) jComboBox2.getSelectedItem();
+            String estado = "Todos".equals(jComboBox5.getSelectedItem())
+                    ? null : (String) jComboBox5.getSelectedItem();
+            carregarTabelaPensoes("", tipo, estado, pensionistaId);
+        });
+    }
+
+    private void jButton10PensaoActionPerformed(java.awt.event.ActionEvent evento) {
+        executarAcaoPensao(() -> {
+            TipoPensao tipo = TipoPensao.valueOf((String) jComboBox8.getSelectedItem());
+            Long pensionistaId = Long.valueOf(
+                    String.valueOf(jComboBox10.getEditor().getItem()).trim());
+            Pensao guardada = pensaoController.guardar(
+                    pensaoSelecionadaId,
+                    jTextField16.getText(),
+                    tipo,
+                    pensionistaId,
+                    new BigDecimal(jTextField13.getText().trim()),
+                    LocalDate.parse(jTextField17.getText().trim()),
+                    jTextField14.getText());
+            limparFormularioPensao();
+            carregarTabelaPensoes("", null, null, null);
+            atualizarResumoPensoes();
+            JOptionPane.showMessageDialog(this,
+                    "Pensão guardada com o ID " + guardada.getId() + ".");
+        });
+    }
+
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
         executarAcaoCrud(() -> {
             Beneficiario guardado = beneficiarioController.guardar(
@@ -929,6 +1002,185 @@ public class telaPricipal extends javax.swing.JFrame {
             }
         });
         executarAcaoCrud(() -> carregarTabela(""));
+    }
+
+    private void inicializarCrudPensoes() {
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jComboBox6.setEnabled(false);
+        jTable1.getSelectionModel().addListSelectionListener(evento -> {
+            if (!evento.getValueIsAdjusting() && jTable1.getSelectedRow() >= 0) {
+                carregarPensaoSelecionada();
+            }
+        });
+
+        JPopupMenu menuPensao = new JPopupMenu();
+        adicionarAcaoPensao(menuPensao, "Nova pensão (Ctrl+N)", this::limparFormularioPensao);
+        menuPensao.addSeparator();
+        adicionarAcaoPensao(menuPensao, "Aprovar", () -> alterarEstadoPensao("aprovar"));
+        adicionarAcaoPensao(menuPensao, "Suspender", () -> alterarEstadoPensao("suspender"));
+        adicionarAcaoPensao(menuPensao, "Reativar", () -> alterarEstadoPensao("reativar"));
+        adicionarAcaoPensao(menuPensao, "Cancelar", () -> alterarEstadoPensao("cancelar"));
+        adicionarAcaoPensao(menuPensao, "Arquivar", () -> alterarEstadoPensao("arquivar"));
+        menuPensao.addSeparator();
+        adicionarAcaoPensao(menuPensao, "Eliminar", this::eliminarPensaoSelecionada);
+        jTable1.setComponentPopupMenu(menuPensao);
+        jTable1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evento) {
+                selecionarLinhaContextual(evento);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent evento) {
+                selecionarLinhaContextual(evento);
+            }
+
+            private void selecionarLinhaContextual(MouseEvent evento) {
+                if (evento.isPopupTrigger()) {
+                    int linha = jTable1.rowAtPoint(evento.getPoint());
+                    if (linha >= 0 && !jTable1.isRowSelected(linha)) {
+                        jTable1.setRowSelectionInterval(linha, linha);
+                    }
+                }
+            }
+        });
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke("control N"), "novaPensao");
+        getRootPane().getActionMap().put("novaPensao", new AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evento) {
+                limparFormularioPensao();
+            }
+        });
+        limparFormularioPensao();
+        executarAcaoPensao(() -> {
+            carregarTabelaPensoes("", null, null, null);
+            atualizarResumoPensoes();
+        });
+    }
+
+    private void adicionarAcaoPensao(JPopupMenu menu, String texto, Runnable acao) {
+        JMenuItem item = new JMenuItem(texto);
+        item.addActionListener(evento -> executarAcaoPensao(acao));
+        menu.add(item);
+    }
+
+    private void carregarTabelaPensoes(
+            String criterio, String tipo, String estado, Long pensionistaId) {
+        List<Pensao> pensoes = pensaoController.pesquisar(criterio, tipo, estado, pensionistaId);
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        pensaoSelecionadaId = null;
+        modelo.setRowCount(0);
+        for (Pensao pensao : pensoes) {
+            modelo.addRow(new Object[] {
+                pensao.getId(),
+                pensao.getNumeroProcesso(),
+                pensao.getPensionistaId(),
+                pensao.getTipo(),
+                pensao.getEstado(),
+                pensao.getValorMensal(),
+                pensao.getDataInicio(),
+                pensao.getDataFim()
+            });
+        }
+    }
+
+    private void carregarPensaoSelecionada() {
+        int linha = jTable1.convertRowIndexToModel(jTable1.getSelectedRow());
+        Long id = ((Number) jTable1.getModel().getValueAt(linha, 0)).longValue();
+        executarAcaoPensao(() -> pensaoController.buscarPorId(id).ifPresent(pensao -> {
+            pensaoSelecionadaId = pensao.getId();
+            jTextField16.setText(pensao.getNumeroProcesso());
+            jComboBox10.getEditor().setItem(String.valueOf(pensao.getPensionistaId()));
+            jComboBox8.setSelectedItem(pensao.getTipo().name());
+            jTextField13.setText(pensao.getValorMensal().toPlainString());
+            jComboBox6.setSelectedItem(pensao.getEstado().name());
+            jTextField17.setText(pensao.getDataInicio().toString());
+            jTextField14.setText(pensao.getObservacoes());
+            jComboBox8.setEnabled(false);
+        }));
+    }
+
+    private void limparFormularioPensao() {
+        pensaoSelecionadaId = null;
+        jTable1.clearSelection();
+        jTextField16.setText("");
+        jComboBox10.getEditor().setItem("");
+        jComboBox8.setEnabled(true);
+        jComboBox8.setSelectedIndex(0);
+        jComboBox6.setSelectedItem(EstadoPensao.PENDENTE.name());
+        jTextField13.setText("");
+        jTextField17.setText(LocalDate.now().toString());
+        jTextField14.setText("");
+    }
+
+    private void alterarEstadoPensao(String acao) {
+        if (pensaoSelecionadaId == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma pensão na tabela.");
+            return;
+        }
+        executarAcaoPensao(() -> {
+            switch (acao) {
+                case "aprovar" -> pensaoController.aprovar(pensaoSelecionadaId);
+                case "suspender" -> pensaoController.suspender(pensaoSelecionadaId);
+                case "reativar" -> pensaoController.reativar(pensaoSelecionadaId);
+                case "cancelar" -> {
+                    int confirmacao = JOptionPane.showConfirmDialog(this,
+                            "Cancelar a pensão selecionada?", "Confirmar cancelamento",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if (confirmacao != JOptionPane.YES_OPTION) {
+                        return;
+                    }
+                    pensaoController.cancelar(pensaoSelecionadaId);
+                }
+                case "arquivar" -> pensaoController.arquivar(pensaoSelecionadaId);
+                default -> throw new IllegalArgumentException("Ação de pensão desconhecida.");
+            }
+            carregarTabelaPensoes("", null, null, null);
+            atualizarResumoPensoes();
+            limparFormularioPensao();
+        });
+    }
+
+    private void eliminarPensaoSelecionada() {
+        if (pensaoSelecionadaId == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma pensão na tabela.");
+            return;
+        }
+        int confirmacao = JOptionPane.showConfirmDialog(this,
+                "Eliminar a pensão selecionada?", "Confirmar eliminação",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            executarAcaoPensao(() -> {
+                pensaoController.remover(pensaoSelecionadaId);
+                carregarTabelaPensoes("", null, null, null);
+                atualizarResumoPensoes();
+                limparFormularioPensao();
+            });
+        }
+    }
+
+    private void atualizarResumoPensoes() {
+        jLabel17.setText("Total mensal das pensões ativas: "
+                + pensaoController.calcularTotalMensalAtivo().toPlainString()
+                + " MZN | Ctrl+N: nova pensão | botão direito na tabela: operações");
+    }
+
+    private void executarAcaoPensao(Runnable acao) {
+        try {
+            acao.run();
+        } catch (IllegalArgumentException | DateTimeException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),
+                    "Dados da pensão inválidos", JOptionPane.WARNING_MESSAGE);
+        } catch (java.util.NoSuchElementException | IllegalStateException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),
+                    "Operação de pensão não permitida", JOptionPane.WARNING_MESSAGE);
+        } catch (HibernateException ex) {
+            logger.log(Level.SEVERE, "Falha ao aceder às pensões.", ex);
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível aceder à base de dados: " + ex.getMessage(),
+                    "Erro de persistência", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void carregarTabela(String criterio) {
