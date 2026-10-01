@@ -41,9 +41,7 @@ public class telaPricipal extends javax.swing.JFrame {
             }
         });
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-           // centro.setLayout(new CardLayout());
-
-    //centro.add(new beneficio(), "tela1");
+        ((CardLayout) centro.getLayout()).show(centro, "card3");
     }
 
     /**

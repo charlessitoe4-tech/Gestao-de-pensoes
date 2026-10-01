@@ -14,6 +14,10 @@ mvn clean test
 mvn exec:java
 ```
 
+O arranque abre diretamente a interface Swing de gestão de beneficiários;
+não é necessário navegar por um ecrã de início de sessão ainda sem
+autenticação implementada.
+
 O Hibernate usa H2 em modo ficheiro e cria a base de dados em
 `%USERPROFILE%\.gestao-pensoes\dados` no Windows (ou
 `~/.gestao-pensoes/dados` noutros sistemas). Para apontar para outra base H2,
