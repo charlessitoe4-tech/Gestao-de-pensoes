@@ -1,9 +1,10 @@
 package model;
 
-import model.enums.EstadoCivil;
-import model.enums.Genero;
 import java.time.LocalDate;
 import java.util.Objects;
+
+import model.enums.EstadoCivil;
+import model.enums.Genero;
 
 public class Pessoa {
 
