@@ -37,9 +37,12 @@ public class BeneficiarioController {
         beneficiario.setApelido(partesNome.length > 1 ? partesNome[1] : "");
         beneficiario.setNumeroBI(numeroBI == null ? null : numeroBI.trim());
         beneficiario.setNuit(nuit == null ? null : nuit.trim());
-        beneficiario.setDataNascimento(LocalDate.parse(dataNascimento.trim()));
-        beneficiario.setGenero(Genero.valueOf(genero));
-        beneficiario.setEstadoCivil(EstadoCivil.valueOf(estadoCivil));
+        beneficiario.setDataNascimento(LocalDate.parse(
+                Objects.requireNonNull(dataNascimento, "A data de nascimento é obrigatória.").trim()));
+        beneficiario.setGenero(Genero.valueOf(
+                Objects.requireNonNull(genero, "Selecione o sexo.")));
+        beneficiario.setEstadoCivil(EstadoCivil.valueOf(
+                Objects.requireNonNull(estadoCivil, "Selecione o estado civil.")));
         beneficiario.setTelefone(telefone == null ? null : telefone.trim());
         beneficiario.setEmail(email == null ? null : email.trim());
         beneficiario.setEndereco(endereco == null ? null : endereco.trim());

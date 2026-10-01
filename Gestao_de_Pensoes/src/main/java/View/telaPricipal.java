@@ -36,7 +36,7 @@ public class telaPricipal extends javax.swing.JFrame {
         inicializarCrudBeneficiarios();
         addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosed(WindowEvent evento) {
+            public void windowClosing(WindowEvent evento) {
                 persistence.HibernateUtil.encerrar();
             }
         });
@@ -924,6 +924,7 @@ public class telaPricipal extends javax.swing.JFrame {
     }
 
     private void inicializarCrudBeneficiarios() {
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.getSelectionModel().addListSelectionListener(evento -> {
             if (!evento.getValueIsAdjusting() && jTable2.getSelectedRow() >= 0) {
                 carregarBeneficiarioSelecionado();
@@ -994,6 +995,9 @@ public class telaPricipal extends javax.swing.JFrame {
         } catch (IllegalArgumentException | DateTimeException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(),
                     "Dados inválidos", JOptionPane.WARNING_MESSAGE);
+        } catch (java.util.NoSuchElementException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),
+                    "Registo não encontrado", JOptionPane.WARNING_MESSAGE);
         } catch (HibernateException | IllegalStateException ex) {
             logger.log(Level.SEVERE, "Falha ao aceder aos beneficiários.", ex);
             JOptionPane.showMessageDialog(this,

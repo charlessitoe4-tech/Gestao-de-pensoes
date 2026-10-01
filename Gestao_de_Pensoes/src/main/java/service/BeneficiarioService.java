@@ -84,8 +84,9 @@ public class BeneficiarioService {
         if (removidos.empty()) {
             return Optional.empty();
         }
-        Beneficiario restaurado = copiarSemId(removidos.pop());
+        Beneficiario restaurado = copiarSemId(removidos.peek());
         repositorio.criar(restaurado);
+        removidos.pop();
         registar("Restaurado beneficiário " + restaurado.getNumeroBI());
         return Optional.of(restaurado);
     }
