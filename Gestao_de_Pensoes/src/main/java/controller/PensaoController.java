@@ -5,26 +5,37 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.time.YearMonth;
+import model.Pagamento;
 import model.Pensao;
 import model.PensaoInvalidez;
 import model.PensaoReduzida;
 import model.PensaoSobrivivencia;
 import model.PensaoVelhice;
 import model.enums.EstadoPensao;
+import model.enums.FormaPagamento;
 import model.enums.TipoPensao;
+import service.PagamentoPensaoService;
 import service.PensaoService;
 
 /** Recebe os comandos da interface e delega as operações de pensão ao serviço. */
 public class PensaoController {
 
     private final PensaoService servico;
+    private final PagamentoPensaoService pagamentoService;
 
     public PensaoController() {
-        this(new PensaoService());
+        this(new PensaoService(), new PagamentoPensaoService());
     }
 
     public PensaoController(PensaoService servico) {
+        this(servico, new PagamentoPensaoService());
+    }
+
+    public PensaoController(PensaoService servico, PagamentoPensaoService pagamentoService) {
         this.servico = Objects.requireNonNull(servico, "O serviço é obrigatório.");
+        this.pagamentoService = Objects.requireNonNull(
+                pagamentoService, "O serviço de pagamentos é obrigatório.");
     }
 
     public Pensao guardar(Long id, String numeroProcesso, TipoPensao tipo, Long pensionistaId,
@@ -71,6 +82,14 @@ public class PensaoController {
 
     public BigDecimal calcularTotalMensalAtivo() {
         return servico.calcularTotalMensalAtivo();
+    }
+
+    public Pagamento registarPagamento(Long pensaoId, YearMonth periodo, FormaPagamento forma) {
+        return pagamentoService.registar(pensaoId, periodo, forma);
+    }
+
+    public List<Pagamento> listarPagamentos(Long pensaoId) {
+        return pagamentoService.listar(pensaoId);
     }
 
     private Pensao criarPorTipo(TipoPensao tipo) {

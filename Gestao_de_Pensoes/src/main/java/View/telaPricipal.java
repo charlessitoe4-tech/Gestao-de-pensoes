@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.logging.Level;
 import javax.swing.AbstractAction;
@@ -24,9 +25,11 @@ import javax.swing.table.DefaultTableModel;
 import controller.BeneficiarioController;
 import controller.PensaoController;
 import model.Beneficiario;
+import model.Pagamento;
 import model.Pensao;
 import model.enums.EstadoCivil;
 import model.enums.EstadoPensao;
+import model.enums.FormaPagamento;
 import model.enums.Genero;
 import model.enums.TipoPensao;
 import org.hibernate.HibernateException;
@@ -1023,6 +1026,9 @@ public class telaPricipal extends javax.swing.JFrame {
         adicionarAcaoPensao(menuPensao, "Cancelar", () -> alterarEstadoPensao("cancelar"));
         adicionarAcaoPensao(menuPensao, "Arquivar", () -> alterarEstadoPensao("arquivar"));
         menuPensao.addSeparator();
+        adicionarAcaoPensao(menuPensao, "Registar pagamento mensal", this::registarPagamentoPensao);
+        adicionarAcaoPensao(menuPensao, "Consultar pagamentos", this::consultarPagamentosPensao);
+        menuPensao.addSeparator();
         adicionarAcaoPensao(menuPensao, "Eliminar", this::eliminarPensaoSelecionada);
         jTable1.setComponentPopupMenu(menuPensao);
         jTable1.addMouseListener(new MouseAdapter() {
@@ -1159,6 +1165,63 @@ public class telaPricipal extends javax.swing.JFrame {
                 limparFormularioPensao();
             });
         }
+    }
+
+    private void registarPagamentoPensao() {
+        if (pensaoSelecionadaId == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma pensão na tabela.");
+            return;
+        }
+        String periodoTexto = JOptionPane.showInputDialog(this,
+                "Mês de referência (AAAA-MM):", YearMonth.now().toString());
+        if (periodoTexto == null) {
+            return;
+        }
+        String forma = (String) JOptionPane.showInputDialog(this,
+                "Forma de pagamento:", "Registar pagamento",
+                JOptionPane.QUESTION_MESSAGE, null,
+                java.util.Arrays.stream(FormaPagamento.values()).map(Enum::name).toArray(String[]::new),
+                FormaPagamento.TRANSFERENCIA_BANCARIA.name());
+        if (forma == null) {
+            return;
+        }
+        executarAcaoPensao(() -> {
+            Pagamento pagamento = pensaoController.registarPagamento(
+                    pensaoSelecionadaId,
+                    YearMonth.parse(periodoTexto.trim()),
+                    FormaPagamento.valueOf(forma));
+            JOptionPane.showMessageDialog(this,
+                    "Pagamento de " + pagamento.getValor().toPlainString()
+                    + " MZN registado para " + pagamento.getDataReferencia().getYear()
+                    + "-" + String.format("%02d", pagamento.getDataReferencia().getMonthValue()) + ".");
+        });
+    }
+
+    private void consultarPagamentosPensao() {
+        if (pensaoSelecionadaId == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma pensão na tabela.");
+            return;
+        }
+        executarAcaoPensao(() -> {
+            List<Pagamento> pagamentos = pensaoController.listarPagamentos(pensaoSelecionadaId);
+            if (pagamentos.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ainda não há pagamentos registados.");
+                return;
+            }
+            StringBuilder historico = new StringBuilder();
+            for (Pagamento pagamento : pagamentos) {
+                historico.append(pagamento.getDataReferencia())
+                        .append(" | ")
+                        .append(pagamento.getValor().toPlainString())
+                        .append(" MZN | ")
+                        .append(pagamento.getFormaPagamento())
+                        .append(" | ")
+                        .append(pagamento.getEstado())
+                        .append(System.lineSeparator());
+            }
+            JOptionPane.showMessageDialog(this, historico.toString(),
+                    "Pagamentos da pensão", JOptionPane.INFORMATION_MESSAGE);
+        });
     }
 
     private void atualizarResumoPensoes() {
