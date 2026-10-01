@@ -564,7 +564,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jPanel12.setBackground(new java.awt.Color(232, 245, 233));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel18.setText("tipo de pensao");
+        jLabel18.setText("Tipo de pensão");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(
                 java.util.stream.Stream.concat(
@@ -573,7 +573,7 @@ public class telaPricipal extends javax.swing.JFrame {
                         .toArray(String[]::new)));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel19.setText("beneficiario");
+        jLabel19.setText("Pensionista (ID)");
 
         jButton2.setText("Filtrar");
         jButton2.addActionListener(this::jButton2PensaoActionPerformed);
@@ -582,7 +582,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jButton10.addActionListener(this::jButton10PensaoActionPerformed);
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel20.setText("Estadao");
+        jLabel20.setText("Estado");
 
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(
                 java.util.stream.Stream.concat(
@@ -738,6 +738,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jLabel28.setText("Data de início (AAAA-MM-DD)");
 
         jLabel29.setText("Tipo");
+        jTextField16.setToolTipText("Número único do processo da pensão");
         jTextField13.setToolTipText("Valor mensal em meticais");
         jTextField17.setToolTipText("Formato: AAAA-MM-DD");
 

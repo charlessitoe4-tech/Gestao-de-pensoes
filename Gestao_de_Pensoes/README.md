@@ -40,6 +40,13 @@ da linguagem. O CRUD de beneficiários usa interface de repositório, Hibernate,
 transações e uma base H2 persistente. A janela Swing usa componentes AWT e
 eventos para criar, listar, pesquisar, atualizar e eliminar beneficiários.
 
+O módulo de pensões permite registar e atualizar pensões dos tipos velhice,
+invalidez, sobrevivência e reduzida; pesquisar por tipo, estado ou pensionista;
+aprovar, suspender, reativar, cancelar, arquivar e eliminar registos não ativos.
+O resumo apresenta a soma mensal das pensões ativas. O valor mensal é informado
+no registo: não se aplicam fórmulas legais de cálculo sem os parâmetros legais
+e contributivos definidos para o caso.
+
 As estruturas de coleção aparecem nas operações reais: `ArrayList` para
 resultados, `Vector` para o registo sincronizado de operações e `Stack` para
 permitir desfazer a última eliminação. `PesquisaRecursiva` demonstra pesquisa
