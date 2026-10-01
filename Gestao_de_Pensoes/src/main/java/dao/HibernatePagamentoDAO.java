@@ -1,4 +1,4 @@
-package repository;
+package dao;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-/** Persiste pagamentos mensais numa transação e impede duplicados por período. */
-public class HibernatePagamentoPensaoRepository implements PagamentoPensaoRepository {
+/** Implementação Hibernate do DAO de pagamentos mensais de pensões. */
+public class HibernatePagamentoDAO implements PagamentoDAO {
 
     @Override
     public Pagamento registarPagamentoMensal(

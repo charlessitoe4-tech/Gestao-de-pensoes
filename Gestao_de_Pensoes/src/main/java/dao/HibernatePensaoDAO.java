@@ -1,4 +1,4 @@
-package repository;
+package dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do repositório de pensões e respetivas subclasses. */
-public class HibernatePensaoRepository implements RepositorioCrud<Pensao, Long> {
+/** Implementação Hibernate do DAO de pensões. */
+public class HibernatePensaoDAO implements PensaoDAO {
 
     @Override
     public void criar(Pensao pensao) {

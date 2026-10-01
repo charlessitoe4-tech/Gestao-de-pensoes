@@ -8,21 +8,21 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+import dao.HibernatePensaoDAO;
+import dao.PensaoDAO;
 import model.Pensao;
 import model.enums.EstadoPensao;
-import repository.HibernatePensaoRepository;
-import repository.RepositorioCrud;
 
 /** Regras de negócio e ciclo de vida das pensões. */
 public class PensaoService {
 
-    private final RepositorioCrud<Pensao, Long> repositorio;
+    private final PensaoDAO repositorio;
 
     public PensaoService() {
-        this(new HibernatePensaoRepository());
+        this(new HibernatePensaoDAO());
     }
 
-    public PensaoService(RepositorioCrud<Pensao, Long> repositorio) {
+    public PensaoService(PensaoDAO repositorio) {
         this.repositorio = Objects.requireNonNull(repositorio, "O repositório é obrigatório.");
     }
 

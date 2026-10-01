@@ -3,21 +3,21 @@ package service;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Objects;
+import dao.HibernatePagamentoDAO;
+import dao.PagamentoDAO;
 import model.Pagamento;
 import model.enums.FormaPagamento;
-import repository.HibernatePagamentoPensaoRepository;
-import repository.PagamentoPensaoRepository;
 
 /** Regras de aplicação para liquidações mensais de pensão. */
 public class PagamentoPensaoService {
 
-    private final PagamentoPensaoRepository repositorio;
+    private final PagamentoDAO repositorio;
 
     public PagamentoPensaoService() {
-        this(new HibernatePagamentoPensaoRepository());
+        this(new HibernatePagamentoDAO());
     }
 
-    public PagamentoPensaoService(PagamentoPensaoRepository repositorio) {
+    public PagamentoPensaoService(PagamentoDAO repositorio) {
         this.repositorio = Objects.requireNonNull(repositorio, "O repositório é obrigatório.");
     }
 

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import dao.PensaoDAO;
 import model.Pensao;
 import model.PensaoVelhice;
 import model.enums.EstadoPensao;
@@ -15,7 +16,8 @@ import repository.RepositorioEmMemoria;
 
 class PensaoServiceTest {
 
-    private static final class RepositorioComIds extends RepositorioEmMemoria<Pensao, Long> {
+    private static final class RepositorioComIds
+            extends RepositorioEmMemoria<Pensao, Long> implements PensaoDAO {
 
         private long proximoId;
 

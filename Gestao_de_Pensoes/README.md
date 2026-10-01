@@ -28,8 +28,9 @@ defina a variável de ambiente `GESTAO_PENSOES_DB_URL` antes de iniciar.
 - `model`: entidades e regras do domínio. `Pessoa` e `Pensao` são classes
   abstratas; beneficiários e pensionistas herdam de `Pessoa`, enquanto as
   modalidades concretas herdam de `Pensao`.
-- `repository`: contrato genérico `RepositorioCrud` e implementações em
-  memória e Hibernate.
+- `dao`: contratos e implementações Hibernate para persistir pensões e
+  pagamentos; `repository` mantém o contrato CRUD genérico e a implementação
+  em memória usada nos testes e noutros serviços.
 - `service`: validação, pesquisa e operações do domínio.
 - `controller`: recebe os dados e eventos CRUD da janela Swing e coordena o
   serviço; a apresentação permanece em `View`.

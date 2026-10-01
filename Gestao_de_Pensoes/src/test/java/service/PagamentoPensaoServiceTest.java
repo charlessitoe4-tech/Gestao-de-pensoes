@@ -6,16 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import dao.PagamentoDAO;
 import model.Pagamento;
 import model.enums.FormaPagamento;
 import org.junit.jupiter.api.Test;
-import repository.PagamentoPensaoRepository;
 
 class PagamentoPensaoServiceTest {
 
     @Test
     void registaPeriodoComoPrimeiroDiaDoMes() {
-        PagamentoPensaoRepositoryFake repositorio = new PagamentoPensaoRepositoryFake();
+        PagamentoDAOFake repositorio = new PagamentoDAOFake();
         PagamentoPensaoService servico = new PagamentoPensaoService(repositorio);
 
         servico.registar(3L, YearMonth.of(2026, 2), FormaPagamento.MOVEL);
@@ -27,7 +27,7 @@ class PagamentoPensaoServiceTest {
 
     @Test
     void rejeitaPeriodoFuturoAntesDeChamarRepositorio() {
-        PagamentoPensaoRepositoryFake repositorio = new PagamentoPensaoRepositoryFake();
+        PagamentoDAOFake repositorio = new PagamentoDAOFake();
         PagamentoPensaoService servico = new PagamentoPensaoService(repositorio);
 
         assertThrows(IllegalArgumentException.class,
@@ -36,8 +36,7 @@ class PagamentoPensaoServiceTest {
         assertEquals(null, repositorio.referencia);
     }
 
-    private static final class PagamentoPensaoRepositoryFake
-            implements PagamentoPensaoRepository {
+    private static final class PagamentoDAOFake implements PagamentoDAO {
 
         private Long pensaoId;
         private LocalDate referencia;

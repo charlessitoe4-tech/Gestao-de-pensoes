@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.UUID;
+import dao.HibernatePagamentoDAO;
+import dao.HibernatePensaoDAO;
 import model.Pagamento;
 import model.Pensao;
 import model.PensaoVelhice;
@@ -19,7 +21,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import persistence.HibernateUtil;
 
-class HibernatePensaoRepositoryTest {
+class HibernatePensaoDAOTest {
 
     @AfterEach
     void encerrarHibernate() {
@@ -42,14 +44,14 @@ class HibernatePensaoRepositoryTest {
         pensao.setValorMensal(new BigDecimal("2500.00"));
         pensao.setDataInicio(LocalDate.of(2026, 1, 1));
 
-        HibernatePensaoRepository pensoes = new HibernatePensaoRepository();
+        HibernatePensaoDAO pensoes = new HibernatePensaoDAO();
         pensoes.criar(pensao);
         Pensao recuperada = pensoes.buscarPorId(pensao.getId()).orElseThrow();
 
         assertEquals(PensaoVelhice.class, recuperada.getClass());
         assertEquals("PROC-TESTE-1", recuperada.getNumeroProcesso());
 
-        HibernatePagamentoPensaoRepository pagamentos = new HibernatePagamentoPensaoRepository();
+        HibernatePagamentoDAO pagamentos = new HibernatePagamentoDAO();
         Pagamento registado = pagamentos.registarPagamentoMensal(
                 pensao.getId(), YearMonth.now().atDay(1), FormaPagamento.MOVEL);
 
