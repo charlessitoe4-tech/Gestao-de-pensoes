@@ -6,16 +6,48 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+
+/** Registo de liquidação de uma prestação mensal de pensão. */
+@Entity
+@Table(name = "pagamentos", uniqueConstraints = @UniqueConstraint(
+        name = "uk_pagamento_pensao_referencia",
+        columnNames = {"pensao_id", "data_referencia"}))
 public class Pagamento {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "pensao_id", nullable = false)
     private Long pensaoId;
+
+    @Column(name = "pensionista_id", nullable = false)
     private Long pensionistaId;
+
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal valor;
+
+    @Column(name = "data_pagamento", nullable = false)
     private LocalDate dataPagamento;
+
+    @Column(name = "data_referencia", nullable = false)
     private LocalDate dataReferencia;
+
+    @Enumerated(EnumType.STRING)
     private EstadoPagamento estado;
+
+    @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
+
     private String referencia;
     private String observacoes;
 

@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import model.Beneficiario;
+import model.Pagamento;
 import model.Pensao;
 import model.PensaoInvalidez;
 import model.PensaoReduzida;
@@ -69,6 +70,7 @@ public final class HibernateUtil {
         try {
             return new MetadataSources(registro)
                     .addAnnotatedClass(Beneficiario.class)
+                    .addAnnotatedClass(Pagamento.class)
                     .addAnnotatedClass(Pensionista.class)
                     .addAnnotatedClass(Pensao.class)
                     .addAnnotatedClass(PensaoInvalidez.class)
