@@ -43,9 +43,13 @@ eventos para criar, listar, pesquisar, atualizar e eliminar beneficiários.
 O módulo de pensões permite registar e atualizar pensões dos tipos velhice,
 invalidez, sobrevivência e reduzida; pesquisar por tipo, estado ou pensionista;
 aprovar, suspender, reativar, cancelar, arquivar e eliminar registos não ativos.
-O resumo apresenta a soma mensal das pensões ativas. O valor mensal é informado
-no registo: não se aplicam fórmulas legais de cálculo sem os parâmetros legais
-e contributivos definidos para o caso.
+Também permite registar e consultar pagamentos mensais, com uma única liquidação
+por pensão e mês, apenas para pensões ativas. O resumo apresenta a soma mensal
+das pensões ativas. O valor mensal é informado no registo: não se aplicam
+fórmulas legais de cálculo sem os parâmetros legais e contributivos definidos
+para o caso. Na tabela de pensões, selecione um registo e abra o menu de contexto
+para as operações do ciclo de vida, pagamentos e eliminação; `Ctrl+N` inicia um
+novo registo.
 
 As estruturas de coleção aparecem nas operações reais: `ArrayList` para
 resultados, `Vector` para o registo sincronizado de operações e `Stack` para
