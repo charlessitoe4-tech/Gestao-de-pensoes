@@ -49,7 +49,10 @@ public final class HibernateUtil {
         configuracao.put(Environment.HBM2DDL_AUTO, "update");
         configuracao.put(Environment.SHOW_SQL, "false");
 
-        String urlConfigurada = System.getenv("GESTAO_PENSOES_DB_URL");
+        String urlConfigurada = System.getProperty("GESTAO_PENSOES_DB_URL");
+        if (urlConfigurada == null || urlConfigurada.isBlank()) {
+            urlConfigurada = System.getenv("GESTAO_PENSOES_DB_URL");
+        }
         if (urlConfigurada == null || urlConfigurada.isBlank()) {
             Path diretorioBase = Path.of(System.getProperty("user.home"), ".gestao-pensoes");
             try {
