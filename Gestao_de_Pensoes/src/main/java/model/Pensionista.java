@@ -4,6 +4,12 @@ import model.enums.EstadoCivil;
 import model.enums.Genero;
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+/** Pessoa titular de uma pensão. */
+@Entity
+@Table(name = "pensionistas")
 public class Pensionista extends Pessoa {
 
     private String numeroPensionista;

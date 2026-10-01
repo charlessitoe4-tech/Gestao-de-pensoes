@@ -3,23 +3,55 @@ package model;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import model.enums.EstadoCivil;
 import model.enums.Genero;
 
-public class Pessoa {
+/**
+ * Dados comuns às pessoas registadas no sistema.
+ *
+ * <p>É uma classe abstrata e mapeada como superclasse JPA; as classes filhas
+ * fornecem as entidades concretas persistidas.</p>
+ */
+@MappedSuperclass
+public abstract class Pessoa {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String nome;
+
     private String apelido;
+
     private String nuit;
+
+    @Column(name = "numero_bi", unique = true)
     private String numeroBI;
+
     private LocalDate dataNascimento;
+
+    @Enumerated(EnumType.STRING)
     private Genero genero;
+
+    @Enumerated(EnumType.STRING)
     private EstadoCivil estadoCivil;
+
     private String telefone;
+
     private String email;
+
     private String endereco;
+
     private String provincia;
+
     private String distrito;
 
     public Pessoa() {
@@ -90,14 +122,14 @@ public class Pessoa {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Pessoa)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Pessoa pessoa = (Pessoa) o;
-        return Objects.equals(id, pessoa.id);
+        return id != null && Objects.equals(id, pessoa.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 
     @Override

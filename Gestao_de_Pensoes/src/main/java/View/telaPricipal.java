@@ -5,6 +5,18 @@
 package View;
 
 import java.awt.CardLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.time.DateTimeException;
+import java.util.List;
+import java.util.logging.Level;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import controller.BeneficiarioController;
+import model.Beneficiario;
+import model.enums.EstadoCivil;
+import model.enums.Genero;
+import org.hibernate.HibernateException;
 
 /**
  *
@@ -13,12 +25,21 @@ import java.awt.CardLayout;
 public class telaPricipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(telaPricipal.class.getName());
+    private final BeneficiarioController beneficiarioController = new BeneficiarioController();
+    private Long beneficiarioSelecionadoId;
 
     /**
      * Creates new form telaPricipal
      */
     public telaPricipal() {
         initComponents();
+        inicializarCrudBeneficiarios();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent evento) {
+                persistence.HibernateUtil.encerrar();
+            }
+        });
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
            // centro.setLayout(new CardLayout());
 
@@ -245,12 +266,14 @@ public class telaPricipal extends javax.swing.JFrame {
         jButton6.setBackground(new java.awt.Color(0, 102, 0));
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("pesquisar");
+        jButton6.addActionListener(this::jButton6ActionPerformed);
         jButton6.setBorder(null);
         jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1390, 80, 130, 37));
 
         jButton7.setBackground(new java.awt.Color(0, 102, 0));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("salvar");
+        jButton7.addActionListener(this::jButton7ActionPerformed);
         jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 145, 38));
 
         jButton8.setBackground(new java.awt.Color(0, 102, 0));
@@ -261,7 +284,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jButton9.setBackground(new java.awt.Color(0, 102, 0));
         jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("cacelar");
+        jButton9.setText("Eliminar");
         jButton9.addActionListener(this::jButton9ActionPerformed);
         jPanel2.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, 128, 42));
 
@@ -305,6 +328,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jLabel8.setText("Data de nascimeto");
 
         jTextField3.addActionListener(this::jTextField3ActionPerformed);
+        jTextField3.setToolTipText("Formato: AAAA-MM-DD");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("sexo");
@@ -326,19 +350,22 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jTextField7.addActionListener(this::jTextField7ActionPerformed);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Moçambicana" }));
+        jComboBox1.setEditable(true);
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(
+                java.util.Arrays.stream(Genero.values()).map(Enum::name).toArray(String[]::new)));
         jComboBox3.addActionListener(this::jComboBox3ActionPerformed);
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(
+                java.util.Arrays.stream(EstadoCivil.values()).map(Enum::name).toArray(String[]::new)));
         jComboBox4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
-        jLabel21.setText("jLabel21");
+        jLabel21.setText("NUIT");
 
-        jLabel22.setText("jLabel22");
+        jLabel22.setText("Província");
 
-        jLabel23.setText("jLabel23");
+        jLabel23.setText("Distrito");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -454,17 +481,15 @@ public class telaPricipal extends javax.swing.JFrame {
             .addGap(0, 36, Short.MAX_VALUE)
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12"
+        jTable2.setModel(new DefaultTableModel(
+                new Object[0][0],
+                new String[] {"ID", "Nome", "BI", "Data de nascimento", "Telefone", "Email", "Nacionalidade"}
+        ) {
+            @Override
+            public boolean isCellEditable(int linha, int coluna) {
+                return false;
             }
-        ));
+        });
         jScrollPane2.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -846,12 +871,136 @@ public class telaPricipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        if (beneficiarioSelecionadoId == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um beneficiário na tabela.");
+            return;
+        }
+        int confirmacao = JOptionPane.showConfirmDialog(this,
+                "Eliminar o beneficiário selecionado?", "Confirmar eliminação",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+        executarAcaoCrud(() -> {
+            if (beneficiarioController.remover(beneficiarioSelecionadoId)) {
+                carregarTabela("");
+                limparFormularioBeneficiario();
+                JOptionPane.showMessageDialog(this, "Beneficiário eliminado.");
+            } else {
+                JOptionPane.showMessageDialog(this, "O beneficiário já não existe.");
+            }
+        });
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        limparFormularioBeneficiario();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
+        executarAcaoCrud(() -> carregarTabela(jTextField4.getText()));
+    }
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
+        executarAcaoCrud(() -> {
+            Beneficiario guardado = beneficiarioController.guardar(
+                    beneficiarioSelecionadoId,
+                    jTextField1.getText(),
+                    jTextField2.getText(),
+                    jTextField6.getText(),
+                    jTextField3.getText(),
+                    (String) jComboBox3.getSelectedItem(),
+                    (String) jComboBox4.getSelectedItem(),
+                    jTextField7.getText(),
+                    jTextField8.getText(),
+                    jTextField9.getText(),
+                    String.valueOf(jComboBox1.getEditor().getItem()),
+                    jTextField10.getText(),
+                    jTextField11.getText());
+            carregarTabela("");
+            limparFormularioBeneficiario();
+            JOptionPane.showMessageDialog(this,
+                    "Beneficiário guardado com o ID " + guardado.getId() + ".");
+        });
+    }
+
+    private void inicializarCrudBeneficiarios() {
+        jTable2.getSelectionModel().addListSelectionListener(evento -> {
+            if (!evento.getValueIsAdjusting() && jTable2.getSelectedRow() >= 0) {
+                carregarBeneficiarioSelecionado();
+            }
+        });
+        executarAcaoCrud(() -> carregarTabela(""));
+    }
+
+    private void carregarTabela(String criterio) {
+        List<Beneficiario> beneficiarios = beneficiarioController.pesquisar(criterio);
+        DefaultTableModel modelo = (DefaultTableModel) jTable2.getModel();
+        beneficiarioSelecionadoId = null;
+        modelo.setRowCount(0);
+        for (Beneficiario beneficiario : beneficiarios) {
+            Object[] linha = {
+                beneficiario.getId(),
+                beneficiario.getNomeCompleto(),
+                beneficiario.getNumeroBI(),
+                beneficiario.getDataNascimento(),
+                beneficiario.getTelefone(),
+                beneficiario.getEmail(),
+                beneficiario.getNacionalidade()
+            };
+            modelo.addRow(linha);
+        }
+    }
+
+    private void carregarBeneficiarioSelecionado() {
+        int linha = jTable2.convertRowIndexToModel(jTable2.getSelectedRow());
+        Long id = ((Number) jTable2.getModel().getValueAt(linha, 0)).longValue();
+        executarAcaoCrud(() -> beneficiarioController.buscarPorId(id).ifPresent(beneficiario -> {
+            beneficiarioSelecionadoId = beneficiario.getId();
+            jTextField1.setText(beneficiario.getNomeCompleto());
+            jTextField2.setText(beneficiario.getNumeroBI());
+            jTextField3.setText(beneficiario.getDataNascimento().toString());
+            jTextField6.setText(beneficiario.getNuit());
+            jComboBox3.setSelectedItem(beneficiario.getGenero().name());
+            jComboBox4.setSelectedItem(beneficiario.getEstadoCivil().name());
+            jTextField7.setText(beneficiario.getTelefone());
+            jTextField8.setText(beneficiario.getEmail());
+            jTextField9.setText(beneficiario.getEndereco());
+            jComboBox1.setSelectedItem(beneficiario.getNacionalidade());
+            jTextField10.setText(beneficiario.getProvincia());
+            jTextField11.setText(beneficiario.getDistrito());
+        }));
+    }
+
+    private void limparFormularioBeneficiario() {
+        beneficiarioSelecionadoId = null;
+        jTable2.clearSelection();
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
+        jTextField10.setText("");
+        jTextField11.setText("");
+        jComboBox3.setSelectedIndex(0);
+        jComboBox4.setSelectedIndex(0);
+        jComboBox1.setSelectedItem("Moçambicana");
+    }
+
+    private void executarAcaoCrud(Runnable acao) {
+        try {
+            acao.run();
+        } catch (IllegalArgumentException | DateTimeException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),
+                    "Dados inválidos", JOptionPane.WARNING_MESSAGE);
+        } catch (HibernateException | IllegalStateException ex) {
+            logger.log(Level.SEVERE, "Falha ao aceder aos beneficiários.", ex);
+            JOptionPane.showMessageDialog(this,
+                    "Não foi possível aceder à base de dados: " + ex.getMessage(),
+                    "Erro de persistência", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
         // TODO add your handling code here:

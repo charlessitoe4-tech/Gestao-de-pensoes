@@ -4,11 +4,21 @@ import model.enums.EstadoCivil;
 import model.enums.Genero;
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+/** Pessoa inscrita como beneficiária de uma prestação. */
+@Entity
+@Table(name = "beneficiarios")
 public class Beneficiario extends Pessoa {
 
+    private String nacionalidade;
     private String parentesco;
     private boolean dependente;
     private LocalDate dataRegisto;
+
+    @Column(name = "pensionista_id")
     private Long pensionistaId;
 
     public Beneficiario() {
@@ -31,6 +41,9 @@ public class Beneficiario extends Pessoa {
 
     public String getParentesco() { return parentesco; }
     public void setParentesco(String parentesco) { this.parentesco = parentesco; }
+
+    public String getNacionalidade() { return nacionalidade; }
+    public void setNacionalidade(String nacionalidade) { this.nacionalidade = nacionalidade; }
 
     public boolean isDependente() { return dependente; }
     public void setDependente(boolean dependente) { this.dependente = dependente; }

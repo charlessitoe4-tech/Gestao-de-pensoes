@@ -5,6 +5,11 @@ import model.enums.TipoPensao;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("INVALIDEZ")
 public class PensaoInvalidez extends Pensao {
 
     private String grauInvalidez;

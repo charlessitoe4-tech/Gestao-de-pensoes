@@ -6,11 +6,33 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
+
+/** Base abstrata para as modalidades de pensão do domínio. */
+@Entity
+@Table(name = "pensoes")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "subtipo_pensao")
 public abstract class Pensao {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String numeroProcesso;
+
+    @Enumerated(EnumType.STRING)
     private TipoPensao tipo;
+
+    @Enumerated(EnumType.STRING)
     private EstadoPensao estado;
     private BigDecimal valorMensal;
     private LocalDate dataInicio;
@@ -69,14 +91,14 @@ public abstract class Pensao {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Pensao)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Pensao pensao = (Pensao) o;
-        return Objects.equals(id, pensao.id);
+        return id != null && Objects.equals(id, pensao.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 
     @Override
