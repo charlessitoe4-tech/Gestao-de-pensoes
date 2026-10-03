@@ -89,6 +89,23 @@ public class HibernatePagamentoDAO implements PagamentoDAO {
     }
 
     @Override
+    public void atualizar(Long id, Pagamento pagamento) {
+        Objects.requireNonNull(id, "O ID é obrigatório.");
+        Objects.requireNonNull(pagamento, "O pagamento é obrigatório.");
+        if (!id.equals(pagamento.getId())) {
+            throw new IllegalArgumentException(
+                    "O ID indicado deve corresponder ao do pagamento.");
+        }
+        emTransacao(sessao -> {
+            if (sessao.find(Pagamento.class, id) == null) {
+                throw new NoSuchElementException("Pagamento não encontrado: " + id);
+            }
+            sessao.merge(pagamento);
+            return null;
+        });
+    }
+
+    @Override
     public boolean remover(Long id) {
         Objects.requireNonNull(id, "O ID é obrigatório.");
         return emTransacao(sessao -> {

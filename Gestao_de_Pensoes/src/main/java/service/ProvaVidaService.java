@@ -90,6 +90,8 @@ public class ProvaVidaService {
         }
     }
 
-    public Optional<Object> buscarPorId(Long id) {
+    public Optional<ProvaVida> buscarPorId(Long id) {
+        Objects.requireNonNull(id, "O ID é obrigatório.");
+        return repositorio.buscarPorId(id);
     }
 }

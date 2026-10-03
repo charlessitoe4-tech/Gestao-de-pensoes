@@ -7,13 +7,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
 import dao.PagamentoDAO;
 import dao.PensaoDAO;
 import model.Pagamento;
 import model.Pensao;
 import model.PensaoInvalidez;
 import model.PensaoReduzida;
-import model.PensaoSobrivivencia;
+import model.PensaoSobrevivencia;
 import model.PensaoVelhice;
 import model.enums.FormaPagamento;
 import model.enums.TipoPensao;
@@ -55,8 +56,27 @@ class PensaoControllerTest {
         }
 
         @Override
+        public Optional<Pagamento> buscarPorId(Long id) {
+            return Optional.empty();
+        }
+
+        @Override
+        public List<Pagamento> listarTodos() {
+            return List.of();
+        }
+
+        @Override
         public List<Pagamento> listarPorPensao(Long pensaoId) {
             return List.of();
+        }
+
+        @Override
+        public void atualizar(Long id, Pagamento pagamento) {
+        }
+
+        @Override
+        public boolean remover(Long id) {
+            return false;
         }
     }
 
@@ -66,7 +86,7 @@ class PensaoControllerTest {
 
         assertEquals(PensaoVelhice.class, criar(controller, TipoPensao.VELHICE).getClass());
         assertEquals(PensaoInvalidez.class, criar(controller, TipoPensao.INVALIDEZ).getClass());
-        assertEquals(PensaoSobrivivencia.class,
+        assertEquals(PensaoSobrevivencia.class,
                 criar(controller, TipoPensao.SOBREVIVENCIA).getClass());
         assertEquals(PensaoReduzida.class, criar(controller, TipoPensao.REDUZIDA).getClass());
     }

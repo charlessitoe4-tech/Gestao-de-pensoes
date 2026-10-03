@@ -18,7 +18,7 @@ import persistence.HibernateUtil;
  * consultas diretas a esta classe via HQL. Este DAO deve ser usado apenas
  * como base comum — as subclasses concretas devem ter os seus próprios DAOs.</p>
  */
-public abstract class HibernatePessoaDAO<T extends Pessoa> implements PessoaDAO {
+public abstract class HibernatePessoaDAO<T extends Pessoa> implements PessoaDAO<T> {
 
     private final Class<T> tipo;
 
@@ -27,7 +27,7 @@ public abstract class HibernatePessoaDAO<T extends Pessoa> implements PessoaDAO 
     }
 
     @Override
-    public void criar(Pessoa pessoa) {
+    public void criar(T pessoa) {
         Objects.requireNonNull(pessoa, "A pessoa é obrigatória.");
         emTransacao(sessao -> {
             sessao.persist(pessoa);
@@ -36,7 +36,7 @@ public abstract class HibernatePessoaDAO<T extends Pessoa> implements PessoaDAO 
     }
 
     @Override
-    public Optional<Pessoa> buscarPorId(Long id) {
+    public Optional<T> buscarPorId(Long id) {
         Objects.requireNonNull(id, "O ID é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return Optional.ofNullable(sessao.find(tipo, id));
@@ -44,31 +44,29 @@ public abstract class HibernatePessoaDAO<T extends Pessoa> implements PessoaDAO 
     }
 
     @Override
-    public Optional<Pessoa> buscarPorBI(String numeroBI) {
+    public Optional<T> buscarPorBI(String numeroBI) {
         Objects.requireNonNull(numeroBI, "O número de BI é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return sessao.createQuery(
                             "from " + tipo.getSimpleName() + " p where p.numeroBI = :bi", tipo)
                     .setParameter("bi", numeroBI)
-                    .uniqueResultOptional()
-                    .map(Pessoa.class::cast);
+                    .uniqueResultOptional();
         }
     }
 
     @Override
-    public Optional<Pessoa> buscarPorNuit(String nuit) {
+    public Optional<T> buscarPorNuit(String nuit) {
         Objects.requireNonNull(nuit, "O NUIT é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return sessao.createQuery(
                             "from " + tipo.getSimpleName() + " p where p.nuit = :nuit", tipo)
                     .setParameter("nuit", nuit)
-                    .uniqueResultOptional()
-                    .map(Pessoa.class::cast);
+                    .uniqueResultOptional();
         }
     }
 
     @Override
-    public List<Pessoa> listarTodos() {
+    public List<T> listarTodos() {
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
                             "from " + tipo.getSimpleName() + " p order by p.id", tipo)
@@ -77,7 +75,7 @@ public abstract class HibernatePessoaDAO<T extends Pessoa> implements PessoaDAO 
     }
 
     @Override
-    public void atualizar(Long id, Pessoa pessoa) {
+    public void atualizar(Long id, T pessoa) {
         Objects.requireNonNull(id, "O ID é obrigatório.");
         Objects.requireNonNull(pessoa, "A pessoa é obrigatória.");
         if (!id.equals(pessoa.getId())) {

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
 import dao.PagamentoDAO;
 import model.Pagamento;
 import model.enums.FormaPagamento;
@@ -52,8 +53,27 @@ class PagamentoPensaoServiceTest {
         }
 
         @Override
+        public Optional<Pagamento> buscarPorId(Long id) {
+            return Optional.empty();
+        }
+
+        @Override
+        public List<Pagamento> listarTodos() {
+            return List.of();
+        }
+
+        @Override
         public List<Pagamento> listarPorPensao(Long pensaoId) {
             return List.of();
+        }
+
+        @Override
+        public void atualizar(Long id, Pagamento pagamento) {
+        }
+
+        @Override
+        public boolean remover(Long id) {
+            return false;
         }
     }
 }

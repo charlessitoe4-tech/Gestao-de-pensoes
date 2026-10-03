@@ -5,19 +5,19 @@ import java.util.Optional;
 import model.Pessoa;
 
 /** Contrato de acesso a dados para pessoas. */
-public interface PessoaDAO {
+public interface PessoaDAO<T extends Pessoa> {
 
-    void criar(Pessoa pessoa);
+    void criar(T pessoa);
 
-    Optional<Pessoa> buscarPorId(Long id);
+    Optional<T> buscarPorId(Long id);
 
-    Optional<Pessoa> buscarPorBI(String numeroBI);
+    Optional<T> buscarPorBI(String numeroBI);
 
-    Optional<Pessoa> buscarPorNuit(String nuit);
+    Optional<T> buscarPorNuit(String nuit);
 
-    List<Pessoa> listarTodos();
+    List<T> listarTodos();
 
-    void atualizar(Long id, Pessoa pessoa);
+    void atualizar(Long id, T pessoa);
 
     boolean remover(Long id);
 }

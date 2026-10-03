@@ -8,7 +8,6 @@ import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import controller.BeneficiarioController;
 import controller.PensaoController;
-import java.awt.event.ActionEvent;
 
 /**
  *
@@ -1066,8 +1065,6 @@ public class telaPricipal extends javax.swing.JFrame {
         jLabel32.setText("tipo de pensao");
 
         jLabel33.setText("Estado do prosseco");
-
-        jTextField21.addActionListener(this::jTextField21ActionPerformed);
 
         jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -2763,7 +2760,4 @@ public class telaPricipal extends javax.swing.JFrame {
     private javax.swing.JPanel pensaoVelhice;
     // End of variables declaration//GEN-END:variables
 
-    private void jTextField21ActionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

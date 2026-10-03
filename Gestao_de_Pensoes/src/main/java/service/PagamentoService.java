@@ -62,8 +62,7 @@ public class PagamentoService {
             throw new IllegalStateException("O pagamento já está cancelado.");
         }
         pagamento.setEstado(EstadoPagamento.CANCELADO);
-        // Nota: PagamentoDAO não tem atualizar() — usar o Hibernate diretamente
-        // ou adicionar o método ao DAO (aqui fica como TODO).
+        repositorio.atualizar(id, pagamento);
         return pagamento;
     }
 
