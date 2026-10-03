@@ -8,7 +8,6 @@ import Util.PasswordUtil;
 import dao.HibernateUtilizadorDAO;
 import dao.UtilizadorDAO;
 import model.Utilizador;
-import Util.PasswordUtil;
 
 /** Autenticação de utilizadores. */
 public class LoginService {
@@ -40,7 +39,6 @@ public class LoginService {
         if (!u.isAtivo()) {
             return Optional.empty();
         }
-        PasswordUtil PasswordUtil = null;
         if (!PasswordUtil.verificar(senhaPlana, u.getSenhaHash())) {
             return Optional.empty();
         }
