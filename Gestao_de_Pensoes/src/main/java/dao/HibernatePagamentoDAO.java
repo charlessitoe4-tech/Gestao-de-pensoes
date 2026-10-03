@@ -1,82 +1,104 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import model.Pagamento;
 import model.Pensao;
 import model.enums.EstadoPagamento;
-import model.enums.EstadoPensao;
 import model.enums.FormaPagamento;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do DAO de pagamentos mensais de pensões. */
+/** Implementação Hibernate do DAO de pagamentos. */
 public class HibernatePagamentoDAO implements PagamentoDAO {
 
     @Override
-    public Pagamento registarPagamentoMensal(
-            Long pensaoId, LocalDate referencia, FormaPagamento formaPagamento) {
-        Objects.requireNonNull(pensaoId, "A pensão é obrigatória.");
-        Objects.requireNonNull(referencia, "O período de referência é obrigatório.");
+    public Pagamento registarPagamentoMensal(Long pensaoId, LocalDate dataReferencia,
+                                             FormaPagamento formaPagamento) {
+        Objects.requireNonNull(pensaoId, "O ID da pensão é obrigatório.");
+        Objects.requireNonNull(dataReferencia, "A data de referência é obrigatória.");
         Objects.requireNonNull(formaPagamento, "A forma de pagamento é obrigatória.");
+
         return emTransacao(sessao -> {
             Pensao pensao = sessao.find(Pensao.class, pensaoId);
             if (pensao == null) {
-                throw new IllegalArgumentException("Pensão não encontrada.");
+                throw new NoSuchElementException("Pensão não encontrada: " + pensaoId);
             }
-            if (pensao.getEstado() != EstadoPensao.ATIVA) {
-                throw new IllegalStateException("Só é possível pagar uma pensão ativa.");
-            }
-            LocalDate fimPeriodo = referencia.withDayOfMonth(referencia.lengthOfMonth());
-            if (pensao.getDataInicio().isAfter(fimPeriodo)
-                    || pensao.getDataFim() != null && pensao.getDataFim().isBefore(referencia)) {
-                throw new IllegalStateException(
-                        "A pensão não esteve em vigor durante o período selecionado.");
-            }
-            Long pagamentosExistentes = sessao.createQuery(
-                    "select count(pagamento) from Pagamento pagamento "
-                    + "where pagamento.pensaoId = :pensaoId "
-                    + "and pagamento.dataReferencia = :referencia",
-                    Long.class)
+
+            // Verifica se já existe pagamento para o mesmo mês
+            Long existentes = sessao.createQuery(
+                            "select count(p) from Pagamento p where p.pensaoId = :pensaoId " +
+                                    "and p.dataReferencia = :dataRef", Long.class)
                     .setParameter("pensaoId", pensaoId)
-                    .setParameter("referencia", referencia)
-                    .getSingleResult();
-            if (pagamentosExistentes > 0) {
+                    .setParameter("dataRef", dataReferencia)
+                    .uniqueResult();
+            if (existentes != null && existentes > 0) {
                 throw new IllegalStateException(
-                        "Já existe um pagamento para esta pensão nesse mês.");
+                        "Já existe um pagamento registado para este mês de referência.");
             }
 
             Pagamento pagamento = new Pagamento();
             pagamento.setPensaoId(pensaoId);
             pagamento.setPensionistaId(pensao.getPensionistaId());
-            pagamento.setValor(pensao.getValorMensal());
+            pagamento.setValor(pensao.getValorMensal() != null
+                    ? pensao.getValorMensal() : BigDecimal.ZERO);
             pagamento.setDataPagamento(LocalDate.now());
-            pagamento.setDataReferencia(referencia);
+            pagamento.setDataReferencia(dataReferencia);
             pagamento.setEstado(EstadoPagamento.PAGO);
             pagamento.setFormaPagamento(formaPagamento);
-            pagamento.setReferencia(pensao.getNumeroProcesso() + "-"
-                    + referencia.getYear() + String.format("%02d", referencia.getMonthValue()));
-            pagamento.setObservacoes("Pagamento mensal registado na gestão da pensão.");
+
             sessao.persist(pagamento);
             return pagamento;
         });
     }
 
     @Override
-    public List<Pagamento> listarPorPensao(Long pensaoId) {
-        Objects.requireNonNull(pensaoId, "A pensão é obrigatória.");
+    public Optional<Pagamento> buscarPorId(Long id) {
+        Objects.requireNonNull(id, "O ID é obrigatório.");
+        try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
+            return Optional.ofNullable(sessao.find(Pagamento.class, id));
+        }
+    }
+
+    @Override
+    public List<Pagamento> listarTodos() {
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                    "from Pagamento pagamento where pagamento.pensaoId = :pensaoId "
-                    + "order by pagamento.dataReferencia desc",
-                    Pagamento.class)
+                    "from Pagamento p order by p.dataReferencia desc, p.id desc",
+                    Pagamento.class).getResultList());
+        }
+    }
+
+    @Override
+    public List<Pagamento> listarPorPensao(Long pensaoId) {
+        Objects.requireNonNull(pensaoId, "O ID da pensão é obrigatório.");
+        try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
+            return new ArrayList<>(sessao.createQuery(
+                            "from Pagamento p where p.pensaoId = :pensaoId " +
+                                    "order by p.dataReferencia desc", Pagamento.class)
                     .setParameter("pensaoId", pensaoId)
                     .getResultList());
         }
+    }
+
+    @Override
+    public boolean remover(Long id) {
+        Objects.requireNonNull(id, "O ID é obrigatório.");
+        return emTransacao(sessao -> {
+            Pagamento encontrado = sessao.find(Pagamento.class, id);
+            if (encontrado == null) {
+                return false;
+            }
+            sessao.remove(encontrado);
+            return true;
+        });
     }
 
     private <T> T emTransacao(Function<Session, T> operacao) {

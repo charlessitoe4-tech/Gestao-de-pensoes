@@ -4,15 +4,41 @@ import model.enums.TipoDocumento;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "documentos")
 public class Documento {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
     private TipoDocumento tipo;
+
     private String numero;
+
+    @Column(name = "data_emissao")
     private LocalDate dataEmissao;
+
+    @Column(name = "data_validade")
     private LocalDate dataValidade;
+
+    @Column(name = "local_emissao")
     private String localEmissao;
+
+    @Column(name = "caminho_ficheiro")
     private String caminhoFicheiro;
+
+    @Column(name = "pessoa_id")
     private Long pessoaId;
 
     public Documento() {
@@ -61,13 +87,13 @@ public class Documento {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Documento)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Documento that = (Documento) o;
-        return Objects.equals(id, that.id);
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }

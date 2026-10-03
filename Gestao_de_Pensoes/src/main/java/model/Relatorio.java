@@ -2,14 +2,33 @@ package model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "relatorios")
 public class Relatorio {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String titulo;
     private String tipo;
+
+    @Column(name = "data_geracao", nullable = false)
     private LocalDateTime dataGeracao;
+
+    @Column(name = "utilizador_id")
     private Long utilizadorId;
+
     private String parametros;
+
+    @Column(name = "caminho_ficheiro")
     private String caminhoFicheiro;
 
     public Relatorio() {

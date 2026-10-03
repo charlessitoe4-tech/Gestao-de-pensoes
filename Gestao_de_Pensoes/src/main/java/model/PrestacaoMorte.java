@@ -5,12 +5,35 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
+
+/** Base abstrata para as prestações por morte. */
+@Entity
+@Table(name = "prestacoes_morte")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "subtipo_prestacao")
 public abstract class PrestacaoMorte {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String numeroProcesso;
+
+    @Enumerated(EnumType.STRING)
     private TipoPrestacao tipo;
+
     private BigDecimal valor;
+
     private LocalDate dataSolicitacao;
     private LocalDate dataAprovacao;
     private Long falecidoId;
@@ -64,13 +87,13 @@ public abstract class PrestacaoMorte {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PrestacaoMorte)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         PrestacaoMorte that = (PrestacaoMorte) o;
-        return Objects.equals(id, that.id);
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return getClass().hashCode();
     }
 }

@@ -6,13 +6,24 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import model.Beneficiario;
+import model.Configuracao;
+import model.Documento;
+import model.Historico;
 import model.Pagamento;
 import model.Pensao;
 import model.PensaoInvalidez;
 import model.PensaoReduzida;
-import model.PensaoSobrivivencia;
+import model.PensaoSobrevivencia;
 import model.PensaoVelhice;
 import model.Pensionista;
+import model.Perfil;
+import model.Permissao;
+import model.PrestacaoMorte;
+import model.ProvaVida;
+import model.Relatorio;
+import model.SubsidioFuneral;
+import model.SubsidioMorte;
+import model.Utilizador;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -72,14 +83,32 @@ public final class HibernateUtil {
                 .build();
         try {
             return new MetadataSources(registro)
+                    // Pessoa (subclasses)
                     .addAnnotatedClass(Beneficiario.class)
-                    .addAnnotatedClass(Pagamento.class)
                     .addAnnotatedClass(Pensionista.class)
+                    // Pensões (herança SINGLE_TABLE)
                     .addAnnotatedClass(Pensao.class)
-                    .addAnnotatedClass(PensaoInvalidez.class)
-                    .addAnnotatedClass(PensaoReduzida.class)
-                    .addAnnotatedClass(PensaoSobrivivencia.class)
                     .addAnnotatedClass(PensaoVelhice.class)
+                    .addAnnotatedClass(PensaoInvalidez.class)
+                    .addAnnotatedClass(PensaoSobrevivencia.class)
+                    .addAnnotatedClass(PensaoReduzida.class)
+                    // Prestações por morte (herança SINGLE_TABLE)
+                    .addAnnotatedClass(PrestacaoMorte.class)
+                    .addAnnotatedClass(SubsidioMorte.class)
+                    .addAnnotatedClass(SubsidioFuneral.class)
+                    // Operações
+                    .addAnnotatedClass(Pagamento.class)
+                    .addAnnotatedClass(ProvaVida.class)
+                    // Documentos / Histórico
+                    .addAnnotatedClass(Documento.class)
+                    .addAnnotatedClass(Historico.class)
+                    // Segurança
+                    .addAnnotatedClass(Utilizador.class)
+                    .addAnnotatedClass(Perfil.class)
+                    .addAnnotatedClass(Permissao.class)
+                    // Sistema
+                    .addAnnotatedClass(Relatorio.class)
+                    .addAnnotatedClass(Configuracao.class)
                     .buildMetadata()
                     .buildSessionFactory();
         } catch (RuntimeException ex) {

@@ -10,7 +10,7 @@ import model.Pagamento;
 import model.Pensao;
 import model.PensaoInvalidez;
 import model.PensaoReduzida;
-import model.PensaoSobrivivencia;
+import model.PensaoSobrevivencia;
 import model.PensaoVelhice;
 import model.enums.EstadoPensao;
 import model.enums.FormaPagamento;
@@ -97,7 +97,7 @@ public class PensaoController {
         Pensao pensao = switch (tipo) {
             case VELHICE -> new PensaoVelhice();
             case INVALIDEZ -> new PensaoInvalidez();
-            case SOBREVIVENCIA -> new PensaoSobrivivencia();
+            case SOBREVIVENCIA -> new PensaoSobrevivencia();
             case REDUZIDA -> new PensaoReduzida();
         };
         pensao.setEstado(EstadoPensao.PENDENTE);

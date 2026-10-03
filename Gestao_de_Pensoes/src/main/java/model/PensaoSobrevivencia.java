@@ -10,18 +10,18 @@ import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("SOBREVIVENCIA")
-public class PensaoSobrivivencia extends Pensao {
+public class PensaoSobrevivencia extends Pensao {
 
     private Long falecidoId;
     private LocalDate dataObito;
     private String numeroCertidaoObito;
 
-    public PensaoSobrivivencia() {
+    public PensaoSobrevivencia() {
         super();
         setTipo(TipoPensao.SOBREVIVENCIA);
     }
 
-    public PensaoSobrivivencia(Long id, String numeroProcesso, EstadoPensao estado,
+    public PensaoSobrevivencia(Long id, String numeroProcesso, EstadoPensao estado,
                                BigDecimal valorMensal, LocalDate dataInicio, LocalDate dataFim,
                                Long pensionistaId, String observacoes,
                                Long falecidoId, LocalDate dataObito, String numeroCertidaoObito) {

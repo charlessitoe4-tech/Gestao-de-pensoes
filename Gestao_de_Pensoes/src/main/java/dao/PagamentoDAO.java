@@ -2,26 +2,21 @@ package dao;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import model.Pagamento;
 import model.enums.FormaPagamento;
 
-/** Operações de persistência para pagamentos mensais de pensões. */
+/** Contrato de acesso a dados para pagamentos de pensões. */
 public interface PagamentoDAO {
 
-    Pagamento registarPagamentoMensal(Long pensaoId, LocalDate referencia,
+    Pagamento registarPagamentoMensal(Long pensaoId, LocalDate dataReferencia,
                                       FormaPagamento formaPagamento);
 
-    List<Pagamento> listarPorPensao(Long pensaoId);
-import java.time.LocalDate;
-import java.util.List;
-import model.Pagamento;
-import model.enums.FormaPagamento;
+    Optional<Pagamento> buscarPorId(Long id);
 
-/** Operações de persistência para pagamentos mensais de pensões. */
-public interface PagamentoDAO {
-
-    Pagamento registarPagamentoMensal(Long pensaoId, LocalDate referencia,
-                                      FormaPagamento formaPagamento);
+    List<Pagamento> listarTodos();
 
     List<Pagamento> listarPorPensao(Long pensaoId);
+
+    boolean remover(Long id);
 }

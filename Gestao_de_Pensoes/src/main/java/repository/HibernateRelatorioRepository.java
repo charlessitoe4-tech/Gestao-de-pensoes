@@ -1,4 +1,4 @@
-package dao;
+package repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,52 +6,53 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import model.Pensao;
+import model.Relatorio;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do DAO de pensões. */
-public class HibernatePensaoDAO implements PensaoDAO {
+/** Implementação Hibernate do repositório CRUD de relatórios. */
+public class HibernateRelatorioRepository
+        implements RepositorioCrud<Relatorio, Long> {
 
     @Override
-    public void criar(Pensao pensao) {
-        Objects.requireNonNull(pensao, "A pensão é obrigatória.");
+    public void criar(Relatorio relatorio) {
+        Objects.requireNonNull(relatorio, "O relatório é obrigatório.");
         emTransacao(sessao -> {
-            sessao.persist(pensao);
+            sessao.persist(relatorio);
             return null;
         });
     }
 
     @Override
-    public Optional<Pensao> buscarPorId(Long id) {
+    public Optional<Relatorio> buscarPorId(Long id) {
         Objects.requireNonNull(id, "O ID é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
-            return Optional.ofNullable(sessao.find(Pensao.class, id));
+            return Optional.ofNullable(sessao.find(Relatorio.class, id));
         }
     }
 
     @Override
-    public List<Pensao> listarTodos() {
+    public List<Relatorio> listarTodos() {
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Pensao pensao order by pensao.id", Pensao.class)
+                            "from Relatorio r order by r.dataGeracao desc", Relatorio.class)
                     .getResultList());
         }
     }
 
     @Override
-    public void atualizar(Long id, Pensao pensao) {
+    public void atualizar(Long id, Relatorio relatorio) {
         Objects.requireNonNull(id, "O ID é obrigatório.");
-        Objects.requireNonNull(pensao, "A pensão é obrigatória.");
-        if (!id.equals(pensao.getId())) {
-            throw new IllegalArgumentException("O ID indicado deve corresponder ao da pensão.");
+        Objects.requireNonNull(relatorio, "O relatório é obrigatório.");
+        if (!id.equals(relatorio.getId())) {
+            throw new IllegalArgumentException("O ID indicado deve corresponder ao do relatório.");
         }
         emTransacao(sessao -> {
-            if (sessao.find(Pensao.class, id) == null) {
-                throw new NoSuchElementException("Pensão não encontrada: " + id);
+            if (sessao.find(Relatorio.class, id) == null) {
+                throw new NoSuchElementException("Relatório não encontrado: " + id);
             }
-            sessao.merge(pensao);
+            sessao.merge(relatorio);
             return null;
         });
     }
@@ -60,11 +61,11 @@ public class HibernatePensaoDAO implements PensaoDAO {
     public boolean remover(Long id) {
         Objects.requireNonNull(id, "O ID é obrigatório.");
         return emTransacao(sessao -> {
-            Pensao encontrada = sessao.find(Pensao.class, id);
-            if (encontrada == null) {
+            Relatorio encontrado = sessao.find(Relatorio.class, id);
+            if (encontrado == null) {
                 return false;
             }
-            sessao.remove(encontrada);
+            sessao.remove(encontrado);
             return true;
         });
     }

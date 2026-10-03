@@ -1,4 +1,4 @@
-package repository;
+package dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -7,8 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.UUID;
-import dao.HibernatePagamentoDAO;
-import dao.HibernatePensaoDAO;
 import model.Pagamento;
 import model.Pensao;
 import model.PensaoVelhice;

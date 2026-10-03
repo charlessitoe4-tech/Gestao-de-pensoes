@@ -4,6 +4,11 @@ import model.enums.TipoPrestacao;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("SUBSIDIO_FUNERAL")
 public class SubsidioFuneral extends PrestacaoMorte {
 
     private String nomeEmpresaFuneraria;

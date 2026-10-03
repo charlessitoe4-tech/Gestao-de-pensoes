@@ -2,15 +2,36 @@ package model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "historicos")
 public class Historico {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String entidade;
+
+    @Column(name = "entidade_id")
     private Long entidadeId;
+
     private String acao;
     private String descricao;
+
+    @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
+
+    @Column(name = "utilizador_id")
     private Long utilizadorId;
+
+    @Column(name = "ip_origem")
     private String ipOrigem;
 
     public Historico() {

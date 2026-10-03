@@ -1,13 +1,19 @@
 package dao;
 
+import java.util.List;
+import java.util.Optional;
 import model.Pensao;
-import repository.RepositorioCrud;
 
-/** Contrato de persistência CRUD para pensões. */
-public interface PensaoDAO extends RepositorioCrud<Pensao, Long> {
-import model.Pensao;
-import repository.RepositorioCrud;
+/** Contrato de acesso a dados para pensões. */
+public interface PensaoDAO {
 
-/** Contrato de persistência CRUD para pensões. */
-public interface PensaoDAO extends RepositorioCrud<Pensao, Long> {
+    void criar(Pensao pensao);
+
+    Optional<Pensao> buscarPorId(Long id);
+
+    List<Pensao> listarTodos();
+
+    void atualizar(Long id, Pensao pensao);
+
+    boolean remover(Long id);
 }
