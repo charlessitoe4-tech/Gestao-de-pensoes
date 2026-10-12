@@ -5,7 +5,9 @@ import java.util.Optional;
 import model.Documento;
 import model.enums.TipoDocumento;
 
-/** Contrato de acesso a dados para documentos. */
+/**
+ * Contrato de acesso a dados para documentos.
+ */
 public interface DocumentoDAO {
 
     void criar(Documento documento);
