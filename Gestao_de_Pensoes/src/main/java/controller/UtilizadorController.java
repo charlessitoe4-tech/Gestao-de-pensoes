@@ -4,13 +4,15 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+
 import model.Utilizador;
 import service.UtilizadorService;
 
 /**
  * Controlador de aplicação para operações sobre utilizadores.
  *
- * <p>Não depende de Swing; pode ser usado por qualquer camada de apresentação.</p>
+ * <p>
+ * Não depende de Swing; pode ser usado por qualquer camada de apresentação.</p>
  */
 public class UtilizadorController {
 
@@ -51,6 +53,6 @@ public class UtilizadorController {
     public Utilizador obter(Long id) {
         return service.buscarPorId(id)
                 .orElseThrow(() -> new NoSuchElementException(
-                        "Utilizador não encontrado: " + id));
+                "Utilizador não encontrado: " + id));
     }
 }
