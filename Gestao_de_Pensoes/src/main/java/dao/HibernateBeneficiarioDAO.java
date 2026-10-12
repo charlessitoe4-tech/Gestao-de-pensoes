@@ -11,7 +11,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do DAO de beneficiários. */
+/**
+ * Implementação Hibernate do DAO de beneficiários.
+ */
 public abstract class HibernateBeneficiarioDAO extends HibernatePessoaDAO<Beneficiario>
         implements BeneficiarioDAO {
 
@@ -24,8 +26,8 @@ public abstract class HibernateBeneficiarioDAO extends HibernatePessoaDAO<Benefi
         Objects.requireNonNull(pensionistaId, "O ID do pensionista é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Beneficiario b where b.pensionistaId = :pensionistaId " +
-                                    "order by b.id", Beneficiario.class)
+                    "from Beneficiario b where b.pensionistaId = :pensionistaId "
+                    + "order by b.id", Beneficiario.class)
                     .setParameter("pensionistaId", pensionistaId)
                     .getResultList());
         }
