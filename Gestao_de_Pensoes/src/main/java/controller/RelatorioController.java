@@ -7,7 +7,9 @@ import java.util.Optional;
 import model.Relatorio;
 import service.RelatorioService;
 
-/** Controlador de aplicação para relatórios. */
+/**
+ * Controlador de aplicação para relatórios.
+ */
 public class RelatorioController {
 
     private final RelatorioService service;
@@ -43,6 +45,6 @@ public class RelatorioController {
     public Relatorio obter(Long id) {
         return service.buscarPorId(id)
                 .orElseThrow(() -> new NoSuchElementException(
-                        "Relatório não encontrado: " + id));
+                "Relatório não encontrado: " + id));
     }
 }
