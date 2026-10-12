@@ -18,7 +18,9 @@ import model.enums.TipoPensao;
 import service.PagamentoPensaoService;
 import service.PensaoService;
 
-/** Recebe os comandos da interface e delega as operações de pensão ao serviço. */
+/**
+ * Recebe os comandos da interface e delega as operações de pensão ao serviço.
+ */
 public class PensaoController {
 
     private final PensaoService servico;
@@ -39,7 +41,7 @@ public class PensaoController {
     }
 
     public Pensao guardar(Long id, String numeroProcesso, TipoPensao tipo, Long pensionistaId,
-                          BigDecimal valorMensal, LocalDate dataInicio, String observacoes) {
+            BigDecimal valorMensal, LocalDate dataInicio, String observacoes) {
         Pensao pensao;
         if (id == null) {
             pensao = criarPorTipo(tipo);
@@ -74,11 +76,25 @@ public class PensaoController {
         return servico.remover(id);
     }
 
-    public Pensao aprovar(Long id) { return servico.aprovar(id); }
-    public Pensao suspender(Long id) { return servico.suspender(id); }
-    public Pensao reativar(Long id) { return servico.reativar(id); }
-    public Pensao cancelar(Long id) { return servico.cancelar(id); }
-    public Pensao arquivar(Long id) { return servico.arquivar(id); }
+    public Pensao aprovar(Long id) {
+        return servico.aprovar(id);
+    }
+
+    public Pensao suspender(Long id) {
+        return servico.suspender(id);
+    }
+
+    public Pensao reativar(Long id) {
+        return servico.reativar(id);
+    }
+
+    public Pensao cancelar(Long id) {
+        return servico.cancelar(id);
+    }
+
+    public Pensao arquivar(Long id) {
+        return servico.arquivar(id);
+    }
 
     public BigDecimal calcularTotalMensalAtivo() {
         return servico.calcularTotalMensalAtivo();
@@ -95,10 +111,14 @@ public class PensaoController {
     private Pensao criarPorTipo(TipoPensao tipo) {
         Objects.requireNonNull(tipo, "Selecione o tipo de pensão.");
         Pensao pensao = switch (tipo) {
-            case VELHICE -> new PensaoVelhice();
-            case INVALIDEZ -> new PensaoInvalidez();
-            case SOBREVIVENCIA -> new PensaoSobrevivencia();
-            case REDUZIDA -> new PensaoReduzida();
+            case VELHICE ->
+                new PensaoVelhice();
+            case INVALIDEZ ->
+                new PensaoInvalidez();
+            case SOBREVIVENCIA ->
+                new PensaoSobrevivencia();
+            case REDUZIDA ->
+                new PensaoReduzida();
         };
         pensao.setEstado(EstadoPensao.PENDENTE);
         return pensao;
