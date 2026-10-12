@@ -6,12 +6,16 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import model.Pensionista;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import model.Pensionista;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do DAO de pensionistas. */
+/**
+ * Implementação Hibernate do DAO de pensionistas.
+ */
 public class HibernatePensionistaDAO implements PensionistaDAO {
 
     @Override
@@ -36,8 +40,8 @@ public class HibernatePensionistaDAO implements PensionistaDAO {
         Objects.requireNonNull(numeroPensionista, "O número é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return sessao.createQuery(
-                            "from Pensionista p where p.numeroPensionista = :numero",
-                            Pensionista.class)
+                    "from Pensionista p where p.numeroPensionista = :numero",
+                    Pensionista.class)
                     .setParameter("numero", numeroPensionista)
                     .uniqueResultOptional();
         }
@@ -47,7 +51,7 @@ public class HibernatePensionistaDAO implements PensionistaDAO {
     public List<Pensionista> listarTodos() {
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Pensionista p order by p.id", Pensionista.class)
+                    "from Pensionista p order by p.id", Pensionista.class)
                     .getResultList());
         }
     }
