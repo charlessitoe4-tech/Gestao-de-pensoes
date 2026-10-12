@@ -8,20 +8,24 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import model.Pagamento;
 import model.Pensao;
 import model.enums.EstadoPagamento;
 import model.enums.FormaPagamento;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do DAO de pagamentos. */
+/**
+ * Implementação Hibernate do DAO de pagamentos.
+ */
 public class HibernatePagamentoDAO implements PagamentoDAO {
 
     @Override
     public Pagamento registarPagamentoMensal(Long pensaoId, LocalDate dataReferencia,
-                                             FormaPagamento formaPagamento) {
+            FormaPagamento formaPagamento) {
         Objects.requireNonNull(pensaoId, "O ID da pensão é obrigatório.");
         Objects.requireNonNull(dataReferencia, "A data de referência é obrigatória.");
         Objects.requireNonNull(formaPagamento, "A forma de pagamento é obrigatória.");
@@ -34,8 +38,8 @@ public class HibernatePagamentoDAO implements PagamentoDAO {
 
             // Verifica se já existe pagamento para o mesmo mês
             Long existentes = sessao.createQuery(
-                            "select count(p) from Pagamento p where p.pensaoId = :pensaoId " +
-                                    "and p.dataReferencia = :dataRef", Long.class)
+                    "select count(p) from Pagamento p where p.pensaoId = :pensaoId "
+                    + "and p.dataReferencia = :dataRef", Long.class)
                     .setParameter("pensaoId", pensaoId)
                     .setParameter("dataRef", dataReferencia)
                     .uniqueResult();
@@ -81,8 +85,8 @@ public class HibernatePagamentoDAO implements PagamentoDAO {
         Objects.requireNonNull(pensaoId, "O ID da pensão é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Pagamento p where p.pensaoId = :pensaoId " +
-                                    "order by p.dataReferencia desc", Pagamento.class)
+                    "from Pagamento p where p.pensaoId = :pensaoId "
+                    + "order by p.dataReferencia desc", Pagamento.class)
                     .setParameter("pensaoId", pensaoId)
                     .getResultList());
         }
