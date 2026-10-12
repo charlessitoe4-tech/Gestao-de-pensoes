@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+
 import model.ProvaVida;
 import service.ProvaVidaService;
 
-/** Controlador de aplicação para provas de vida. */
+/**
+ * Controlador de aplicação para provas de vida.
+ */
 public class ProvaVidaController {
 
     private final ProvaVidaService service;
@@ -51,6 +54,6 @@ public class ProvaVidaController {
     public ProvaVida obter(Long id) {
         return service.buscarPorId(id)
                 .orElseThrow(() -> new NoSuchElementException(
-                        "Prova de vida não encontrada: " + id));
+                "Prova de vida não encontrada: " + id));
     }
 }
