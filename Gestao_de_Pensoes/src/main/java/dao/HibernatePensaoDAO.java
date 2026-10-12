@@ -6,12 +6,16 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import model.Pensao;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import model.Pensao;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do DAO de pensões. */
+/**
+ * Implementação Hibernate do DAO de pensões.
+ */
 public class HibernatePensaoDAO implements PensaoDAO {
 
     @Override
@@ -35,7 +39,7 @@ public class HibernatePensaoDAO implements PensaoDAO {
     public List<Pensao> listarTodos() {
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Pensao pensao order by pensao.id", Pensao.class)
+                    "from Pensao pensao order by pensao.id", Pensao.class)
                     .getResultList());
         }
     }
