@@ -12,7 +12,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do DAO de documentos. */
+/**
+ * Implementação Hibernate do DAO de documentos.
+ */
 public class HibernateDocumentoDAO implements DocumentoDAO {
 
     @Override
@@ -36,7 +38,7 @@ public class HibernateDocumentoDAO implements DocumentoDAO {
     public List<Documento> listarTodos() {
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Documento d order by d.id", Documento.class)
+                    "from Documento d order by d.id", Documento.class)
                     .getResultList());
         }
     }
@@ -46,8 +48,8 @@ public class HibernateDocumentoDAO implements DocumentoDAO {
         Objects.requireNonNull(pessoaId, "O ID da pessoa é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Documento d where d.pessoaId = :pessoaId order by d.id",
-                            Documento.class)
+                    "from Documento d where d.pessoaId = :pessoaId order by d.id",
+                    Documento.class)
                     .setParameter("pessoaId", pessoaId)
                     .getResultList());
         }
@@ -59,8 +61,8 @@ public class HibernateDocumentoDAO implements DocumentoDAO {
         Objects.requireNonNull(tipo, "O tipo é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Documento d where d.pessoaId = :pessoaId and d.tipo = :tipo",
-                            Documento.class)
+                    "from Documento d where d.pessoaId = :pessoaId and d.tipo = :tipo",
+                    Documento.class)
                     .setParameter("pessoaId", pessoaId)
                     .setParameter("tipo", tipo)
                     .getResultList());
