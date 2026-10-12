@@ -3,10 +3,13 @@ package controller;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+
 import model.Utilizador;
 import service.LoginService;
 
-/** Controlador de autenticação de utilizadores. */
+/**
+ * Controlador de autenticação de utilizadores.
+ */
 public class LoginController {
 
     private final LoginService service;
@@ -26,6 +29,6 @@ public class LoginController {
     public Utilizador autenticarOuFalhar(String username, String senha) {
         return service.autenticar(username, senha)
                 .orElseThrow(() -> new NoSuchElementException(
-                        "Credenciais inválidas."));
+                "Credenciais inválidas."));
     }
 }
