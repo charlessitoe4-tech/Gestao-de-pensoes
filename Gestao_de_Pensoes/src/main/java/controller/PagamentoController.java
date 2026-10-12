@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+
 import model.Pagamento;
 import model.enums.FormaPagamento;
 import service.PagamentoService;
 
-/** Controlador de aplicação para pagamentos de pensões. */
+/**
+ * Controlador de aplicação para pagamentos de pensões.
+ */
 public class PagamentoController {
 
     private final PagamentoService service;
@@ -24,7 +27,7 @@ public class PagamentoController {
     }
 
     public Pagamento registar(Long pensaoId, YearMonth periodo,
-                              FormaPagamento formaPagamento) {
+            FormaPagamento formaPagamento) {
         return service.registar(pensaoId, periodo, formaPagamento);
     }
 
@@ -51,7 +54,7 @@ public class PagamentoController {
     public Pagamento obter(Long id) {
         return service.buscarPorId(id)
                 .orElseThrow(() -> new NoSuchElementException(
-                        "Pagamento não encontrado: " + id));
+                "Pagamento não encontrado: " + id));
     }
 
     public BigDecimal calcularTotalPago() {
