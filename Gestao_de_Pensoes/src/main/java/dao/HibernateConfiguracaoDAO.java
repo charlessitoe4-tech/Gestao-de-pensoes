@@ -6,12 +6,16 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import model.Configuracao;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import model.Configuracao;
 import persistence.HibernateUtil;
 
-/** Implementação Hibernate do DAO de configurações. */
+/**
+ * Implementação Hibernate do DAO de configurações.
+ */
 public class HibernateConfiguracaoDAO implements ConfiguracaoDAO {
 
     @Override
@@ -36,7 +40,7 @@ public class HibernateConfiguracaoDAO implements ConfiguracaoDAO {
         Objects.requireNonNull(chave, "A chave é obrigatória.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return sessao.createQuery(
-                            "from Configuracao c where c.chave = :chave", Configuracao.class)
+                    "from Configuracao c where c.chave = :chave", Configuracao.class)
                     .setParameter("chave", chave)
                     .uniqueResultOptional();
         }
@@ -46,7 +50,7 @@ public class HibernateConfiguracaoDAO implements ConfiguracaoDAO {
     public List<Configuracao> listarTodos() {
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Configuracao c order by c.grupo, c.chave", Configuracao.class)
+                    "from Configuracao c order by c.grupo, c.chave", Configuracao.class)
                     .getResultList());
         }
     }
@@ -56,8 +60,8 @@ public class HibernateConfiguracaoDAO implements ConfiguracaoDAO {
         Objects.requireNonNull(grupo, "O grupo é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return new ArrayList<>(sessao.createQuery(
-                            "from Configuracao c where c.grupo = :grupo order by c.chave",
-                            Configuracao.class)
+                    "from Configuracao c where c.grupo = :grupo order by c.chave",
+                    Configuracao.class)
                     .setParameter("grupo", grupo)
                     .getResultList());
         }
