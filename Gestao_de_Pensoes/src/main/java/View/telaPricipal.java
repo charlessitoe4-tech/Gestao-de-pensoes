@@ -2520,7 +2520,7 @@ public class telaPricipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new telaPricipal().setVisible(true));
+        AppLauncher.main(args);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
