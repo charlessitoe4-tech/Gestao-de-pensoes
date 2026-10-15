@@ -28,6 +28,13 @@ Por omissão, o Hibernate guarda os dados em H2 no ficheiro
 propriedade de sistema ou variável de ambiente `GESTAO_PENSOES_DB_URL` antes de
 iniciar.
 
+Ao iniciar, o Hibernate cria as tabelas em falta e atualiza o esquema existente
+sem apagar os registos (`hbm2ddl.auto=update`). Estão mapeadas as entidades de
+beneficiários, pensionistas, pensões, pedidos de reforma, pagamentos, provas de
+vida, prestações por morte, documentos, histórico, utilizadores, perfis,
+permissões, relatórios e configurações. As subclasses de pensão e de prestação
+por morte partilham, respetivamente, as tabelas `pensoes` e `prestacoes_morte`.
+
 ## Navegação e funcionalidades
 
 - **Painel principal:** contagem de beneficiários, pensionistas e pensões,
