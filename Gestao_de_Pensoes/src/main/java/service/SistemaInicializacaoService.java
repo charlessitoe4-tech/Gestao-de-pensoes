@@ -70,8 +70,6 @@ public final class SistemaInicializacaoService {
             case ADMINISTRADOR -> "Administrador";
             case GESTOR -> "Gestor";
             case OPERADOR -> "Operador";
-            case CONSULTA -> throw new IllegalArgumentException(
-                    "O perfil de consulta não pertence aos três perfis configurados.");
         };
     }
 }
