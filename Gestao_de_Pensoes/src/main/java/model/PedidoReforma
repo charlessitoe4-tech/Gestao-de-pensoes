@@ -1,0 +1,124 @@
+package model;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+/**
+ * Modelo para representação de um Pedido de Reforma/Manutenção.
+ */
+public class PedidoDeReforma implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    // Identificador único do pedido
+    private Long id;
+    
+    // Atributos do pedido
+    private String descricao;
+    private String localizacao;
+    private String status; // Ex: "PENDENTE", "EM_ANDAMENTO", "CONCLUIDO", "CANCELADO"
+    private Double orcamentoEstimado;
+    private LocalDateTime dataSolicitacao;
+
+    // Construtor padrão (necessário para frameworks como Spring/Hibernate e serialização)
+    public PedidoDeReforma() {
+        this.dataSolicitacao = LocalDateTime.now();
+        this.status = "PENDENTE";
+    }
+
+    // Construtor completo com ID
+    public PedidoDeReforma(Long id, String descricao, String localizacao, String status, Double orcamentoEstimado, LocalDateTime dataSolicitacao) {
+        this.id = id;
+        this.descricao = descricao;
+        this.localizacao = localizacao;
+        this.status = status;
+        this.orcamentoEstimado = orcamentoEstimado;
+        this.dataSolicitacao = dataSolicitacao != null ? dataSolicitacao : LocalDateTime.now();
+    }
+
+    // Construtor para criação de novos pedidos (sem ID inicial)
+    public PedidoDeReforma(String descricao, String localizacao, Double orcamentoEstimado) {
+        this();
+        this.descricao = descricao;
+        this.localizacao = localizacao;
+        this.orcamentoEstimado = orcamentoEstimado;
+    }
+
+    // --- GETTERS E SETTERS ---
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Double getOrcamentoEstimado() {
+        return orcamentoEstimado;
+    }
+
+    public void setOrcamentoEstimado(Double orcamentoEstimado) {
+        this.orcamentoEstimado = orcamentoEstimado;
+    }
+
+    public LocalDateTime getDataSolicitacao() {
+        return dataSolicitacao;
+    }
+
+    public void setDataSolicitacao(LocalDateTime dataSolicitacao) {
+        this.dataSolicitacao = dataSolicitacao;
+    }
+
+    // --- MÉTODOS SOBRESCRITOS (EQUALS, HASHCODE, TOSTRING) ---
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PedidoDeReforma que = (PedidoDeReforma) o;
+        return Objects.equals(id, que.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "PedidoDeReforma{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", localizacao='" + localizacao + '\'' +
+                ", status='" + status + '\'' +
+                ", orcamentoEstimado=" + orcamentoEstimado +
+                ", dataSolicitacao=" + dataSolicitacao +
+                '}';
+    }
+}
