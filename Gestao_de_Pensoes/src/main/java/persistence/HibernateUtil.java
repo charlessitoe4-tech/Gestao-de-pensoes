@@ -11,6 +11,7 @@ import model.Documento;
 import model.Historico;
 import model.Pagamento;
 import model.Pensao;
+import model.PedidoReforma;
 import model.PensaoInvalidez;
 import model.PensaoReduzida;
 import model.PensaoSobrevivencia;
@@ -99,6 +100,7 @@ public final class HibernateUtil {
                     // Operações
                     .addAnnotatedClass(Pagamento.class)
                     .addAnnotatedClass(ProvaVida.class)
+                    .addAnnotatedClass(PedidoReforma.class)
                     // Documentos / Histórico
                     .addAnnotatedClass(Documento.class)
                     .addAnnotatedClass(Historico.class)
