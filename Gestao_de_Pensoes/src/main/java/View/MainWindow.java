@@ -2,8 +2,11 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -12,6 +15,8 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,6 +84,8 @@ public final class MainWindow extends javax.swing.JFrame {
     private final UtilizadorService utilizadores = new UtilizadorService();
     private final PerfilDAO perfilDAO = new HibernatePerfilDAO();
     private final JPanel conteudo = new JPanel(new CardLayout());
+    private final Map<String, JButton> navegacaoBotoes = new LinkedHashMap<>();
+    private final JLabel estadoBarra = new JLabel("Pronto");
 
     private final DefaultTableModel beneficiariosModel = modelo(
             "ID", "Nome", "BI", "NUIT", "Telefone", "Email");
@@ -100,7 +107,7 @@ public final class MainWindow extends javax.swing.JFrame {
     private final DefaultTableModel relatoriosModel = modelo(
             "ID", "Título", "Tipo", "Gerado em", "Ficheiro");
     private final JTable relatoriosTable = new JTable(relatoriosModel);
-    private final JLabel[] indicadores = new JLabel[4];
+    private final JButton[] indicadores = new JButton[4];
     private final JPanel painelDashboard = new JPanel(new BorderLayout(12, 12));
 
     public MainWindow(Utilizador utilizador) {
@@ -165,19 +172,38 @@ public final class MainWindow extends javax.swing.JFrame {
         raiz.add(topo, BorderLayout.NORTH);
         raiz.add(navegacao, BorderLayout.WEST);
         raiz.add(conteudo, BorderLayout.CENTER);
+        estadoBarra.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        estadoBarra.setOpaque(true);
+        estadoBarra.setBackground(Color.WHITE);
+        raiz.add(estadoBarra, BorderLayout.SOUTH);
+        UiTheme.apply(raiz);
+        raiz.setBackground(UiTheme.GREEN_PALE);
+        topo.setBackground(UiTheme.GREEN);
+        marca.setForeground(Color.WHITE);
+        sessao.setForeground(Color.WHITE);
+        navegacao.setBackground(UiTheme.GREEN);
+        estadoBarra.setBackground(Color.WHITE);
+        estadoBarra.setForeground(UiTheme.MUTED);
+        terminarSessao.setBackground(UiTheme.GREEN_ACCENT);
+        estilizarTabelas();
         setContentPane(raiz);
         mostrar(DASHBOARD);
     }
 
     private void adicionarNavegacao(JPanel painel, String texto, String cartao) {
         JButton botao = new JButton(texto);
-        botao.setHorizontalAlignment(JButton.LEFT);
+        UiTheme.styleNavigationButton(botao, false);
         botao.addActionListener(evento -> mostrar(cartao));
+        navegacaoBotoes.put(cartao, botao);
         painel.add(botao);
     }
 
     private void mostrar(String cartao) {
         ((CardLayout) conteudo.getLayout()).show(conteudo, cartao);
+        navegacaoBotoes.forEach((nome, botao) ->
+                UiTheme.styleNavigationButton(botao, nome.equals(cartao)));
+        estadoBarra.setText("A ver: " + nomeEcra(cartao)
+                + "     |     Sessão: " + utilizador.getNome());
         switch (cartao) {
             case DASHBOARD -> atualizarDashboard();
             case BENEFICIARIOS -> atualizarBeneficiarios();
@@ -189,6 +215,50 @@ public final class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    private String nomeEcra(String cartao) {
+        return switch (cartao) {
+            case DASHBOARD -> "Painel principal";
+            case BENEFICIARIOS -> "Beneficiários";
+            case PENSIONISTAS -> "Pensionistas";
+            case PENSOES -> "Pensões e pagamentos";
+            case RELATORIOS -> "Relatórios";
+            case UTILIZADORES -> "Utilizadores";
+            default -> cartao;
+        };
+    }
+
+    private void estilizarTabelas() {
+        UiTheme.styleTable(beneficiariosTable);
+        UiTheme.styleTable(pensionistasTable);
+        UiTheme.styleTable(pensoesTable);
+        UiTheme.styleTable(utilizadoresTable);
+        UiTheme.styleTable(relatoriosTable);
+        beneficiariosTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evento) {
+                if (evento.getClickCount() == 2 && beneficiariosTable.getSelectedRow() >= 0) {
+                    editarBeneficiario(selecionarId(beneficiariosTable));
+                }
+            }
+        });
+        pensionistasTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evento) {
+                if (evento.getClickCount() == 2 && pensionistasTable.getSelectedRow() >= 0) {
+                    editarPensionista(selecionarId(pensionistasTable));
+                }
+            }
+        });
+        pensoesTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evento) {
+                if (evento.getClickCount() == 2 && pensoesTable.getSelectedRow() >= 0) {
+                    editarPensao(selecionarId(pensoesTable));
+                }
+            }
+        });
+    }
+
     private JPanel criarDashboard() {
         painelDashboard.setBorder(BorderFactory.createEmptyBorder(24, 24, 24, 24));
         JPanel cabecalho = new JPanel(new BorderLayout());
@@ -196,20 +266,18 @@ public final class MainWindow extends javax.swing.JFrame {
         JButton atualizar = new JButton("Atualizar");
         atualizar.addActionListener(evento -> executar(this::atualizarDashboard));
         cabecalho.add(atualizar, BorderLayout.EAST);
-        JPanel cartoes = new JPanel(new GridLayout(2, 2, 14, 14));
+        JPanel cartoes = new JPanel(new GridLayout(2, 2, 16, 16));
         String[] rotulos = {"Beneficiários", "Pensionistas", "Pensões registadas", "Total mensal ativo"};
+        String[] atalhos = {BENEFICIARIOS, PENSIONISTAS, PENSOES, PENSOES};
         for (int i = 0; i < indicadores.length; i++) {
-            JPanel cartao = new JPanel(new BorderLayout());
-            cartao.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(new java.awt.Color(215, 223, 229)),
-                    BorderFactory.createEmptyBorder(20, 20, 20, 20)));
-            JLabel nome = new JLabel(rotulos[i]);
-            nome.setFont(nome.getFont().deriveFont(java.awt.Font.PLAIN, 15f));
-            indicadores[i] = new JLabel("—");
-            indicadores[i].setFont(indicadores[i].getFont().deriveFont(java.awt.Font.BOLD, 28f));
-            cartao.add(nome, BorderLayout.NORTH);
-            cartao.add(indicadores[i], BorderLayout.CENTER);
-            cartoes.add(cartao);
+            indicadores[i] = new JButton();
+            final String atalho = atalhos[i];
+            indicadores[i].addActionListener(evento -> mostrar(atalho));
+            UiTheme.styleDashboardCard(indicadores[i]);
+            indicadores[i].setText("<html><div style='color:#006600;font-size:14px'>"
+                    + rotulos[i] + "</div><div style='color:#004d26;font-size:26px'><b>—"
+                    + "</b></div><div style='color:#5b6e62;font-size:11px'>Abrir módulo &rarr;</div></html>");
+            cartoes.add(indicadores[i]);
         }
         painelDashboard.add(cabecalho, BorderLayout.NORTH);
         painelDashboard.add(cartoes, BorderLayout.CENTER);
@@ -217,10 +285,22 @@ public final class MainWindow extends javax.swing.JFrame {
     }
 
     private void atualizarDashboard() {
-        indicadores[0].setText(Integer.toString(dashboard.contarBeneficiarios()));
-        indicadores[1].setText(Integer.toString(pensionistas.listar().size()));
-        indicadores[2].setText(Integer.toString(dashboard.contarPensoes()));
-        indicadores[3].setText(dashboard.totalMensalAtivo().toPlainString());
+        definirIndicador(0, "Beneficiários",
+                Integer.toString(dashboard.contarBeneficiarios()), BENEFICIARIOS);
+        definirIndicador(1, "Pensionistas",
+                Integer.toString(pensionistas.listar().size()), PENSIONISTAS);
+        definirIndicador(2, "Pensões registadas",
+                Integer.toString(dashboard.contarPensoes()), PENSOES);
+        definirIndicador(3, "Total mensal ativo",
+                dashboard.totalMensalAtivo().toPlainString() + " MZN", PENSOES);
+    }
+
+    private void definirIndicador(int indice, String titulo, String valor, String destino) {
+        indicadores[indice].setText("<html><div style='color:#006600;font-size:14px'>"
+                + titulo + "</div><div style='color:#004d26;font-size:26px'><b>"
+                + valor + "</b></div><div style='color:#5b6e62;font-size:11px'>"
+                + "Abrir módulo &rarr;</div></html>");
+        indicadores[indice].setToolTipText("Abrir " + nomeEcra(destino));
     }
 
     private JPanel criarPainelBeneficiarios() {
