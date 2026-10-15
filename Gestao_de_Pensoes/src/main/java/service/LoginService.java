@@ -42,7 +42,9 @@ public class LoginService {
         if (!PasswordUtil.verificar(senhaPlana, u.getSenhaHash())) {
             return Optional.empty();
         }
-        // registar último login
+        if (PasswordUtil.precisaAtualizacao(u.getSenhaHash())) {
+            u.setSenhaHash(PasswordUtil.gerarHash(senhaPlana));
+        }
         u.setUltimoLogin(LocalDateTime.now());
         repositorio.atualizar(u.getId(), u);
         return Optional.of(u);
