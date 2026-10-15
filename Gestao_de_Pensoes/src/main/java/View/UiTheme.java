@@ -16,7 +16,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
@@ -39,6 +38,20 @@ final class UiTheme {
     static void apply(Container raiz) {
         raiz.setBackground(GREEN_PALE);
         styleChildren(raiz);
+    }
+
+    static void configureDialogs() {
+        javax.swing.UIManager.put("Panel.background", GREEN_PALE);
+        javax.swing.UIManager.put("OptionPane.background", GREEN_PALE);
+        javax.swing.UIManager.put("OptionPane.messageForeground", TEXT);
+        javax.swing.UIManager.put("Button.background", GREEN);
+        javax.swing.UIManager.put("Button.foreground", Color.WHITE);
+        javax.swing.UIManager.put("TextField.background", SURFACE);
+        javax.swing.UIManager.put("TextField.foreground", TEXT);
+        javax.swing.UIManager.put("PasswordField.background", SURFACE);
+        javax.swing.UIManager.put("PasswordField.foreground", TEXT);
+        javax.swing.UIManager.put("ComboBox.background", SURFACE);
+        javax.swing.UIManager.put("ComboBox.foreground", TEXT);
     }
 
     static void styleTable(JTable tabela) {

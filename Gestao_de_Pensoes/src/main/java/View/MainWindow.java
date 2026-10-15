@@ -143,6 +143,7 @@ public final class MainWindow extends javax.swing.JFrame {
             AppLauncher.main(new String[0]);
         });
         JPanel conta = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
+        conta.setOpaque(false);
         conta.add(sessao);
         conta.add(terminarSessao);
         topo.add(marca, BorderLayout.WEST);
@@ -185,6 +186,7 @@ public final class MainWindow extends javax.swing.JFrame {
         estadoBarra.setBackground(Color.WHITE);
         estadoBarra.setForeground(UiTheme.MUTED);
         terminarSessao.setBackground(UiTheme.GREEN_ACCENT);
+        indicadoresAsCartoes();
         estilizarTabelas();
         setContentPane(raiz);
         mostrar(DASHBOARD);
@@ -204,15 +206,17 @@ public final class MainWindow extends javax.swing.JFrame {
                 UiTheme.styleNavigationButton(botao, nome.equals(cartao)));
         estadoBarra.setText("A ver: " + nomeEcra(cartao)
                 + "     |     Sessão: " + utilizador.getNome());
-        switch (cartao) {
-            case DASHBOARD -> atualizarDashboard();
-            case BENEFICIARIOS -> atualizarBeneficiarios();
-            case PENSIONISTAS -> atualizarPensionistas();
-            case PENSOES -> atualizarPensoes();
-            case RELATORIOS -> atualizarRelatorios();
-            case UTILIZADORES -> atualizarUtilizadores();
-            default -> throw new IllegalArgumentException("Ecrã desconhecido: " + cartao);
-        }
+        executar(() -> {
+            switch (cartao) {
+                case DASHBOARD -> atualizarDashboard();
+                case BENEFICIARIOS -> atualizarBeneficiarios();
+                case PENSIONISTAS -> atualizarPensionistas();
+                case PENSOES -> atualizarPensoes();
+                case RELATORIOS -> atualizarRelatorios();
+                case UTILIZADORES -> atualizarUtilizadores();
+                default -> throw new IllegalArgumentException("Ecrã desconhecido: " + cartao);
+            }
+        });
     }
 
     private String nomeEcra(String cartao) {
@@ -225,6 +229,12 @@ public final class MainWindow extends javax.swing.JFrame {
             case UTILIZADORES -> "Utilizadores";
             default -> cartao;
         };
+    }
+
+    private void indicadoresAsCartoes() {
+        for (JButton indicador : indicadores) {
+            UiTheme.styleDashboardCard(indicador);
+        }
     }
 
     private void estilizarTabelas() {
@@ -446,6 +456,7 @@ public final class MainWindow extends javax.swing.JFrame {
             atualizarPensionistas();
             atualizarDashboard();
             atualizarPensoes();
+            notificar("Pensionista eliminado; dashboard e lista de pensões atualizados.");
         });
     }
 
@@ -590,6 +601,7 @@ public final class MainWindow extends javax.swing.JFrame {
             acao.apply(id);
             atualizarPensoes();
             atualizarDashboard();
+            notificar("Estado da pensão alterado; dashboard atualizado.");
         });
     }
 
@@ -647,6 +659,7 @@ public final class MainWindow extends javax.swing.JFrame {
             relatorio.setCaminhoFicheiro(ficheiro.toAbsolutePath().toString());
             relatorios.gerar(relatorio);
             atualizarRelatorios();
+            notificar("Relatório exportado e histórico atualizado.");
             JOptionPane.showMessageDialog(this, "Relatório guardado em:\n" + ficheiro.toAbsolutePath(),
                     "Relatório gerado", JOptionPane.INFORMATION_MESSAGE);
         });
@@ -769,6 +782,10 @@ public final class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    private void notificar(String mensagem) {
+        estadoBarra.setText(mensagem);
+    }
+
     private String mensagem(Throwable erro) {
         Throwable causa = erro;
         while (causa.getCause() != null && causa.getCause() != causa) {
@@ -801,8 +818,11 @@ public final class MainWindow extends javax.swing.JFrame {
         JPanel painel = new JPanel(new GridLayout(0, 1, 0, 4));
         JLabel titulo = new JLabel(texto);
         titulo.setFont(titulo.getFont().deriveFont(java.awt.Font.BOLD, 22f));
+        titulo.setForeground(UiTheme.GREEN_DARK);
         painel.add(titulo);
-        painel.add(new JLabel(descricao));
+        JLabel subtitulo = new JLabel(descricao);
+        subtitulo.setForeground(UiTheme.MUTED);
+        painel.add(subtitulo);
         painel.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
         return painel;
     }

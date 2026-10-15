@@ -35,6 +35,7 @@ public final class AppLauncher {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             LOGGER.log(Level.WARNING, "Não foi possível aplicar o tema Nimbus.", ex);
         }
+        UiTheme.configureDialogs();
         java.awt.EventQueue.invokeLater(AppLauncher::iniciar);
     }
 
