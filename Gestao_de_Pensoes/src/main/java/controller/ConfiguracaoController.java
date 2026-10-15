@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+
 import model.Configuracao;
 import service.ConfiguracaoService;
 
-/** Controlador de aplicação para configurações do sistema. */
+/**
+ * Controlador de aplicação para configurações do sistema.
+ */
 public class ConfiguracaoController {
 
     private final ConfiguracaoService service;
@@ -53,6 +56,6 @@ public class ConfiguracaoController {
     public Configuracao obter(Long id) {
         return service.buscarPorId(id)
                 .orElseThrow(() -> new NoSuchElementException(
-                        "Configuração não encontrada: " + id));
+                "Configuração não encontrada: " + id));
     }
 }
