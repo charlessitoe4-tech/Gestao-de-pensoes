@@ -97,6 +97,10 @@ public class PensionistaService {
         if (pensionista.getGenero() == null || pensionista.getEstadoCivil() == null) {
             throw new IllegalArgumentException("Selecione o sexo e o estado civil.");
         }
+        if (pensionista.getEmail() != null && !pensionista.getEmail().isBlank()
+                && !pensionista.getEmail().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            throw new IllegalArgumentException("O email do pensionista não é válido.");
+        }
         if (pensionista.getDataAposentadoria() != null
                 && pensionista.getDataAposentadoria().isBefore(pensionista.getDataNascimento())) {
             throw new IllegalArgumentException(

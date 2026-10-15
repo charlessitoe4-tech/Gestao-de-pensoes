@@ -97,6 +97,9 @@ public class BeneficiarioService {
 
     private void validar(Beneficiario beneficiario) {
         Objects.requireNonNull(beneficiario, "O beneficiário é obrigatório.");
+        if (beneficiario.getNome() == null || beneficiario.getNome().isBlank()) {
+            throw new IllegalArgumentException("O nome é obrigatório.");
+        }
         String[] camposObrigatorios = {
             beneficiario.getNomeCompleto(),
             beneficiario.getNumeroBI(),
@@ -111,8 +114,19 @@ public class BeneficiarioService {
         if (beneficiario.getDataNascimento() == null) {
             throw new IllegalArgumentException("A data de nascimento é obrigatória.");
         }
+        if (beneficiario.getDataNascimento().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("A data de nascimento não pode estar no futuro.");
+        }
         if (beneficiario.getGenero() == null || beneficiario.getEstadoCivil() == null) {
             throw new IllegalArgumentException("Selecione o sexo e o estado civil.");
+        }
+        if (beneficiario.getEmail() != null && !beneficiario.getEmail().isBlank()
+                && !beneficiario.getEmail().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            throw new IllegalArgumentException("O email do beneficiário não é válido.");
+        }
+        String telefone = beneficiario.getTelefone().replaceAll("[\\s()-]", "");
+        if (!telefone.matches("\\+?\\d{7,15}")) {
+            throw new IllegalArgumentException("O telefone deve conter entre 7 e 15 dígitos.");
         }
     }
 

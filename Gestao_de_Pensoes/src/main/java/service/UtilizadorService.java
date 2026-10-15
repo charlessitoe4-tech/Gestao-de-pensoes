@@ -97,5 +97,9 @@ public class UtilizadorService {
         if (utilizador.getPerfil() == null) {
             throw new IllegalArgumentException("O perfil é obrigatório.");
         }
+        if (utilizador.getEmail() != null && !utilizador.getEmail().isBlank()
+                && !utilizador.getEmail().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            throw new IllegalArgumentException("O email do utilizador não é válido.");
+        }
     }
 }
