@@ -6,18 +6,26 @@ import java.util.Objects;
 import model.Pensionista;
 import model.enums.EstadoCivil;
 import model.enums.Genero;
+import service.PensaoService;
 import service.PensionistaService;
 
 public class PensionistaController {
 
     private final PensionistaService service;
+    private final PensaoService pensaoService;
 
     public PensionistaController() {
-        this(new PensionistaService());
+        this(new PensionistaService(), new PensaoService());
     }
 
     public PensionistaController(PensionistaService service) {
+        this(service, new PensaoService());
+    }
+
+    public PensionistaController(PensionistaService service, PensaoService pensaoService) {
         this.service = Objects.requireNonNull(service, "O serviço é obrigatório.");
+        this.pensaoService = Objects.requireNonNull(
+                pensaoService, "O serviço de pensões é obrigatório.");
     }
 
     public Pensionista guardar(Long id, String nomeCompleto, String numeroBI, String nuit,
@@ -64,6 +72,11 @@ public class PensionistaController {
     }
 
     public boolean remover(Long id) {
+        if (pensaoService.listar().stream()
+                .anyMatch(p -> Objects.equals(p.getPensionistaId(), id))) {
+            throw new IllegalStateException(
+                    "Não pode eliminar um pensionista associado a uma pensão.");
+        }
         return service.remover(id);
     }
 
