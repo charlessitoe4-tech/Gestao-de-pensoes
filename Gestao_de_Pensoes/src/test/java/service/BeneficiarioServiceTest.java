@@ -1,6 +1,7 @@
 package service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -50,5 +51,19 @@ class BeneficiarioServiceTest {
         assertEquals("123456789", restaurado.getNumeroBI());
         assertEquals(3, servico.consultarHistorico().size());
         assertEquals(1, servico.listar().size());
+    }
+
+    @Test
+    void rejeitaDataDeNascimentoFutura() {
+        BeneficiarioService servico = new BeneficiarioService(new RepositorioComIds());
+        Beneficiario beneficiario = new Beneficiario();
+        beneficiario.setNome("Ana");
+        beneficiario.setNumeroBI("123456789");
+        beneficiario.setTelefone("840000000");
+        beneficiario.setDataNascimento(LocalDate.now().plusDays(1));
+        beneficiario.setGenero(Genero.FEMININO);
+        beneficiario.setEstadoCivil(EstadoCivil.SOLTEIRO);
+
+        assertThrows(IllegalArgumentException.class, () -> servico.guardar(beneficiario));
     }
 }

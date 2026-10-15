@@ -4,7 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import Util.PasswordUtil;
@@ -47,6 +51,41 @@ class LoginServiceTest {
         assertFalse(servico.autenticar("utilizador", "senha-correta").isPresent());
         assertTrue(servico.autenticar("utilizador", " ").isEmpty());
         assertEquals(0, repositorio.quantidadeAtualizacoes);
+    }
+
+    @Test
+    void atualizaHashLegadoDepoisDeUmaAutenticacaoValida() throws Exception {
+        Utilizador utilizador = utilizadorAtivo();
+        utilizador.setSenhaHash(hashLegado("senha-correta"));
+        UtilizadorDAOFake repositorio = new UtilizadorDAOFake(utilizador);
+        LoginService servico = new LoginService(repositorio);
+
+        assertTrue(servico.autenticar("utilizador", "senha-correta").isPresent());
+
+        assertTrue(utilizador.getSenhaHash().startsWith("pbkdf2-sha256$"));
+        assertTrue(PasswordUtil.verificar("senha-correta", utilizador.getSenhaHash()));
+        assertEquals(1, repositorio.quantidadeAtualizacoes);
+    }
+
+    @Test
+    void senhaModernaTemSaltERejeitaSenhaIncorreta() {
+        String primeiroHash = PasswordUtil.gerarHash("senha-segura");
+        String segundoHash = PasswordUtil.gerarHash("senha-segura");
+
+        assertNotNull(primeiroHash);
+        assertFalse(primeiroHash.equals(segundoHash));
+        assertTrue(PasswordUtil.verificar("senha-segura", primeiroHash));
+        assertFalse(PasswordUtil.verificar("senha-errada", primeiroHash));
+        assertFalse(PasswordUtil.precisaAtualizacao(primeiroHash));
+    }
+
+    private static String hashLegado(String senha) throws Exception {
+        byte[] salt = "salt-legado-1234".getBytes(StandardCharsets.UTF_8);
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        digest.update(salt);
+        byte[] hash = digest.digest(senha.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(salt) + ":"
+                + Base64.getEncoder().encodeToString(hash);
     }
 
     private static Utilizador utilizadorAtivo() {
