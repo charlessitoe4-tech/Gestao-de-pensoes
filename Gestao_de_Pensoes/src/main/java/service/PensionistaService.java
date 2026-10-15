@@ -25,6 +25,13 @@ public class PensionistaService {
 
     public Pensionista guardar(Pensionista pensionista) {
         validar(pensionista);
+        Optional<Pensionista> comMesmoNumero = repositorio.buscarPorNumero(
+                pensionista.getNumeroPensionista().trim());
+        if (comMesmoNumero.isPresent()
+                && !Objects.equals(comMesmoNumero.get().getId(), pensionista.getId())) {
+            throw new IllegalArgumentException("O número de pensionista já está registado.");
+        }
+        pensionista.setNumeroPensionista(pensionista.getNumeroPensionista().trim());
         if (pensionista.getId() == null) {
             repositorio.criar(pensionista);
         } else {
@@ -84,8 +91,16 @@ public class PensionistaService {
         if (pensionista.getDataNascimento() == null) {
             throw new IllegalArgumentException("A data de nascimento é obrigatória.");
         }
+        if (pensionista.getDataNascimento().isAfter(java.time.LocalDate.now())) {
+            throw new IllegalArgumentException("A data de nascimento não pode estar no futuro.");
+        }
         if (pensionista.getGenero() == null || pensionista.getEstadoCivil() == null) {
             throw new IllegalArgumentException("Selecione o sexo e o estado civil.");
+        }
+        if (pensionista.getDataAposentadoria() != null
+                && pensionista.getDataAposentadoria().isBefore(pensionista.getDataNascimento())) {
+            throw new IllegalArgumentException(
+                    "A data de aposentadoria não pode ser anterior à data de nascimento.");
         }
     }
 

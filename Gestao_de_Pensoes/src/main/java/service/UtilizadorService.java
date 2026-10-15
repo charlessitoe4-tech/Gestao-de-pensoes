@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Optional;
 import dao.HibernateUtilizadorDAO;
 import dao.UtilizadorDAO;
+import Util.PasswordUtil;
+import model.Perfil;
 import model.Utilizador;
 
 /** Regras de negócio para gestão de utilizadores. */
@@ -25,6 +27,13 @@ public class UtilizadorService {
 
     public Utilizador guardar(Utilizador utilizador) {
         validar(utilizador);
+        Optional<Utilizador> existente = repositorio.buscarPorUsername(
+                utilizador.getUsername().trim());
+        if (existente.isPresent()
+                && !Objects.equals(existente.get().getId(), utilizador.getId())) {
+            throw new IllegalArgumentException("O username já está em utilização.");
+        }
+        utilizador.setUsername(utilizador.getUsername().trim());
         if (utilizador.getId() == null) {
             utilizador.setDataCriacao(LocalDateTime.now());
             repositorio.criar(utilizador);
@@ -32,6 +41,21 @@ public class UtilizadorService {
             repositorio.atualizar(utilizador.getId(), utilizador);
         }
         return utilizador;
+    }
+
+    public Utilizador registar(String nome, String username, String email,
+            String senha, Perfil perfil) {
+        if (senha == null || senha.length() < 10) {
+            throw new IllegalArgumentException("A senha deve ter pelo menos 10 caracteres.");
+        }
+        Utilizador utilizador = new Utilizador();
+        utilizador.setNome(nome == null ? null : nome.trim());
+        utilizador.setUsername(username == null ? null : username.trim());
+        utilizador.setEmail(email == null || email.isBlank() ? null : email.trim());
+        utilizador.setSenhaHash(PasswordUtil.gerarHash(senha));
+        utilizador.setPerfil(perfil);
+        utilizador.setAtivo(true);
+        return guardar(utilizador);
     }
 
     public List<Utilizador> listar() {
