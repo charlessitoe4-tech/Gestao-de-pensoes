@@ -3,22 +3,24 @@ package View;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Font;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
-/** Paleta verde já utilizada nas telas do sistema. */
+/** Paleta comum inspirada no verde da interface original. */
 final class UiTheme {
 
     static final Color GREEN = new Color(0, 102, 0);
@@ -32,6 +34,11 @@ final class UiTheme {
     static final Color BORDER = new Color(205, 226, 209);
 
     private UiTheme() {
+    }
+
+    static void apply(Container raiz) {
+        raiz.setBackground(GREEN_PALE);
+        styleChildren(raiz);
     }
 
     static void configureDialogs() {
@@ -48,11 +55,6 @@ final class UiTheme {
         javax.swing.UIManager.put("ComboBox.foreground", TEXT);
     }
 
-    static void apply(Container raiz) {
-        raiz.setBackground(GREEN_PALE);
-        applyChildren(raiz);
-    }
-
     static void styleTable(JTable tabela) {
         tabela.setBackground(SURFACE);
         tabela.setForeground(TEXT);
@@ -64,66 +66,91 @@ final class UiTheme {
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabela.setShowVerticalLines(false);
         tabela.setIntercellSpacing(new java.awt.Dimension(0, 1));
-        tabela.getTableHeader().setBackground(GREEN);
-        tabela.getTableHeader().setForeground(Color.WHITE);
-        tabela.getTableHeader().setFont(
-                tabela.getTableHeader().getFont().deriveFont(Font.BOLD));
-        tabela.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 36));
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+
+        JTableHeader cabecalho = tabela.getTableHeader();
+        cabecalho.setBackground(GREEN);
+        cabecalho.setForeground(Color.WHITE);
+        cabecalho.setFont(cabecalho.getFont().deriveFont(Font.BOLD));
+        cabecalho.setPreferredSize(new java.awt.Dimension(0, 36));
+        DefaultTableCellRenderer renderizador = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
                     boolean selected, boolean focused, int row, int column) {
-                Component cell = super.getTableCellRendererComponent(
+                Component celula = super.getTableCellRendererComponent(
                         table, value, selected, focused, row, column);
                 if (!selected) {
-                    cell.setBackground(row % 2 == 0 ? SURFACE : GREEN_PALE);
-                    cell.setForeground(TEXT);
+                    celula.setBackground(row % 2 == 0 ? SURFACE : GREEN_PALE);
+                    celula.setForeground(TEXT);
                 }
                 setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-                return cell;
+                return celula;
             }
         };
-        tabela.setDefaultRenderer(Object.class, renderer);
+        tabela.setDefaultRenderer(Object.class, renderizador);
     }
 
-    private static void applyChildren(Container container) {
-        for (Component component : container.getComponents()) {
-            if (component instanceof JPanel panel) {
-                panel.setBackground(GREEN_PALE);
+    static void styleNavigationButton(AbstractButton botao, boolean selecionado) {
+        botao.setBackground(selecionado ? GREEN_SOFT : GREEN);
+        botao.setForeground(selecionado ? GREEN_DARK : Color.WHITE);
+        botao.setFont(botao.getFont().deriveFont(selecionado ? Font.BOLD : Font.PLAIN, 14f));
+        botao.setHorizontalAlignment(AbstractButton.LEFT);
+        botao.setFocusPainted(false);
+        botao.setOpaque(true);
+        botao.setBorder(BorderFactory.createEmptyBorder(10, 14, 10, 10));
+        botao.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    static void styleDashboardCard(AbstractButton botao) {
+        botao.setBackground(SURFACE);
+        botao.setForeground(TEXT);
+        botao.setFont(botao.getFont().deriveFont(Font.PLAIN, 15f));
+        botao.setHorizontalAlignment(AbstractButton.LEFT);
+        botao.setVerticalAlignment(AbstractButton.CENTER);
+        botao.setFocusPainted(false);
+        botao.setOpaque(true);
+        botao.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(BORDER),
+                BorderFactory.createEmptyBorder(18, 20, 18, 20)));
+        botao.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    private static void styleChildren(Container container) {
+        for (Component componente : container.getComponents()) {
+            if (componente instanceof JPanel painel) {
+                painel.setBackground(GREEN_PALE);
             }
-            if (component instanceof JCheckBox checkBox) {
-                checkBox.setBackground(container.getBackground());
-                checkBox.setForeground(TEXT);
-                checkBox.setFocusPainted(false);
-                checkBox.setOpaque(false);
-            } else if (component instanceof AbstractButton button) {
-                button.setBackground(GREEN);
-                button.setForeground(Color.WHITE);
-                button.setFocusPainted(false);
-                button.setOpaque(true);
-                button.setBorder(BorderFactory.createCompoundBorder(
+            if (componente instanceof JCheckBox caixa) {
+                caixa.setBackground(GREEN_PALE);
+                caixa.setForeground(TEXT);
+                caixa.setFocusPainted(false);
+                caixa.setOpaque(false);
+            } else if (componente instanceof AbstractButton botao) {
+                botao.setBackground(GREEN);
+                botao.setForeground(Color.WHITE);
+                botao.setFocusPainted(false);
+                botao.setOpaque(true);
+                botao.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(GREEN),
                         BorderFactory.createEmptyBorder(7, 12, 7, 12)));
-            } else if (component instanceof JTextField || component instanceof JTextArea
-                    || component instanceof JComboBox<?>) {
-                component.setBackground(SURFACE);
-                component.setForeground(TEXT);
-                if (component instanceof JComponent swing) {
+                botao.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            } else if (componente instanceof JTextField || componente instanceof JTextArea
+                    || componente instanceof JComboBox<?>) {
+                componente.setBackground(SURFACE);
+                componente.setForeground(TEXT);
+                if (componente instanceof JComponent swing) {
                     swing.setBorder(BorderFactory.createCompoundBorder(
                             BorderFactory.createLineBorder(BORDER),
                             BorderFactory.createEmptyBorder(5, 8, 5, 8)));
                 }
-            } else if (component instanceof JLabel label) {
+            } else if (componente instanceof JLabel label) {
                 label.setForeground(TEXT);
-            } else if (component instanceof JTable table) {
-                styleTable(table);
-            } else if (component instanceof JScrollPane scroll) {
+            } else if (componente instanceof JScrollPane scroll) {
                 scroll.setBackground(SURFACE);
                 scroll.getViewport().setBackground(SURFACE);
                 scroll.setBorder(BorderFactory.createLineBorder(BORDER));
             }
-            if (component instanceof Container child) {
-                applyChildren(child);
+            if (componente instanceof Container filho) {
+                styleChildren(filho);
             }
         }
     }

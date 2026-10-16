@@ -35,8 +35,8 @@ public class HibernateUtilizadorDAO implements UtilizadorDAO {
         Objects.requireNonNull(username, "O username é obrigatório.");
         try (Session sessao = HibernateUtil.getSessionFactory().openSession()) {
             return sessao.createQuery(
-                            "from Utilizador u where u.username = :username", Utilizador.class)
-                    .setParameter("username", username)
+                            "from Utilizador u where lower(u.username) = :username", Utilizador.class)
+                    .setParameter("username", username.trim().toLowerCase(java.util.Locale.ROOT))
                     .uniqueResultOptional();
         }
     }

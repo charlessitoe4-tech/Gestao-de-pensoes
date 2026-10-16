@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import dao.PerfilDAO;
 import dao.UtilizadorDAO;
@@ -18,27 +19,62 @@ import org.junit.jupiter.api.Test;
 class SistemaInicializacaoServiceTest {
 
     @Test
-    void inicializaTresPerfisEPermiteCriarOAdministradorUmaUnicaVez() {
+    void inicializaTresPerfisEProtegeAsTresContasPrincipais() {
         PerfilDAOFake perfis = new PerfilDAOFake();
         UtilizadorDAOFake utilizadores = new UtilizadorDAOFake();
+        UtilizadorService servicoUtilizadores = new UtilizadorService(utilizadores);
         SistemaInicializacaoService inicializacao = new SistemaInicializacaoService(
-                perfis, utilizadores, new UtilizadorService(utilizadores));
+                perfis, utilizadores, servicoUtilizadores);
 
         inicializacao.assegurarPerfis();
         inicializacao.assegurarPerfis();
         assertEquals(3, perfis.listarTodos().size());
-        assertTrue(inicializacao.necessitaAdministradorInicial());
+        assertEquals(Map.of(
+                "admin", NivelAcesso.ADMINISTRADOR,
+                "gestor", NivelAcesso.GESTOR,
+                "operador", NivelAcesso.OPERADOR),
+                inicializacao.contasPrincipaisEmFalta());
 
-        Utilizador administrador = inicializacao.criarAdministradorInicial(
-                "Admin Principal", "admin", "", "senha-muito-segura");
+        inicializacao.assegurarContasPrincipais(Map.of(
+                "admin", "senha123",
+                "gestor", "senha456",
+                "operador", "senha789"), Map.of(
+                "admin", "admin@example.com",
+                "gestor", "gestor@example.com",
+                "operador", "operador@example.com"));
 
+        assertTrue(inicializacao.contasPrincipaisEmFalta().isEmpty());
+        assertEquals(3, utilizadores.listarTodos().size());
+        for (Utilizador conta : utilizadores.listarTodos()) {
+            assertTrue(conta.isContaProtegida());
+            assertTrue(conta.isAtivo());
+            assertTrue(conta.getSenhaHash().startsWith("pbkdf2-sha256$"));
+            assertThrows(IllegalStateException.class,
+                    () -> servicoUtilizadores.remover(conta.getId()));
+        }
+        assertEquals("Admin", utilizadores.buscarPorUsername("ADMIN").orElseThrow().getUsername());
         assertEquals(NivelAcesso.ADMINISTRADOR,
-                administrador.getPerfil().getNivelAcesso());
-        assertTrue(administrador.getSenhaHash().startsWith("pbkdf2-sha256$"));
-        assertFalse(inicializacao.necessitaAdministradorInicial());
-        assertThrows(IllegalStateException.class, () ->
-                inicializacao.criarAdministradorInicial(
-                        "Outro Admin", "admin2", "", "senha-muito-segura"));
+                utilizadores.buscarPorUsername("admin").orElseThrow()
+                        .getPerfil().getNivelAcesso());
+        assertEquals(NivelAcesso.GESTOR,
+                utilizadores.buscarPorUsername("gestor").orElseThrow()
+                        .getPerfil().getNivelAcesso());
+        assertEquals(NivelAcesso.OPERADOR,
+                utilizadores.buscarPorUsername("operador").orElseThrow()
+                        .getPerfil().getNivelAcesso());
+    }
+
+    @Test
+    void exigeSenhaForteParaContasPrincipaisEmFalta() {
+        PerfilDAOFake perfis = new PerfilDAOFake();
+        UtilizadorDAOFake utilizadores = new UtilizadorDAOFake();
+        SistemaInicializacaoService inicializacao = new SistemaInicializacaoService(
+                perfis, utilizadores, new UtilizadorService(utilizadores));
+        inicializacao.assegurarPerfis();
+
+        assertThrows(IllegalArgumentException.class,
+                () -> inicializacao.assegurarContasPrincipais(
+                        Map.of("admin", "curta"), Map.of("admin", "admin@example.com")));
     }
 
     private static final class PerfilDAOFake implements PerfilDAO {
@@ -98,7 +134,7 @@ class SistemaInicializacaoServiceTest {
 
         @Override
         public Optional<Utilizador> buscarPorUsername(String username) {
-            return contas.stream().filter(u -> u.getUsername().equals(username)).findFirst();
+            return contas.stream().filter(u -> u.getUsername().equalsIgnoreCase(username)).findFirst();
         }
 
         @Override

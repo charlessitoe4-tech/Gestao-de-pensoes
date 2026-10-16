@@ -37,7 +37,7 @@ class BeneficiarioServiceTest {
         Beneficiario novo = new Beneficiario();
         novo.setNome("Ana");
         novo.setApelido("Mussa");
-        novo.setNumeroBI("123456789");
+        novo.setNumeroBI("123456789012");
         novo.setTelefone("840000000");
         novo.setDataNascimento(LocalDate.of(1990, 1, 1));
         novo.setGenero(Genero.FEMININO);
@@ -48,7 +48,7 @@ class BeneficiarioServiceTest {
         Beneficiario restaurado = servico.desfazerUltimaRemocao().orElseThrow();
 
         assertEquals(2L, restaurado.getId());
-        assertEquals("123456789", restaurado.getNumeroBI());
+        assertEquals("123456789012", restaurado.getNumeroBI());
         assertEquals(3, servico.consultarHistorico().size());
         assertEquals(1, servico.listar().size());
     }
@@ -58,7 +58,7 @@ class BeneficiarioServiceTest {
         BeneficiarioService servico = new BeneficiarioService(new RepositorioComIds());
         Beneficiario beneficiario = new Beneficiario();
         beneficiario.setNome("Ana");
-        beneficiario.setNumeroBI("123456789");
+        beneficiario.setNumeroBI("123456789012");
         beneficiario.setTelefone("840000000");
         beneficiario.setDataNascimento(LocalDate.now().plusDays(1));
         beneficiario.setGenero(Genero.FEMININO);
