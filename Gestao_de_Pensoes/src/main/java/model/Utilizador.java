@@ -38,6 +38,9 @@ public class Utilizador {
 
     private boolean ativo = true;
 
+    @Column(name = "conta_protegida", nullable = false)
+    private boolean contaProtegida;
+
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
 
@@ -81,6 +84,9 @@ public class Utilizador {
 
     public boolean isAtivo() { return ativo; }
     public void setAtivo(boolean ativo) { this.ativo = ativo; }
+
+    public boolean isContaProtegida() { return contaProtegida; }
+    public void setContaProtegida(boolean contaProtegida) { this.contaProtegida = contaProtegida; }
 
     public LocalDateTime getDataCriacao() { return dataCriacao; }
     public void setDataCriacao(LocalDateTime dataCriacao) { this.dataCriacao = dataCriacao; }
