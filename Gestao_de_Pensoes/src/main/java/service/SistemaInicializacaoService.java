@@ -1,6 +1,7 @@
 package service;
 
 import java.util.List;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import dao.UtilizadorDAO;
 import model.Perfil;
 import model.enums.NivelAcesso;
 
-/** Prepara os três perfis do sistema e permite criar o primeiro administrador. */
+/** Prepara os três perfis do sistema e as respetivas contas principais. */
 public final class SistemaInicializacaoService {
 
     private static final List<NivelAcesso> PERFIS_INICIAIS = List.of(
@@ -64,7 +65,7 @@ public final class SistemaInicializacaoService {
                 emFalta.put(conta.getKey(), conta.getValue());
             }
         }
-        return Map.copyOf(emFalta);
+        return Collections.unmodifiableMap(emFalta);
     }
 
     /**
@@ -73,22 +74,29 @@ public final class SistemaInicializacaoService {
      */
     public void assegurarContasPrincipais(Map<String, String> senhas) {
         Objects.requireNonNull(senhas, "As senhas iniciais são obrigatórias.");
+        Map<String, Perfil> perfis = new LinkedHashMap<>();
         for (Map.Entry<String, NivelAcesso> conta : contasPrincipais().entrySet()) {
             Perfil perfil = perfilDAO.buscarPorNome(nomePerfil(conta.getValue()))
                     .orElseThrow(() -> new IllegalStateException(
                             "O perfil " + nomePerfil(conta.getValue()) + " não existe."));
+            perfis.put(conta.getKey(), perfil);
+            if (utilizadorDAO.buscarPorUsername(conta.getKey()).isEmpty()) {
+                String senha = senhas.get(conta.getKey());
+                if (senha == null || senha.length() < 10) {
+                    throw new IllegalArgumentException(
+                            "Defina uma senha com pelo menos 10 caracteres para "
+                            + conta.getKey() + ".");
+                }
+            }
+        }
+        for (Map.Entry<String, NivelAcesso> conta : contasPrincipais().entrySet()) {
+            Perfil perfil = perfis.get(conta.getKey());
             model.Utilizador utilizador = utilizadorDAO.buscarPorUsername(conta.getKey())
                     .orElseGet(() -> {
-                        String senha = senhas.get(conta.getKey());
-                        if (senha == null || senha.length() < 10) {
-                            throw new IllegalArgumentException(
-                                    "Defina uma senha com pelo menos 10 caracteres para "
-                                    + conta.getKey() + ".");
-                        }
                         model.Utilizador novo = new model.Utilizador();
                         novo.setNome(nomeUtilizador(conta.getValue()));
                         novo.setUsername(conta.getKey());
-                        novo.setSenhaHash(Util.PasswordUtil.gerarHash(senha));
+                        novo.setSenhaHash(Util.PasswordUtil.gerarHash(senhas.get(conta.getKey())));
                         novo.setPerfil(perfil);
                         novo.setAtivo(true);
                         return novo;
