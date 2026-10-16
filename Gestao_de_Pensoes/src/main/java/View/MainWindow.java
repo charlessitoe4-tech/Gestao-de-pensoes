@@ -140,7 +140,6 @@ public final class MainWindow extends javax.swing.JFrame {
         terminarSessao.addActionListener(evento -> {
             dispose();
             HibernateUtil.encerrar();
-            AppLauncher.main(new String[0]);
         });
         JPanel conta = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
         conta.setOpaque(false);
@@ -734,7 +733,7 @@ public final class MainWindow extends javax.swing.JFrame {
                 .toList();
         JComboBox<Perfil> perfil = new JComboBox<>(perfisDisponiveis.toArray(Perfil[]::new));
         JPanel formulario = formulario("Nome", nome, "Username", username, "Email", email,
-                "Senha (mínimo 10 caracteres)", senha, "Perfil", perfil);
+                "Senha (mínimo 8 caracteres)", senha, "Perfil", perfil);
         if (JOptionPane.showConfirmDialog(this, formulario, "Criar utilizador",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) != JOptionPane.OK_OPTION) {
             return;

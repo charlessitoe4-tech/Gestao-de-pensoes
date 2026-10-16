@@ -32,13 +32,17 @@ public class UtilizadorService {
 
     private Utilizador guardar(Utilizador utilizador, boolean inicializacaoSistema) {
         validar(utilizador);
-        String username = utilizador.getUsername().trim().toLowerCase(java.util.Locale.ROOT);
+        String username = ValidacaoDadosMoçambique.comInicialMaiuscula(utilizador.getUsername());
         Optional<Utilizador> existente = repositorio.buscarPorUsername(username);
         if (existente.isPresent()
                 && !Objects.equals(existente.get().getId(), utilizador.getId())) {
             throw new IllegalArgumentException("O username já está em utilização.");
         }
         utilizador.setUsername(username);
+        utilizador.setNome(ValidacaoDadosMoçambique.comInicialMaiuscula(utilizador.getNome()));
+        if (utilizador.getEmail() != null) {
+            utilizador.setEmail(utilizador.getEmail().trim());
+        }
         if (utilizador.getId() == null) {
             if (utilizador.isContaProtegida() && !inicializacaoSistema) {
                 throw new IllegalArgumentException(
@@ -68,13 +72,16 @@ public class UtilizadorService {
 
     public Utilizador registar(String nome, String username, String email,
             String senha, Perfil perfil) {
-        if (senha == null || senha.length() < 10) {
-            throw new IllegalArgumentException("A senha deve ter pelo menos 10 caracteres.");
+        if (senha == null || senha.length() < 8) {
+            throw new IllegalArgumentException("A senha deve ter pelo menos 8 caracteres.");
+        }
+        if (!ValidacaoDadosMoçambique.emailValido(email)) {
+            throw new IllegalArgumentException("Introduza um email válido para recuperação da conta.");
         }
         Utilizador utilizador = new Utilizador();
         utilizador.setNome(nome == null ? null : nome.trim());
         utilizador.setUsername(username == null ? null : username.trim());
-        utilizador.setEmail(email == null || email.isBlank() ? null : email.trim());
+        utilizador.setEmail(email.trim());
         utilizador.setSenhaHash(PasswordUtil.gerarHash(senha));
         utilizador.setPerfil(perfil);
         utilizador.setAtivo(true);
@@ -95,10 +102,21 @@ public class UtilizadorService {
         if (nivel(utilizador) != perfilEsperado) {
             throw new IllegalArgumentException("O perfil da conta principal é inválido.");
         }
-        utilizador.setUsername(username);
+        utilizador.setUsername(ValidacaoDadosMoçambique.comInicialMaiuscula(username));
+        utilizador.setNome(ValidacaoDadosMoçambique.comInicialMaiuscula(utilizador.getNome()));
         utilizador.setAtivo(true);
         utilizador.setContaProtegida(true);
         return guardar(utilizador, true);
+    }
+
+    public void alterarSenha(Long id, String novaSenha) {
+        if (novaSenha == null || novaSenha.length() < 8) {
+            throw new IllegalArgumentException("A senha deve ter pelo menos 8 caracteres.");
+        }
+        Utilizador utilizador = repositorio.buscarPorId(id)
+                .orElseThrow(() -> new NoSuchElementException("Utilizador não encontrado: " + id));
+        utilizador.setSenhaHash(PasswordUtil.gerarHash(novaSenha));
+        guardar(utilizador);
     }
 
     public boolean eContaProtegida(Long id) {
@@ -152,8 +170,12 @@ public class UtilizadorService {
             throw new IllegalArgumentException("O perfil é obrigatório.");
         }
         if (utilizador.getEmail() != null && !utilizador.getEmail().isBlank()
-                && !utilizador.getEmail().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+                && !ValidacaoDadosMoçambique.emailValido(utilizador.getEmail())) {
             throw new IllegalArgumentException("O email do utilizador não é válido.");
+        }
+        if (!utilizador.getNome().equals(
+                ValidacaoDadosMoçambique.comInicialMaiuscula(utilizador.getNome()))) {
+            utilizador.setNome(ValidacaoDadosMoçambique.comInicialMaiuscula(utilizador.getNome()));
         }
     }
 

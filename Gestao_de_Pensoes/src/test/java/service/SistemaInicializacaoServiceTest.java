@@ -36,9 +36,12 @@ class SistemaInicializacaoServiceTest {
                 inicializacao.contasPrincipaisEmFalta());
 
         inicializacao.assegurarContasPrincipais(Map.of(
-                "admin", "senha-admin-segura",
-                "gestor", "senha-gestor-segura",
-                "operador", "senha-operador-segura"));
+                "admin", "senha123",
+                "gestor", "senha456",
+                "operador", "senha789"), Map.of(
+                "admin", "admin@example.com",
+                "gestor", "gestor@example.com",
+                "operador", "operador@example.com"));
 
         assertTrue(inicializacao.contasPrincipaisEmFalta().isEmpty());
         assertEquals(3, utilizadores.listarTodos().size());
@@ -49,6 +52,7 @@ class SistemaInicializacaoServiceTest {
             assertThrows(IllegalStateException.class,
                     () -> servicoUtilizadores.remover(conta.getId()));
         }
+        assertEquals("Admin", utilizadores.buscarPorUsername("ADMIN").orElseThrow().getUsername());
         assertEquals(NivelAcesso.ADMINISTRADOR,
                 utilizadores.buscarPorUsername("admin").orElseThrow()
                         .getPerfil().getNivelAcesso());
@@ -69,7 +73,8 @@ class SistemaInicializacaoServiceTest {
         inicializacao.assegurarPerfis();
 
         assertThrows(IllegalArgumentException.class,
-                () -> inicializacao.assegurarContasPrincipais(Map.of("admin", "curta")));
+                () -> inicializacao.assegurarContasPrincipais(
+                        Map.of("admin", "curta"), Map.of("admin", "admin@example.com")));
     }
 
     private static final class PerfilDAOFake implements PerfilDAO {
@@ -129,7 +134,7 @@ class SistemaInicializacaoServiceTest {
 
         @Override
         public Optional<Utilizador> buscarPorUsername(String username) {
-            return contas.stream().filter(u -> u.getUsername().equals(username)).findFirst();
+            return contas.stream().filter(u -> u.getUsername().equalsIgnoreCase(username)).findFirst();
         }
 
         @Override

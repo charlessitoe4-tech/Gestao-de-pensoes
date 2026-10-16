@@ -16,11 +16,10 @@ Na pasta `Gestao_de_Pensoes`, execute:
 .\mvnw.cmd exec:java
 ```
 
-Na primeira execução, a aplicação cria os perfis predefinidos e pede os dados
-para criar a conta de administrador inicial. Não existe uma senha inicial
-partilhada ou predefinida. Nas execuções seguintes, é obrigatório iniciar sessão
-com uma conta ativa. O menu permite terminar a sessão e autenticar outro
-utilizador.
+O comando `exec:java` abre diretamente a tela principal Swing (`View.telaPricipal`).
+Esse ponto de entrada não executa autenticação nem configuração inicial das
+contas principais. Para iniciar manualmente uma janela alternativa, pode também
+executar a classe `View.telaCadastro` ou `View.tela`.
 
 Por omissão, o Hibernate guarda os dados em H2 no ficheiro
 `%USERPROFILE%\.gestao-pensoes\dados` no Windows (ou
@@ -48,6 +47,12 @@ por morte partilham, respetivamente, as tabelas `pensoes` e `prestacoes_morte`.
   o histórico persistido de relatórios.
 - **Utilizadores:** disponível apenas para administradores; permite criar
   utilizadores com um dos três perfis e ativar/desativar contas.
+- **Acesso:** o login permite mostrar/ocultar a senha e solicitar recuperação
+  através de um código de seis algarismos, válido por 10 minutos e limitado a
+  cinco tentativas; há um intervalo mínimo de 60 segundos entre pedidos de
+  códigos para a mesma conta. O username e o nome de utilizador são guardados com a
+  primeira letra maiúscula. Senhas têm mínimo de 8 caracteres; BI aceita 12
+  algarismos e NUIT 9 algarismos, ignorando espaços e hífens de formatação.
 
 As tabelas suportam ordenação pelas colunas. Os formulários apresentam erros de
 validação ou falhas de persistência sem ocultar a causa; os erros inesperados
@@ -61,11 +66,28 @@ também são registados no logger da aplicação.
 | Gestor | Consulta, criação, edição e remoção de dados operacionais; relatórios |
 | Operador | Consulta, criação, edição, pagamentos e relatórios; sem remoção ou gestão de utilizadores |
 
-O utilizador autenticado é verificado ao construir a interface; opções não
-autorizadas não são apresentadas ou ficam desativadas. A criação do primeiro
-administrador não depende de credenciais de demonstração. As senhas novas são
-guardadas com PBKDF2-HMAC-SHA256 e os hashes SHA-256 legados são atualizados
-automaticamente depois de uma autenticação válida.
+O projeto mantém os serviços de autenticação e autorização para os fluxos que
+os utilizem. A tela principal iniciada diretamente não aplica controlo de acesso
+visual nem autentica o utilizador. As senhas geridas pelo serviço são guardadas
+com PBKDF2-HMAC-SHA256 e os hashes SHA-256 legados são atualizados depois de
+uma autenticação válida.
+
+### Recuperação de senha por email
+
+Para permitir o envio de códigos pelo serviço de recuperação de senha, configure
+estas variáveis de ambiente antes de iniciar o programa:
+
+| Variável | Descrição |
+| --- | --- |
+| `GESTAO_PENSOES_SMTP_HOST` | Servidor SMTP |
+| `GESTAO_PENSOES_SMTP_PORT` | Porta SMTP (opcional; padrão 587) |
+| `GESTAO_PENSOES_SMTP_USER` | Utilizador de autenticação SMTP |
+| `GESTAO_PENSOES_SMTP_PASSWORD` | Senha ou senha de aplicação SMTP |
+| `GESTAO_PENSOES_SMTP_FROM` | Endereço de email remetente |
+
+O envio usa STARTTLS. Não coloque credenciais SMTP no código-fonte ou no
+repositório. Se o serviço SMTP não estiver configurado, a aplicação apresenta
+um erro explícito no fluxo de recuperação e regista os detalhes técnicos no log.
 
 ## Organização
 

@@ -61,19 +61,27 @@ public final class SistemaInicializacaoService {
     public Map<String, NivelAcesso> contasPrincipaisEmFalta() {
         Map<String, NivelAcesso> emFalta = new LinkedHashMap<>();
         for (Map.Entry<String, NivelAcesso> conta : contasPrincipais().entrySet()) {
-            if (utilizadorDAO.buscarPorUsername(conta.getKey()).isEmpty()) {
+            model.Utilizador utilizador = utilizadorDAO.buscarPorUsername(conta.getKey()).orElse(null);
+            if (utilizador == null
+                    || !ValidacaoDadosMoçambique.emailValido(utilizador.getEmail())) {
                 emFalta.put(conta.getKey(), conta.getValue());
             }
         }
         return Collections.unmodifiableMap(emFalta);
     }
 
+    public boolean necessitaSenhaInicial(String username) {
+        return utilizadorDAO.buscarPorUsername(username).isEmpty();
+    }
+
     /**
      * Garante os três utilizadores principais. As senhas das contas em falta
      * são definidas no primeiro arranque e nunca ficam guardadas em código.
      */
-    public void assegurarContasPrincipais(Map<String, String> senhas) {
+    public void assegurarContasPrincipais(Map<String, String> senhas,
+            Map<String, String> emails) {
         Objects.requireNonNull(senhas, "As senhas iniciais são obrigatórias.");
+        Objects.requireNonNull(emails, "Os emails de recuperação são obrigatórios.");
         Map<String, Perfil> perfis = new LinkedHashMap<>();
         for (Map.Entry<String, NivelAcesso> conta : contasPrincipais().entrySet()) {
             Perfil perfil = perfilDAO.buscarPorNome(nomePerfil(conta.getValue()))
@@ -82,11 +90,22 @@ public final class SistemaInicializacaoService {
             perfis.put(conta.getKey(), perfil);
             if (utilizadorDAO.buscarPorUsername(conta.getKey()).isEmpty()) {
                 String senha = senhas.get(conta.getKey());
-                if (senha == null || senha.length() < 10) {
+                if (senha == null || senha.length() < 8) {
                     throw new IllegalArgumentException(
-                            "Defina uma senha com pelo menos 10 caracteres para "
+                            "Defina uma senha com pelo menos 8 caracteres para "
                             + conta.getKey() + ".");
                 }
+            }
+            String email = emails.get(conta.getKey());
+            if (email != null && !ValidacaoDadosMoçambique.emailValido(email)) {
+                throw new IllegalArgumentException("O email da conta " + conta.getKey()
+                        + " não é válido.");
+            }
+            model.Utilizador existente = utilizadorDAO.buscarPorUsername(conta.getKey()).orElse(null);
+            if ((existente == null || !ValidacaoDadosMoçambique.emailValido(existente.getEmail()))
+                    && !ValidacaoDadosMoçambique.emailValido(email)) {
+                throw new IllegalArgumentException("Defina um email válido para a conta "
+                        + conta.getKey() + ".");
             }
         }
         for (Map.Entry<String, NivelAcesso> conta : contasPrincipais().entrySet()) {
@@ -97,10 +116,14 @@ public final class SistemaInicializacaoService {
                         novo.setNome(nomeUtilizador(conta.getValue()));
                         novo.setUsername(conta.getKey());
                         novo.setSenhaHash(Util.PasswordUtil.gerarHash(senhas.get(conta.getKey())));
+                        novo.setEmail(emails.get(conta.getKey()).trim());
                         novo.setPerfil(perfil);
                         novo.setAtivo(true);
                         return novo;
                     });
+            if (emails.containsKey(conta.getKey())) {
+                utilizador.setEmail(emails.get(conta.getKey()).trim());
+            }
             utilizador.setPerfil(perfil);
             utilizadorService.guardarContaPrincipal(utilizador, conta.getValue());
         }

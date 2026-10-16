@@ -98,8 +98,20 @@ public class PensionistaService {
             throw new IllegalArgumentException("Selecione o sexo e o estado civil.");
         }
         if (pensionista.getEmail() != null && !pensionista.getEmail().isBlank()
-                && !pensionista.getEmail().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+                && !ValidacaoDadosMoçambique.emailValido(pensionista.getEmail())) {
             throw new IllegalArgumentException("O email do pensionista não é válido.");
+        }
+        String bi = ValidacaoDadosMoçambique.normalizarDocumento(pensionista.getNumeroBI());
+        if (!ValidacaoDadosMoçambique.biValido(bi)) {
+            throw new IllegalArgumentException("O BI deve conter 12 algarismos.");
+        }
+        pensionista.setNumeroBI(bi);
+        if (pensionista.getNuit() != null && !pensionista.getNuit().isBlank()) {
+            String nuit = ValidacaoDadosMoçambique.normalizarDocumento(pensionista.getNuit());
+            if (!ValidacaoDadosMoçambique.nuitValido(nuit)) {
+                throw new IllegalArgumentException("O NUIT deve conter 9 algarismos.");
+            }
+            pensionista.setNuit(nuit);
         }
         if (pensionista.getDataAposentadoria() != null
                 && pensionista.getDataAposentadoria().isBefore(pensionista.getDataNascimento())) {

@@ -121,8 +121,20 @@ public class BeneficiarioService {
             throw new IllegalArgumentException("Selecione o sexo e o estado civil.");
         }
         if (beneficiario.getEmail() != null && !beneficiario.getEmail().isBlank()
-                && !beneficiario.getEmail().matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+                && !ValidacaoDadosMoçambique.emailValido(beneficiario.getEmail())) {
             throw new IllegalArgumentException("O email do beneficiário não é válido.");
+        }
+        String bi = ValidacaoDadosMoçambique.normalizarDocumento(beneficiario.getNumeroBI());
+        if (!ValidacaoDadosMoçambique.biValido(bi)) {
+            throw new IllegalArgumentException("O BI deve conter 12 algarismos.");
+        }
+        beneficiario.setNumeroBI(bi);
+        if (beneficiario.getNuit() != null && !beneficiario.getNuit().isBlank()) {
+            String nuit = ValidacaoDadosMoçambique.normalizarDocumento(beneficiario.getNuit());
+            if (!ValidacaoDadosMoçambique.nuitValido(nuit)) {
+                throw new IllegalArgumentException("O NUIT deve conter 9 algarismos.");
+            }
+            beneficiario.setNuit(nuit);
         }
         String telefone = beneficiario.getTelefone().replaceAll("[\\s()-]", "");
         if (!telefone.matches("\\+?\\d{7,15}")) {

@@ -2519,8 +2519,11 @@ public class telaPricipal extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        AppLauncher.main(args);
+        java.awt.EventQueue.invokeLater(() -> {
+            telaPricipal janela = new telaPricipal();
+            janela.setLocationRelativeTo(null);
+            janela.setVisible(true);
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2758,6 +2761,4 @@ public class telaPricipal extends javax.swing.JFrame {
     private javax.swing.JPanel pensao;
     private javax.swing.JPanel pensaoAposentadoria;
     private javax.swing.JPanel pensaoVelhice;
-    // End of variables declaration//GEN-END:variables
-
 }
