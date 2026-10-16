@@ -35,6 +35,7 @@ public final class AppLauncher {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             LOGGER.log(Level.WARNING, "Não foi possível aplicar o tema Nimbus.", ex);
         }
+        UiTheme.configureDialogs();
         java.awt.EventQueue.invokeLater(AppLauncher::iniciar);
     }
 
@@ -74,6 +75,7 @@ public final class AppLauncher {
         formulario.add(senha);
         formulario.add(new JLabel("Confirmar senha:"));
         formulario.add(confirmacao);
+        UiTheme.apply(formulario);
 
         while (true) {
             int resultado = JOptionPane.showConfirmDialog(null, formulario,
@@ -111,6 +113,7 @@ public final class AppLauncher {
         formulario.add(username);
         formulario.add(new JLabel("Senha:"));
         formulario.add(senha);
+        UiTheme.apply(formulario);
         while (true) {
             int resultado = JOptionPane.showConfirmDialog(null, formulario,
                     "Gestão de Pensões — iniciar sessão",

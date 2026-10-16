@@ -18,6 +18,7 @@ public class tela extends javax.swing.JFrame {
      */
     public tela() {
         initComponents();
+        UiTheme.apply(getContentPane());
     }
 
    

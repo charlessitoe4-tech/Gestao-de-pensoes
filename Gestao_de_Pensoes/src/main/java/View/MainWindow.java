@@ -165,6 +165,12 @@ public final class MainWindow extends javax.swing.JFrame {
         raiz.add(topo, BorderLayout.NORTH);
         raiz.add(navegacao, BorderLayout.WEST);
         raiz.add(conteudo, BorderLayout.CENTER);
+        UiTheme.apply(raiz);
+        UiTheme.styleTable(beneficiariosTable);
+        UiTheme.styleTable(pensionistasTable);
+        UiTheme.styleTable(pensoesTable);
+        UiTheme.styleTable(utilizadoresTable);
+        UiTheme.styleTable(relatoriosTable);
         setContentPane(raiz);
         mostrar(DASHBOARD);
     }

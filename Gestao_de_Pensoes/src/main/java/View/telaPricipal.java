@@ -26,6 +26,7 @@ public class telaPricipal extends javax.swing.JFrame {
      */
     public telaPricipal() {
         initComponents();
+        UiTheme.apply(getContentPane());
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

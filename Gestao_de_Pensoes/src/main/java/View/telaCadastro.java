@@ -23,6 +23,7 @@ public class telaCadastro extends javax.swing.JFrame {
      */
     public telaCadastro() {
         initComponents();
+        UiTheme.apply(getContentPane());
     }
 
 
