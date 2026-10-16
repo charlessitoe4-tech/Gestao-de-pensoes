@@ -1,6 +1,8 @@
 package service;
 
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import dao.PerfilDAO;
 import dao.UtilizadorDAO;
@@ -55,14 +57,61 @@ public final class SistemaInicializacaoService {
         return utilizadorDAO.listarTodos().isEmpty();
     }
 
-    public model.Utilizador criarAdministradorInicial(String nome, String username,
-            String email, String senha) {
-        if (!necessitaAdministradorInicial()) {
-            throw new IllegalStateException("O administrador inicial já foi criado.");
+    public Map<String, NivelAcesso> contasPrincipaisEmFalta() {
+        Map<String, NivelAcesso> emFalta = new LinkedHashMap<>();
+        for (Map.Entry<String, NivelAcesso> conta : contasPrincipais().entrySet()) {
+            if (utilizadorDAO.buscarPorUsername(conta.getKey()).isEmpty()) {
+                emFalta.put(conta.getKey(), conta.getValue());
+            }
         }
-        Perfil perfil = perfilDAO.buscarPorNome(nomePerfil(NivelAcesso.ADMINISTRADOR))
-                .orElseThrow(() -> new IllegalStateException("O perfil de administrador não existe."));
-        return utilizadorService.registar(nome, username, email, senha, perfil);
+        return Map.copyOf(emFalta);
+    }
+
+    /**
+     * Garante os três utilizadores principais. As senhas das contas em falta
+     * são definidas no primeiro arranque e nunca ficam guardadas em código.
+     */
+    public void assegurarContasPrincipais(Map<String, String> senhas) {
+        Objects.requireNonNull(senhas, "As senhas iniciais são obrigatórias.");
+        for (Map.Entry<String, NivelAcesso> conta : contasPrincipais().entrySet()) {
+            Perfil perfil = perfilDAO.buscarPorNome(nomePerfil(conta.getValue()))
+                    .orElseThrow(() -> new IllegalStateException(
+                            "O perfil " + nomePerfil(conta.getValue()) + " não existe."));
+            model.Utilizador utilizador = utilizadorDAO.buscarPorUsername(conta.getKey())
+                    .orElseGet(() -> {
+                        String senha = senhas.get(conta.getKey());
+                        if (senha == null || senha.length() < 10) {
+                            throw new IllegalArgumentException(
+                                    "Defina uma senha com pelo menos 10 caracteres para "
+                                    + conta.getKey() + ".");
+                        }
+                        model.Utilizador novo = new model.Utilizador();
+                        novo.setNome(nomeUtilizador(conta.getValue()));
+                        novo.setUsername(conta.getKey());
+                        novo.setSenhaHash(Util.PasswordUtil.gerarHash(senha));
+                        novo.setPerfil(perfil);
+                        novo.setAtivo(true);
+                        return novo;
+                    });
+            utilizador.setPerfil(perfil);
+            utilizadorService.guardarContaPrincipal(utilizador, conta.getValue());
+        }
+    }
+
+    private Map<String, NivelAcesso> contasPrincipais() {
+        Map<String, NivelAcesso> contas = new LinkedHashMap<>();
+        contas.put("admin", NivelAcesso.ADMINISTRADOR);
+        contas.put("gestor", NivelAcesso.GESTOR);
+        contas.put("operador", NivelAcesso.OPERADOR);
+        return contas;
+    }
+
+    private String nomeUtilizador(NivelAcesso nivel) {
+        return switch (nivel) {
+            case ADMINISTRADOR -> "Administrador Principal";
+            case GESTOR -> "Gestor Principal";
+            case OPERADOR -> "Operador Principal";
+        };
     }
 
     private String nomePerfil(NivelAcesso nivel) {
