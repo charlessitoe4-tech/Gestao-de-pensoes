@@ -92,6 +92,9 @@ public class UtilizadorService {
         if (!perfilPrincipal(username, perfilEsperado)) {
             throw new IllegalArgumentException("O username e o perfil principal não correspondem.");
         }
+        if (nivel(utilizador) != perfilEsperado) {
+            throw new IllegalArgumentException("O perfil da conta principal é inválido.");
+        }
         utilizador.setUsername(username);
         utilizador.setAtivo(true);
         utilizador.setContaProtegida(true);

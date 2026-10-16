@@ -2,6 +2,8 @@ package View;
 
 import java.awt.GridLayout;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,8 +45,8 @@ public final class AppLauncher {
         try {
             SistemaInicializacaoService inicializacao = new SistemaInicializacaoService();
             inicializacao.assegurarPerfis();
-            if (inicializacao.necessitaAdministradorInicial()
-                    && !criarAdministrador(inicializacao)) {
+            if (!inicializacao.contasPrincipaisEmFalta().isEmpty()
+                    && !configurarContasPrincipais(inicializacao)) {
                 HibernateUtil.encerrar();
                 return;
             }
@@ -58,49 +60,53 @@ public final class AppLauncher {
         }
     }
 
-    private static boolean criarAdministrador(SistemaInicializacaoService inicializacao) {
-        JTextField nome = new JTextField(22);
-        JTextField username = new JTextField(22);
-        JTextField email = new JTextField(22);
-        JPasswordField senha = new JPasswordField(22);
-        JPasswordField confirmacao = new JPasswordField(22);
-        JPanel formulario = new JPanel(new GridLayout(0, 2, 8, 8));
-        formulario.add(new JLabel("Nome completo:"));
-        formulario.add(nome);
-        formulario.add(new JLabel("Nome de utilizador:"));
-        formulario.add(username);
-        formulario.add(new JLabel("Email (opcional):"));
-        formulario.add(email);
-        formulario.add(new JLabel("Senha (mínimo 10 caracteres):"));
-        formulario.add(senha);
-        formulario.add(new JLabel("Confirmar senha:"));
-        formulario.add(confirmacao);
+    private static boolean configurarContasPrincipais(
+            SistemaInicializacaoService inicializacao) {
+        Map<String, String> senhas = new LinkedHashMap<>();
+        for (Map.Entry<String, model.enums.NivelAcesso> conta
+                : inicializacao.contasPrincipaisEmFalta().entrySet()) {
+            JPasswordField senha = new JPasswordField(22);
+            JPasswordField confirmacao = new JPasswordField(22);
+            JPanel formulario = new JPanel(new GridLayout(0, 2, 8, 8));
+            formulario.add(new JLabel("Conta principal:"));
+            formulario.add(new JLabel(conta.getKey() + " — " + conta.getValue()));
+            formulario.add(new JLabel("Senha (mínimo 10 caracteres):"));
+            formulario.add(senha);
+            formulario.add(new JLabel("Confirmar senha:"));
+            formulario.add(confirmacao);
 
-        while (true) {
-            int resultado = JOptionPane.showConfirmDialog(null, formulario,
-                    "Primeira utilização — criar administrador",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            if (resultado != JOptionPane.OK_OPTION) {
-                return false;
-            }
-            char[] primeira = senha.getPassword();
-            char[] segunda = confirmacao.getPassword();
-            try {
-                if (!Arrays.equals(primeira, segunda)) {
-                    throw new IllegalArgumentException("As senhas não coincidem.");
+            while (true) {
+                int resultado = JOptionPane.showConfirmDialog(null, formulario,
+                        "Configurar conta principal",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (resultado != JOptionPane.OK_OPTION) {
+                    return false;
                 }
-                inicializacao.criarAdministradorInicial(nome.getText(), username.getText(),
-                        email.getText(), new String(primeira));
-                return true;
-            } catch (RuntimeException ex) {
-                mostrarErro(ex);
-            } finally {
-                Arrays.fill(primeira, '\0');
-                Arrays.fill(segunda, '\0');
-                senha.setText("");
-                confirmacao.setText("");
+                char[] primeira = senha.getPassword();
+                char[] segunda = confirmacao.getPassword();
+                try {
+                    if (primeira.length < 10) {
+                        throw new IllegalArgumentException(
+                                "A senha deve ter pelo menos 10 caracteres.");
+                    }
+                    if (!Arrays.equals(primeira, segunda)) {
+                        throw new IllegalArgumentException("As senhas não coincidem.");
+                    }
+                    senhas.put(conta.getKey(), new String(primeira));
+                    break;
+                } catch (RuntimeException ex) {
+                    mostrarErro(ex);
+                } finally {
+                    Arrays.fill(primeira, '\0');
+                    Arrays.fill(segunda, '\0');
+                    senha.setText("");
+                    confirmacao.setText("");
+                }
             }
         }
+        inicializacao.assegurarContasPrincipais(senhas);
+        senhas.clear();
+        return true;
     }
 
     private static void autenticar() {
