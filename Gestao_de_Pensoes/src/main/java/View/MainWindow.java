@@ -102,7 +102,7 @@ public final class MainWindow extends javax.swing.JFrame {
     private final JComboBox<Object> filtroTipo = new JComboBox<>();
     private final JComboBox<Object> filtroEstado = new JComboBox<>();
     private final DefaultTableModel utilizadoresModel = modelo(
-            "ID", "Nome", "Username", "Perfil", "Ativo");
+            "ID", "Nome", "Username", "Perfil", "Ativo", "Conta protegida");
     private final JTable utilizadoresTable = new JTable(utilizadoresModel);
     private final DefaultTableModel relatoriosModel = modelo(
             "ID", "Título", "Tipo", "Gerado em", "Ficheiro");
@@ -697,7 +697,9 @@ public final class MainWindow extends javax.swing.JFrame {
     private JPanel criarPainelUtilizadores() {
         JPanel painel = new JPanel(new BorderLayout(10, 10));
         painel.setBorder(BorderFactory.createEmptyBorder(20, 22, 20, 22));
-        painel.add(titulo("Utilizadores", "Apenas administradores podem criar e ativar contas."), BorderLayout.NORTH);
+        painel.add(titulo("Utilizadores",
+                "Apenas administradores podem criar e ativar contas; as contas principais estão protegidas."),
+                BorderLayout.NORTH);
         painel.add(new JScrollPane(utilizadoresTable), BorderLayout.CENTER);
         JPanel acoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
         adicionarBotao(acoes, "Novo utilizador", true, this::criarUtilizador);
@@ -714,7 +716,8 @@ public final class MainWindow extends javax.swing.JFrame {
         preencher(utilizadoresModel, utilizadores.listar().stream()
                 .map(u -> new Object[]{u.getId(), u.getNome(), u.getUsername(),
                     u.getPerfil() == null ? "" : u.getPerfil().getNome(),
-                    u.isAtivo() ? "Sim" : "Não"})
+                    u.isAtivo() ? "Sim" : "Não",
+                    u.isContaProtegida() ? "Sim" : "Não"})
                 .toList());
         ordenar(utilizadoresTable);
     }
@@ -756,6 +759,10 @@ public final class MainWindow extends javax.swing.JFrame {
         executar(() -> {
             Utilizador alvo = utilizadores.buscarPorId(id)
                     .orElseThrow(() -> new IllegalStateException("Utilizador não encontrado."));
+            if (alvo.isContaProtegida()) {
+                throw new IllegalStateException(
+                        "As contas principais do sistema não podem ser desativadas.");
+            }
             if (Objects.equals(alvo.getId(), utilizador.getId()) && alvo.isAtivo()) {
                 throw new IllegalArgumentException("Não pode desativar a sua própria conta.");
             }
