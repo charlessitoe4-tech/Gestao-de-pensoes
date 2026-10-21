@@ -57,6 +57,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         configurarAplicacao();
         configurarAnimacoesBotoes();
         aplicarNivelAcesso();
+        navegarPara("card9");
     }
 
     /**
@@ -393,11 +394,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         cabesalho.setLayout(cabesalhoLayout);
         cabesalhoLayout.setHorizontalGroup(
             cabesalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2154, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         cabesalhoLayout.setVerticalGroup(
             cabesalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 128, Short.MAX_VALUE)
+            .addGap(0, 64, Short.MAX_VALUE)
         );
 
         getContentPane().add(cabesalho, java.awt.BorderLayout.PAGE_START);
@@ -486,7 +487,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenuLayout.setVerticalGroup(
             MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuLayout.createSequentialGroup()
-                .addGap(105, 105, 105)
+                .addGap(24, 24, 24)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(beneficios, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -502,7 +503,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(673, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         getContentPane().add(Menu, java.awt.BorderLayout.LINE_START);
@@ -1628,7 +1629,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        centro.add(jPanel1, "card2");
+        adicionarCartaoRolavel(jPanel1, "card2");
 
         beneficio.setBackground(new java.awt.Color(255, 255, 255));
         beneficio.setPreferredSize(new java.awt.Dimension(1900, 903));
@@ -1927,7 +1928,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        centro.add(beneficio, "card3");
+        adicionarCartaoRolavel(beneficio, "card3");
 
         pensao.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2270,7 +2271,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(244, Short.MAX_VALUE))
         );
 
-        centro.add(pensao, "card4");
+        adicionarCartaoRolavel(pensao, "card4");
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2457,7 +2458,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(214, Short.MAX_VALUE))
         );
 
-        centro.add(relatorio, "card5");
+        adicionarCartaoRolavel(relatorio, "card5");
 
         documentos.setBackground(new java.awt.Color(255, 255, 255));
         documentos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2727,7 +2728,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         documentos.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, 1050, 460));
 
-        centro.add(documentos, "card6");
+        adicionarCartaoRolavel(documentos, "card6");
 
         jPanel53.setBackground(new java.awt.Color(255, 255, 255));
         jPanel53.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 255, 204), 1, true));
@@ -3165,7 +3166,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(313, Short.MAX_VALUE))
         );
 
-        centro.add(pagamento, "card7");
+        adicionarCartaoRolavel(pagamento, "card7");
 
         jPanel65.setBackground(new java.awt.Color(255, 255, 255));
         jPanel65.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 255, 204), 1, true));
@@ -3295,7 +3296,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(209, Short.MAX_VALUE))
         );
 
-        centro.add(usuario, "card8");
+        adicionarCartaoRolavel(usuario, "card8");
 
         jPanel66.setBackground(new java.awt.Color(0, 102, 0));
         jPanel66.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 255, 204)));
@@ -3427,12 +3428,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(535, Short.MAX_VALUE))
         );
 
-        centro.add(inicio, "card9");
+        adicionarCartaoRolavel(inicio, "card9");
 
         getContentPane().add(centro, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void adicionarCartaoRolavel(javax.swing.JPanel cartao, String nome) {
+        javax.swing.JScrollPane areaRolavel = new javax.swing.JScrollPane(
+            cartao,
+            javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+        areaRolavel.setBorder(null);
+        areaRolavel.getViewport().setBackground(cartao.getBackground());
+        areaRolavel.setWheelScrollingEnabled(true);
+        centro.add(areaRolavel, nome);
+    }
+
     private void beneficiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beneficiosActionPerformed
         // TODO add your handling code here:
         CardLayout cl = (CardLayout) centro.getLayout();
