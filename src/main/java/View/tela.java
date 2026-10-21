@@ -239,7 +239,7 @@ public class tela extends javax.swing.JFrame {
                 javax.swing.JOptionPane.showMessageDialog(this, "A conta não tem um dos três níveis de acesso autorizados (Administrador, Gestor ou Operador).", "Acesso negado", javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            telaPricipal principal = new telaPricipal(nivel);
+            TelaPrincipal principal = new TelaPrincipal(nivel);
             principal.setVisible(true);
             dispose();
         } catch (Exception ex) {
