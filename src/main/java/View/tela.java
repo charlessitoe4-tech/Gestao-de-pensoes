@@ -19,6 +19,7 @@ public class tela extends javax.swing.JFrame {
      * Creates new form tela
      */
     public tela() {
+        setContentPane(new PainelFundo());
         initComponents();
         configurarAnimacoesBotoes();
         try {
@@ -27,6 +28,51 @@ public class tela extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Não foi possível preparar as contas predefinidas. Verifique a base de dados.\n" + ex.getMessage(),
                     "Aviso de inicialização", javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private static final class PainelFundo extends javax.swing.JPanel {
+
+        private static final long serialVersionUID = 1L;
+        private final java.awt.image.BufferedImage imagem;
+
+        private PainelFundo() {
+            java.net.URL recurso = tela.class.getResource(
+                    "/View/dwayne-joe-scq7k8KRKg0-unsplash.jpg");
+            if (recurso == null) {
+                throw new IllegalStateException("Não foi encontrada a imagem de fundo da tela de login.");
+            }
+            try {
+                imagem = javax.imageio.ImageIO.read(recurso);
+            } catch (java.io.IOException ex) {
+                throw new IllegalStateException("Não foi possível carregar a imagem de fundo da tela de login.", ex);
+            }
+            if (imagem == null) {
+                throw new IllegalStateException("O ficheiro da imagem de fundo não é uma imagem suportada.");
+            }
+        }
+
+        @Override
+        protected void paintComponent(java.awt.Graphics grafico) {
+            super.paintComponent(grafico);
+            if (getWidth() <= 0 || getHeight() <= 0) {
+                return;
+            }
+
+            double escala = Math.max(
+                    (double) getWidth() / imagem.getWidth(),
+                    (double) getHeight() / imagem.getHeight());
+            int largura = (int) Math.ceil(imagem.getWidth() * escala);
+            int altura = (int) Math.ceil(imagem.getHeight() * escala);
+            int x = (getWidth() - largura) / 2;
+            int y = (getHeight() - altura) / 2;
+
+            java.awt.Graphics2D graficoImagem = (java.awt.Graphics2D) grafico.create();
+            graficoImagem.setRenderingHint(
+                    java.awt.RenderingHints.KEY_INTERPOLATION,
+                    java.awt.RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            graficoImagem.drawImage(imagem, x, y, largura, altura, null);
+            graficoImagem.dispose();
         }
     }
 
@@ -184,8 +230,7 @@ public class tela extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/tela login.png"))); // NOI18N
-        jLabel5.setText("jLabel5");
+        jLabel5.setText("");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
