@@ -1,0 +1,80 @@
+package model;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "historicos")
+/**
+ * Representa Historico, componente do sistema de gestão de pensões.
+ * Mantém a responsabilidade definida pela camada/pacote em que está organizado.
+ */
+public class Historico {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String entidade;
+
+    @Column(name = "entidade_id")
+    private Long entidadeId;
+
+    private String acao;
+    private String descricao;
+
+    @Column(name = "data_hora", nullable = false)
+    private LocalDateTime dataHora;
+
+    @Column(name = "utilizador_id")
+    private Long utilizadorId;
+
+    @Column(name = "ip_origem")
+    private String ipOrigem;
+
+    public Historico() {
+    }
+
+    public Historico(Long id, String entidade, Long entidadeId, String acao,
+                     String descricao, LocalDateTime dataHora,
+                     Long utilizadorId, String ipOrigem) {
+        this.id = id;
+        this.entidade = entidade;
+        this.entidadeId = entidadeId;
+        this.acao = acao;
+        this.descricao = descricao;
+        this.dataHora = dataHora;
+        this.utilizadorId = utilizadorId;
+        this.ipOrigem = ipOrigem;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getEntidade() { return entidade; }
+    public void setEntidade(String entidade) { this.entidade = entidade; }
+
+    public Long getEntidadeId() { return entidadeId; }
+    public void setEntidadeId(Long entidadeId) { this.entidadeId = entidadeId; }
+
+    public String getAcao() { return acao; }
+    public void setAcao(String acao) { this.acao = acao; }
+
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public LocalDateTime getDataHora() { return dataHora; }
+    public void setDataHora(LocalDateTime dataHora) { this.dataHora = dataHora; }
+
+    public Long getUtilizadorId() { return utilizadorId; }
+    public void setUtilizadorId(Long utilizadorId) { this.utilizadorId = utilizadorId; }
+
+    public String getIpOrigem() { return ipOrigem; }
+    public void setIpOrigem(String ipOrigem) { this.ipOrigem = ipOrigem; }
+}
