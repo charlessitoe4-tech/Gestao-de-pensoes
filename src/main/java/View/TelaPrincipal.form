@@ -246,7 +246,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="relatorio"/>
+            <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton21ActionPerformed"/>
@@ -1018,7 +1018,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Anos de cotribuicao"/>
+                            <Property name="text" type="java.lang.String" value="Anos de contribui&#xe7;&#xe3;o"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField28">
@@ -1174,7 +1174,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Endereco"/>
+                            <Property name="text" type="java.lang.String" value="Endere&#xe7;o"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField30">
@@ -1839,7 +1839,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Anos de cotribuicao"/>
+                            <Property name="text" type="java.lang.String" value="Anos de contribui&#xe7;&#xe3;o"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField47">
@@ -5853,7 +5853,7 @@
                         <Column editable="true" title="nome" type="java.lang.Object"/>
                         <Column editable="true" title="E-mail" type="java.lang.Object"/>
                         <Column editable="true" title="telefone" type="java.lang.Object"/>
-                        <Column editable="true" title="Status" type="java.lang.Object"/>
+                        <Column editable="true" title="Estado" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

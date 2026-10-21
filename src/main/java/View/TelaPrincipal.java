@@ -815,7 +815,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel47.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel47.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel47.setText("Anos de cotribuicao");
+        jLabel47.setText("Anos de contribuição");
 
         jLabel48.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel48.setForeground(new java.awt.Color(0, 102, 0));
@@ -1224,7 +1224,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel75.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel75.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel75.setText("Anos de cotribuicao");
+        jLabel75.setText("Anos de contribuição");
 
         jLabel76.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel76.setForeground(new java.awt.Color(0, 102, 0));
@@ -3267,7 +3267,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "nome", "E-mail", "telefone", "Status"
+                "Nome", "E-mail", "Telefone", "Estado"
             }
         ));
         jScrollPane6.setViewportView(jTable5);
@@ -4113,7 +4113,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
             }
             if (requerente == null) {
-                throw new IllegalArgumentException("O requerente ainda não está registado. Registe-o primeiro no menu Beneficios (BI " + biRequerente + ").");
+                throw new IllegalArgumentException("O requerente ainda não está registado. Registe-o primeiro no menu Benefícios (BI " + biRequerente + ").");
             }
             if (falecidoId.equals(requerente.getId())) {
                 throw new IllegalArgumentException("O requerente não pode ser a mesma pessoa que o falecido.");
