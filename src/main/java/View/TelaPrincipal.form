@@ -1572,7 +1572,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Data de nacimeto"/>
+                            <Property name="text" type="java.lang.String" value="Data de nascimento"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField38">
@@ -1601,7 +1601,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Ultima proficao"/>
+                            <Property name="text" type="java.lang.String" value="&#xda;ltima profiss&#xe3;o"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField40">
@@ -1614,7 +1614,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Endereco"/>
+                            <Property name="text" type="java.lang.String" value="Endere&#xe7;o"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField41">
@@ -1627,7 +1627,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Numero do beneficiario"/>
+                            <Property name="text" type="java.lang.String" value="N&#xfa;mero do benefici&#xe1;rio"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField42">
@@ -1868,7 +1868,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Situacao"/>
+                            <Property name="text" type="java.lang.String" value="Situa&#xe7;&#xe3;o"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="jComboBox19">
@@ -2094,7 +2094,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Numero de beneficiaris"/>
+                            <Property name="text" type="java.lang.String" value="N&#xfa;mero de benefici&#xe1;rios"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField51">
@@ -2126,7 +2126,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="0" green="66" red="0" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Data de nacimento"/>
+                            <Property name="text" type="java.lang.String" value="Data de nascimento"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jTextField53">
@@ -2256,12 +2256,12 @@
                                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
-                                <Property name="text" type="java.lang.String" value="selecionar ficheiro"/>
+                                <Property name="text" type="java.lang.String" value="Selecionar ficheiro"/>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel87">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="cartao de beneficiario"/>
+                                <Property name="text" type="java.lang.String" value="Cart&#xe3;o de benefici&#xe1;rio"/>
                               </Properties>
                             </Component>
                           </SubComponents>
@@ -2304,7 +2304,7 @@
                                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
-                                <Property name="text" type="java.lang.String" value="selecionar ficheiro"/>
+                                <Property name="text" type="java.lang.String" value="Selecionar ficheiro"/>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel88">
@@ -2355,7 +2355,7 @@
                                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
-                                <Property name="text" type="java.lang.String" value="selecionar ficheiro"/>
+                                <Property name="text" type="java.lang.String" value="Selecionar ficheiro"/>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel89">
@@ -2406,7 +2406,7 @@
                                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
-                                <Property name="text" type="java.lang.String" value="selecionar ficheiro"/>
+                                <Property name="text" type="java.lang.String" value="Selecionar ficheiro"/>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel86">
@@ -2493,7 +2493,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="33" green="66" red="0" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="cadastro de beneficios"/>
+                    <Property name="text" type="java.lang.String" value="Registo de benef&#xed;cios"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -2544,7 +2544,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="atualisar"/>
+                    <Property name="text" type="java.lang.String" value="Atualizar"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
@@ -2798,7 +2798,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Data de nascimeto"/>
+                        <Property name="text" type="java.lang.String" value="Data de nascimento"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextField3">
@@ -2811,7 +2811,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="sexo"/>
+                        <Property name="text" type="java.lang.String" value="Sexo"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel10">
@@ -2819,7 +2819,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="estado civil"/>
+                        <Property name="text" type="java.lang.String" value="Estado civil"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel11">
@@ -2827,7 +2827,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="nacionalidade"/>
+                        <Property name="text" type="java.lang.String" value="Nacionalidade"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel12">
@@ -2835,7 +2835,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="telefone"/>
+                        <Property name="text" type="java.lang.String" value="Telefone"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel13">
@@ -2843,7 +2843,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Email"/>
+                        <Property name="text" type="java.lang.String" value="E-mail"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel14">
@@ -2934,7 +2934,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel23">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Data de inscricao"/>
+                        <Property name="text" type="java.lang.String" value="Data de inscri&#xe7;&#xe3;o"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextField11">
