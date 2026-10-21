@@ -565,7 +565,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel44.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel44.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel44.setText("idade");
+        jLabel44.setText("Idade");
 
         jLabel45.setBackground(new java.awt.Color(0, 102, 0));
         jLabel45.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1096,7 +1096,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel70.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel70.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel70.setText("idade");
+        jLabel70.setText("Idade");
 
         jLabel71.setBackground(new java.awt.Color(0, 102, 0));
         jLabel71.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1935,19 +1935,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 255, 204), 1, true));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel16.setText("Analise dos processos de pensāo");
+        jLabel16.setText("Análise dos processos de pensão");
 
         jLabel17.setText("Gerir os tipos de pensão e benefícios");
 
         jPanel12.setBackground(new java.awt.Color(232, 245, 233));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel18.setText("tipo de pensao");
+        jLabel18.setText("Tipo de pensão");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o tipo de pensāo", "Velhice", "Morte", " " }));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel19.setText("beneficiário");
+        jLabel19.setText("Beneficiário");
 
         jButton2.setBackground(new java.awt.Color(0, 102, 51));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1960,10 +1960,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jComboBox20.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "selecione a situacāo", "Pendente", "Em análise", "Aprovado", "Rejeitado" }));
 
         jButton33.setBackground(new java.awt.Color(102, 255, 102));
-        jButton33.setText("aprovado");
+        jButton33.setText("Aprovado");
 
         jButton34.setBackground(new java.awt.Color(153, 255, 0));
-        jButton34.setText("reprovado");
+        jButton34.setText("Reprovado");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -2048,7 +2048,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("lista de pensōes");
+        jLabel4.setText("Lista de pensões");
 
         javax.swing.GroupLayout jPanel52Layout = new javax.swing.GroupLayout(jPanel52);
         jPanel52.setLayout(jPanel52Layout);
@@ -2147,7 +2147,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("dados do aposentado");
+        jLabel15.setText("Dados do aposentado");
 
         javax.swing.GroupLayout jPanel48Layout = new javax.swing.GroupLayout(jPanel48);
         jPanel48.setLayout(jPanel48Layout);
@@ -2283,12 +2283,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel64.setBackground(new java.awt.Color(232, 245, 233));
 
         jLabel101.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel101.setText("tipo de pensao");
+        jLabel101.setText("Tipo de pensão");
 
         jComboBox13.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione pensāo", "Morte", "Velhice", " " }));
 
         jLabel102.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel102.setText("beneficiário");
+        jLabel102.setText("Beneficiário");
 
         jButton25.setBackground(new java.awt.Color(0, 102, 51));
         jButton25.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -2299,13 +2299,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel103.setText("Estado");
 
         jButton28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton28.setText("gerar relatorio");
+        jButton28.setText("Gerar relatório");
         jButton28.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true));
 
         jButton30.setBackground(new java.awt.Color(0, 153, 0));
         jButton30.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton30.setForeground(new java.awt.Color(255, 255, 255));
-        jButton30.setText("exportar");
+        jButton30.setText("Exportar");
 
         jComboBox21.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "selecione a situacāo", "Pendente", "Em análise", "Aprovado", "Rejeitado" }));
 
@@ -2469,7 +2469,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel31.setText("Beneficiário");
 
-        jLabel32.setText("tipo de pensao");
+        jLabel32.setText("Tipo de pensão");
 
         jLabel33.setText("Estado do processo");
 
@@ -2674,7 +2674,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel36.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel36.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel36.setText("lista de documentos");
+        jLabel36.setText("Lista de documentos");
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
@@ -2734,7 +2734,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel2.setText("beneficiário");
+        jLabel2.setText("Beneficiário");
 
         jTextField13.addActionListener(this::jTextField13ActionPerformed);
 
@@ -3172,7 +3172,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel100.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel100.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel100.setText("beneficiário");
+        jLabel100.setText("Beneficiário");
 
         jTextField58.addActionListener(this::jTextField58ActionPerformed);
 
