@@ -22,9 +22,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author lpaul
  */
-public class telaPricipal extends javax.swing.JFrame {
+public class TelaPrincipal extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(telaPricipal.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaPrincipal.class.getName());
     private final BeneficiarioController beneficiarioController = new BeneficiarioController();
     private final PensaoController pensaoController = new PensaoController();
     private final controller.DocumentoController documentoController = new controller.DocumentoController();
@@ -37,11 +37,11 @@ public class telaPricipal extends javax.swing.JFrame {
     private final NivelAcesso nivelAcesso;
 
     /**
-     * Creates new form telaPricipal
+     * Cria uma nova janela principal.
      */
-    public telaPricipal() { this(NivelAcesso.OPERADOR); }
+    public TelaPrincipal() { this(NivelAcesso.OPERADOR); }
 
-    public telaPricipal(NivelAcesso nivelAcesso) {
+    public TelaPrincipal(NivelAcesso nivelAcesso) {
         this.nivelAcesso = nivelAcesso == null ? NivelAcesso.OPERADOR : nivelAcesso;
         initComponents();
 
@@ -419,27 +419,27 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(0, 102, 0));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("inicio");
+        jButton1.setText("Início");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
         beneficios.setBackground(new java.awt.Color(0, 102, 0));
         beneficios.setForeground(new java.awt.Color(255, 255, 255));
-        beneficios.setText("Beneficios");
+        beneficios.setText("Benefícios");
         beneficios.addActionListener(this::beneficiosActionPerformed);
 
         btnPensao.setBackground(new java.awt.Color(0, 102, 0));
         btnPensao.setForeground(new java.awt.Color(255, 255, 255));
-        btnPensao.setText("analise");
+        btnPensao.setText("Análise");
         btnPensao.addActionListener(this::btnPensaoActionPerformed);
 
         jButton4.setBackground(new java.awt.Color(0, 102, 0));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("pagamentos");
+        jButton4.setText("Pagamentos");
         jButton4.addActionListener(this::jButton4ActionPerformed);
 
         jButton5.setBackground(new java.awt.Color(0, 102, 0));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("usuarios");
+        jButton5.setText("Utilizadores");
         jButton5.addActionListener(this::jButton5ActionPerformed);
 
         documento.setBackground(new java.awt.Color(0, 102, 0));
@@ -451,12 +451,12 @@ public class telaPricipal extends javax.swing.JFrame {
         Paposentadoria.setBackground(new java.awt.Color(0, 102, 0));
         Paposentadoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Paposentadoria.setForeground(new java.awt.Color(255, 255, 255));
-        Paposentadoria.setText("Pensāo");
+        Paposentadoria.setText("Pensão");
         Paposentadoria.addActionListener(this::PaposentadoriaActionPerformed);
 
         jButton21.setBackground(new java.awt.Color(0, 102, 0));
         jButton21.setForeground(new java.awt.Color(255, 255, 255));
-        jButton21.setText("relatorio");
+        jButton21.setText("Relatório");
         jButton21.addActionListener(this::jButton21ActionPerformed);
 
         javax.swing.GroupLayout MenuLayout = new javax.swing.GroupLayout(Menu);
@@ -543,7 +543,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel38.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel38.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel38.setText("Data de nacimeto");
+        jLabel38.setText("Data de nascimento");
 
         jTextField18.addActionListener(this::jTextField18ActionPerformed);
 
@@ -553,15 +553,15 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel40.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel40.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel40.setText("Ultima proficao");
+        jLabel40.setText("Última profissão");
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel41.setText("Endereco");
+        jLabel41.setText("Endereço");
 
         jLabel43.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel43.setText("Numero do beneficiario");
+        jLabel43.setText("Número do beneficiário");
 
         jLabel44.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel44.setForeground(new java.awt.Color(0, 102, 0));
@@ -660,7 +660,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel56.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel56.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel56.setText("documentos");
+        jLabel56.setText("Documentos");
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
@@ -682,7 +682,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jButton14.setBackground(new java.awt.Color(0, 102, 0));
         jButton14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton14.setForeground(new java.awt.Color(255, 255, 255));
-        jButton14.setText("selecionar BI");
+        jButton14.setText("Selecionar BI");
 
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
@@ -704,7 +704,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jButton15.setBackground(new java.awt.Color(0, 102, 0));
         jButton15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton15.setForeground(new java.awt.Color(255, 255, 255));
-        jButton15.setText("selecionar cartao de beneficiario");
+        jButton15.setText("Selecionar cartão de beneficiário");
 
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
@@ -726,7 +726,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jButton16.setBackground(new java.awt.Color(0, 102, 0));
         jButton16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton16.setForeground(new java.awt.Color(255, 255, 255));
-        jButton16.setText("selecionar comprovativo de cotribuicao");
+        jButton16.setText("Selecionar comprovativo de contribuição");
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
@@ -748,7 +748,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(0, 102, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Salvar");
+        jButton3.setText("Guardar");
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
@@ -823,7 +823,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel52.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel52.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel52.setText("Situacao");
+        jLabel52.setText("Situação");
 
         jComboBox11.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "selecione a situacāo", "Pendente", "Em análise", "Aprovado", "Rejeitado" }));
 
@@ -887,7 +887,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel53.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel53.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel53.setText("Endereco");
+        jLabel53.setText("Endereço");
 
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
@@ -908,7 +908,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel49.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel49.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel49.setText("Endereco");
+        jLabel49.setText("Endereço");
 
         jLabel50.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel50.setForeground(new java.awt.Color(0, 102, 0));
@@ -916,7 +916,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel51.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel51.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel51.setText("provicia");
+        jLabel51.setText("Província");
 
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
@@ -1074,7 +1074,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel65.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel65.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel65.setText("Data de nacimeto");
+        jLabel65.setText("Data de nascimento");
 
         jTextField38.addActionListener(this::jTextField38ActionPerformed);
 
@@ -1084,15 +1084,15 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel67.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel67.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel67.setText("Ultima proficao");
+        jLabel67.setText("Última profissão");
 
         jLabel68.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel68.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel68.setText("Endereco");
+        jLabel68.setText("Endereço");
 
         jLabel69.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel69.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel69.setText("Numero do beneficiario");
+        jLabel69.setText("Número do beneficiário");
 
         jLabel70.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel70.setForeground(new java.awt.Color(0, 102, 0));
@@ -1234,7 +1234,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel77.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel77.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel77.setText("Situacao");
+        jLabel77.setText("Situação");
 
         jComboBox19.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "selecione a situacāo", "Pendente", "Em análise", "Aprovado", "Rejeitado" }));
 
@@ -1334,7 +1334,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jLabel81.setBackground(new java.awt.Color(0, 102, 0));
         jLabel81.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel81.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel81.setText("Numero de beneficiaris");
+        jLabel81.setText("Número de beneficiários");
 
         jLabel82.setBackground(new java.awt.Color(0, 102, 0));
         jLabel82.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1344,7 +1344,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jLabel84.setBackground(new java.awt.Color(0, 102, 0));
         jLabel84.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel84.setForeground(new java.awt.Color(0, 102, 0));
-        jLabel84.setText("Data de nacimento");
+        jLabel84.setText("Data de nascimento");
 
         jLabel85.setBackground(new java.awt.Color(0, 102, 0));
         jLabel85.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1354,7 +1354,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jButton17.setBackground(new java.awt.Color(0, 102, 0));
         jButton17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton17.setForeground(new java.awt.Color(255, 255, 255));
-        jButton17.setText("Salvar");
+        jButton17.setText("Guardar");
         jButton17.addActionListener(this::jButton17ActionPerformed);
 
         javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
@@ -1656,7 +1656,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jButton8.setBackground(new java.awt.Color(0, 102, 0));
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("atualisar");
+        jButton8.setText("Atualizar");
         jButton8.addActionListener(this::jButton8ActionPerformed);
         jPanel2.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 126, 38));
 
@@ -1703,7 +1703,7 @@ public class telaPricipal extends javax.swing.JFrame {
         jTextField2.addActionListener(this::jTextField2ActionPerformed);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("Data de nascimeto");
+        jLabel8.setText("Data de nascimento");
 
         jTextField3.addActionListener(this::jTextField3ActionPerformed);
 
@@ -2884,7 +2884,7 @@ public class telaPricipal extends javax.swing.JFrame {
 
         jLabel97.setBackground(new java.awt.Color(0, 153, 0));
         jLabel97.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel97.setText("Observacāo");
+        jLabel97.setText("Observação");
 
         jButton26.setBackground(new java.awt.Color(0, 153, 0));
         jButton26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -4331,7 +4331,7 @@ public class telaPricipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new telaPricipal().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new TelaPrincipal().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
