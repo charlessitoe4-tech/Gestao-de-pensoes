@@ -3257,12 +3257,12 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="18" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Analise dos processos de pens&#x101;o"/>
+                    <Property name="text" type="java.lang.String" value="An&#xe1;lise dos processos de pens&#xe3;o"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel17">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="gerecie os tipos de pens&#x101;o e beneficios"/>
+                    <Property name="text" type="java.lang.String" value="Gerir os tipos de pens&#xe3;o e benef&#xed;cios"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanel12">
@@ -3341,7 +3341,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="tipo de pensao"/>
+                        <Property name="text" type="java.lang.String" value="Tipo de pens&#xe3;o"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="jComboBox2">
@@ -3388,7 +3388,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Status"/>
+                        <Property name="text" type="java.lang.String" value="Estado"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="jComboBox20">
@@ -3499,7 +3499,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="lista de pens&#x14d;es"/>
+                        <Property name="text" type="java.lang.String" value="Lista de pens&#xf5;es"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -3663,7 +3663,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Documetos"/>
+                            <Property name="text" type="java.lang.String" value="Documentos"/>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -3931,7 +3931,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="18" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Relatorio"/>
+                        <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JPanel" name="jPanel64">
@@ -4015,7 +4015,7 @@
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Segoe UI" size="14" style="0"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="tipo de pensao"/>
+                            <Property name="text" type="java.lang.String" value="Tipo de pens&#xe3;o"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="jComboBox13">
@@ -4062,7 +4062,7 @@
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Segoe UI" size="14" style="0"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Status"/>
+                            <Property name="text" type="java.lang.String" value="Estado"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JButton" name="jButton28">
@@ -4070,7 +4070,7 @@
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Segoe UI" size="14" style="0"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="gerar relatorio"/>
+                            <Property name="text" type="java.lang.String" value="Gerar relat&#xf3;rio"/>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                                 <LineBorder roundedCorners="true">
@@ -4178,7 +4178,7 @@
                 </Container>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Relatorio"/>
+                    <Property name="text" type="java.lang.String" value="Relat&#xf3;rio"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -4288,22 +4288,22 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel30">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="numero de processo"/>
+                    <Property name="text" type="java.lang.String" value="N&#xfa;mero do processo"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel31">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Beneficiario"/>
+                    <Property name="text" type="java.lang.String" value="Benefici&#xe1;rio"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel32">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="tipo de pensao"/>
+                    <Property name="text" type="java.lang.String" value="Tipo de pens&#xe3;o"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel33">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Estado do prosseco"/>
+                    <Property name="text" type="java.lang.String" value="Estado do processo"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField21">
@@ -4452,7 +4452,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Area de uplod de fecheiro e pre-visualisacao"/>
+                        <Property name="text" type="java.lang.String" value="&#xc1;rea para carregar e pr&#xe9;-visualizar ficheiro"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -4514,7 +4514,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="selecionar ficheiro"/>
+                        <Property name="text" type="java.lang.String" value="Selecionar ficheiro"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -4580,7 +4580,7 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Pre-visualisar documeto"/>
+                            <Property name="text" type="java.lang.String" value="Pr&#xe9;-visualizar documento"/>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -4596,7 +4596,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="visualisar"/>
+                        <Property name="text" type="java.lang.String" value="Visualizar"/>
                       </Properties>
                     </Component>
                   </SubComponents>
