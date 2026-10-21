@@ -994,7 +994,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel32.add(jTextField34, new org.netbeans.lib.awtextra.AbsoluteConstraints(301, 69, 239, -1));
         jPanel32.add(jTextField35, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 70, 239, -1));
 
-        jLabel60.setText("parentesco");
+        jLabel60.setText("Parentesco");
         jPanel32.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(606, 41, -1, -1));
         jPanel32.add(jTextField36, new org.netbeans.lib.awtextra.AbsoluteConstraints(573, 69, 239, -1));
 
@@ -1437,9 +1437,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jButton18.setBackground(new java.awt.Color(0, 102, 0));
         jButton18.setForeground(new java.awt.Color(255, 255, 255));
-        jButton18.setText("selecionar ficheiro");
+        jButton18.setText("Selecionar ficheiro");
 
-        jLabel87.setText("cartao de beneficiario");
+        jLabel87.setText("Cartão de beneficiário");
 
         javax.swing.GroupLayout jPanel41Layout = new javax.swing.GroupLayout(jPanel41);
         jPanel41.setLayout(jPanel41Layout);
@@ -1467,7 +1467,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jButton19.setBackground(new java.awt.Color(0, 102, 0));
         jButton19.setForeground(new java.awt.Color(255, 255, 255));
-        jButton19.setText("selecionar ficheiro");
+        jButton19.setText("Selecionar ficheiro");
 
         jLabel88.setText("Comprovativo");
 
@@ -1496,7 +1496,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jButton20.setBackground(new java.awt.Color(0, 102, 0));
         jButton20.setForeground(new java.awt.Color(255, 255, 255));
-        jButton20.setText("selecionar ficheiro");
+        jButton20.setText("Selecionar ficheiro");
 
         jLabel89.setText("outros");
 
@@ -1526,7 +1526,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jButton13.setBackground(new java.awt.Color(0, 102, 0));
         jButton13.setForeground(new java.awt.Color(255, 255, 255));
-        jButton13.setText("selecionar ficheiro");
+        jButton13.setText("Selecionar ficheiro");
 
         jLabel86.setText("Bilhete de identidade");
 
@@ -1640,18 +1640,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 51));
-        jLabel3.setText("cadastro de beneficios");
+        jLabel3.setText("Registo de benefícios");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 36, 268, -1));
 
         jButton6.setBackground(new java.awt.Color(0, 102, 0));
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("pesquisar");
+        jButton6.setText("Pesquisar");
         jButton6.setBorder(null);
         jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1390, 80, 130, 37));
 
         jButton7.setBackground(new java.awt.Color(0, 102, 0));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("salvar");
+        jButton7.setText("Guardar");
         jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 145, 38));
 
         jButton8.setBackground(new java.awt.Color(0, 102, 0));
@@ -1708,19 +1708,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jTextField3.addActionListener(this::jTextField3ActionPerformed);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setText("sexo");
+        jLabel9.setText("Sexo");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("estado civil");
+        jLabel10.setText("Estado civil");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setText("nacionalidade");
+        jLabel11.setText("Nacionalidade");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel12.setText("telefone");
+        jLabel12.setText("Telefone");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel13.setText("Email");
+        jLabel13.setText("E-mail");
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel14.setText("Morada");
@@ -1739,7 +1739,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel22.setText("estado");
 
-        jLabel23.setText("Data de inscricao");
+        jLabel23.setText("Data de inscrição");
 
         jComboBox25.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "selecione a situacāo", "Pendente", "Em análise", "Aprovado", "Rejeitado" }));
 
