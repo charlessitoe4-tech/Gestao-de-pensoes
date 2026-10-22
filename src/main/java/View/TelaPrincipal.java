@@ -1051,7 +1051,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("pensāo por morte", pensaoVelhice);
+        jTabbedPane1.addTab("Pensão por morte", pensaoVelhice);
 
         jPanel34.setBackground(new java.awt.Color(255, 255, 255));
         jPanel34.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 255, 204), 1, true));
@@ -3604,6 +3604,129 @@ public class TelaPrincipal extends javax.swing.JFrame {
         return new javax.swing.JTextArea();
     }
 
+    private void configurarFluxoPensaoMorte() {
+        pensaoVelhice.removeAll();
+        pensaoVelhice.setLayout(new java.awt.BorderLayout());
+
+        jPanel32.removeAll();
+        java.awt.Dimension larguraFormulario = new java.awt.Dimension(1140, 0);
+        jPanel13.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+        jPanel24.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+        jPanel23.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+        jPanel13.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, jPanel13.getPreferredSize().height));
+        jPanel24.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, jPanel24.getPreferredSize().height));
+        jPanel23.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, jPanel23.getPreferredSize().height));
+        javax.swing.JPanel formularioMorte = new javax.swing.JPanel();
+        formularioMorte.setLayout(new javax.swing.BoxLayout(formularioMorte, javax.swing.BoxLayout.Y_AXIS));
+        formularioMorte.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        formularioMorte.add(jPanel13);
+        formularioMorte.add(javax.swing.Box.createVerticalStrut(14));
+        formularioMorte.add(jPanel24);
+        formularioMorte.add(javax.swing.Box.createVerticalStrut(14));
+        formularioMorte.add(jPanel23);
+        formularioMorte.setPreferredSize(larguraFormulario);
+        pensaoVelhice.add(new javax.swing.JScrollPane(formularioMorte), java.awt.BorderLayout.CENTER);
+        jButton3.setText("Continuar para documentos");
+
+        dadosRequerente.setBackground(java.awt.Color.WHITE);
+        dadosRequerente.setBorder(javax.swing.BorderFactory.createEmptyBorder(28, 36, 28, 36));
+        javax.swing.JLabel tituloRequerente = new javax.swing.JLabel("Dados do requerente");
+        tituloRequerente.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
+        tituloRequerente.setForeground(new java.awt.Color(0, 102, 0));
+        java.awt.GridBagConstraints constraints = new java.awt.GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        constraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        constraints.insets = new java.awt.Insets(0, 0, 24, 0);
+        dadosRequerente.add(tituloRequerente, constraints);
+        adicionarCampoRequerente(0, 1, jLabel57, jTextField33);
+        adicionarCampoRequerente(1, 1, jLabel58, jTextField34);
+        adicionarCampoRequerente(0, 2, jLabel61, jTextField35);
+        adicionarCampoRequerente(1, 2, jLabel60, jTextField36);
+
+        javax.swing.JPanel acoesRequerente = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        acoesRequerente.setBackground(java.awt.Color.WHITE);
+        acoesRequerente.add(btnVoltarRequerente);
+        acoesRequerente.add(btnGuardarPensaoMorte);
+        constraints = new java.awt.GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 2;
+        constraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        constraints.insets = new java.awt.Insets(28, 0, 0, 0);
+        dadosRequerente.add(acoesRequerente, constraints);
+        centro.add(dadosRequerente, "card-morte-requerente");
+
+        javax.swing.JPanel acoesDocumentos = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 12, 6));
+        acoesDocumentos.setOpaque(true);
+        acoesDocumentos.setBackground(java.awt.Color.WHITE);
+        acoesDocumentos.add(btnVoltarDocumentos);
+        acoesDocumentos.add(btnContinuarRequerente);
+        documentos.add(acoesDocumentos,
+                new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 840, 700, 48));
+        btnVoltarDocumentos.setVisible(false);
+        btnContinuarRequerente.setVisible(false);
+
+        getContentPane().remove(centro);
+        javax.swing.JScrollPane painelCentralRolavel = new javax.swing.JScrollPane(centro);
+        painelCentralRolavel.setBorder(null);
+        painelCentralRolavel.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        painelCentralRolavel.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        getContentPane().add(painelCentralRolavel, java.awt.BorderLayout.CENTER);
+    }
+
+    private void adicionarCampoRequerente(int coluna, int linha, javax.swing.JLabel rotulo,
+                                           javax.swing.JTextField campo) {
+        javax.swing.JPanel grupo = new javax.swing.JPanel(new java.awt.BorderLayout(0, 6));
+        grupo.setBackground(java.awt.Color.WHITE);
+        grupo.add(rotulo, java.awt.BorderLayout.NORTH);
+        campo.setPreferredSize(new java.awt.Dimension(360, 32));
+        grupo.add(campo, java.awt.BorderLayout.CENTER);
+        java.awt.GridBagConstraints constraints = new java.awt.GridBagConstraints();
+        constraints.gridx = coluna;
+        constraints.gridy = linha;
+        constraints.weightx = 1;
+        constraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        constraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        constraints.insets = new java.awt.Insets(0, 0, 20, 24);
+        dadosRequerente.add(grupo, constraints);
+    }
+
+    private void iniciarFluxoPensaoMorte() {
+        try {
+            if (jComboBox17.getSelectedIndex() <= 0) {
+                throw new IllegalArgumentException("Selecione o beneficiário falecido.");
+            }
+            falecidoPensaoMorteId = extrairIdBeneficiario(jComboBox17.getSelectedItem());
+            if (falecidoPensaoMorteId == null) {
+                throw new IllegalArgumentException("Beneficiário falecido inválido.");
+            }
+            dataPedidoPensaoMorte = lerData(jTextField23, "Data do pedido", true);
+            if (numeroProcessoPensaoMorte == null) {
+                numeroProcessoPensaoMorte = numeroProcessoNovo("PM");
+            }
+
+            jComboBox5.setSelectedItem(String.valueOf(falecidoPensaoMorteId));
+            preencherNomePeloIdSelecionado();
+            jTextField21.setText(numeroProcessoPensaoMorte);
+            selecionarItemSePresente(jComboBox7, "Morte");
+            selecionarItemSePresente(jComboBox22, "Pendente");
+            jComboBox5.setEnabled(false);
+            jTextField21.setEditable(false);
+            btnVoltarDocumentos.setVisible(true);
+            btnContinuarRequerente.setVisible(true);
+            navegarPara("card6");
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Validação", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void voltarParaFormularioPensaoMorte() {
+        jTabbedPane1.setSelectedComponent(pensaoVelhice);
+        navegarPara("card2");
+    }
+
     /** Configura os comportamentos da interface que não pertencem ao código gerado pelo NetBeans. */
     private void configurarAplicacao() {
         // Ordenação por clique no cabeçalho de cada coluna das tabelas.
@@ -3612,8 +3735,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         carregarBeneficiariosNosCombos();
         jButton7.addActionListener(e -> guardarBeneficiario());
-        jButton3.addActionListener(e -> guardarPensaoMorte());
-        btnVoltarDocumentos.addActionListener(e -> navegarPara("card2"));
+        jButton3.addActionListener(e -> iniciarFluxoPensaoMorte());
+        btnVoltarDocumentos.addActionListener(e -> voltarParaFormularioPensaoMorte());
         btnContinuarRequerente.addActionListener(e -> navegarPara("card-morte-requerente"));
         btnVoltarRequerente.addActionListener(e -> navegarPara("card6"));
         btnGuardarPensaoMorte.addActionListener(e -> guardarPensaoMorte());
