@@ -35,6 +35,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private final javax.swing.JTextArea areaDocumentosProcesso = criarAreaDetalhes();
     private final javax.swing.JTextArea areaDadosRequerente = criarAreaDetalhes();
     private final NivelAcesso nivelAcesso;
+    private final javax.swing.JPanel dadosRequerente = new javax.swing.JPanel(new java.awt.GridBagLayout());
+    private final javax.swing.JButton btnVoltarDocumentos = new javax.swing.JButton("Voltar à pensão por morte");
+    private final javax.swing.JButton btnContinuarRequerente = new javax.swing.JButton("Continuar para dados do requerente");
+    private final javax.swing.JButton btnVoltarRequerente = new javax.swing.JButton("Voltar aos documentos");
+    private final javax.swing.JButton btnGuardarPensaoMorte = new javax.swing.JButton("Guardar pensão por morte");
+    private Long falecidoPensaoMorteId;
+    private LocalDate dataPedidoPensaoMorte;
+    private String numeroProcessoPensaoMorte;
 
     /**
      * Cria uma nova janela principal.
@@ -52,11 +60,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         configurarPainelDetalhes();
+        configurarFluxoPensaoMorte();
         configurarAplicacao();
         configurarAnimacoesBotoes();
         aplicarNivelAcesso();
+        setMinimumSize(new java.awt.Dimension(960, 640));
+        setSize(1366, 850);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -3602,6 +3613,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         carregarBeneficiariosNosCombos();
         jButton7.addActionListener(e -> guardarBeneficiario());
         jButton3.addActionListener(e -> guardarPensaoMorte());
+        btnVoltarDocumentos.addActionListener(e -> navegarPara("card2"));
+        btnContinuarRequerente.addActionListener(e -> navegarPara("card-morte-requerente"));
+        btnVoltarRequerente.addActionListener(e -> navegarPara("card6"));
+        btnGuardarPensaoMorte.addActionListener(e -> guardarPensaoMorte());
         jButton33.addActionListener(e -> decidirProcesso(true));
         jButton34.addActionListener(e -> decidirProcesso(false));
         jButton35.addActionListener(e -> guardarDocumento());
