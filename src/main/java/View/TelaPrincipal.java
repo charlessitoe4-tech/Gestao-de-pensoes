@@ -3727,6 +3727,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         navegarPara("card2");
     }
 
+    private void continuarParaDadosRequerente() {
+        if (numeroProcessoPensaoMorte == null) {
+            mostrarMensagem("Inicie primeiro o pedido de pensão por morte.");
+            return;
+        }
+        if (documentoParaGuardar != null) {
+            mostrarMensagem("Guarde o ficheiro selecionado ou cancele a seleção antes de continuar.");
+            return;
+        }
+        navegarPara("card-morte-requerente");
+    }
+
     /** Configura os comportamentos da interface que não pertencem ao código gerado pelo NetBeans. */
     private void configurarAplicacao() {
         // Ordenação por clique no cabeçalho de cada coluna das tabelas.
@@ -3737,7 +3749,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton7.addActionListener(e -> guardarBeneficiario());
         jButton3.addActionListener(e -> iniciarFluxoPensaoMorte());
         btnVoltarDocumentos.addActionListener(e -> voltarParaFormularioPensaoMorte());
-        btnContinuarRequerente.addActionListener(e -> navegarPara("card-morte-requerente"));
+        btnContinuarRequerente.addActionListener(e -> continuarParaDadosRequerente());
         btnVoltarRequerente.addActionListener(e -> navegarPara("card6"));
         btnGuardarPensaoMorte.addActionListener(e -> guardarPensaoMorte());
         jButton33.addActionListener(e -> decidirProcesso(true));
@@ -4232,18 +4244,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
     /** Guarda o processo de pensão por morte (separador "pensão por morte"). */
     private void guardarPensaoMorte() {
         try {
-            if (jComboBox17.getSelectedIndex() <= 0) {
-                throw new IllegalArgumentException("Selecione o beneficiário falecido.");
+            Long falecidoId = falecidoPensaoMorteId;
+            if (falecidoId == null || dataPedidoPensaoMorte == null || numeroProcessoPensaoMorte == null) {
+                throw new IllegalArgumentException("O fluxo da pensão por morte não foi iniciado. Volte ao formulário e tente novamente.");
             }
-            Long falecidoId = extrairIdBeneficiario(jComboBox17.getSelectedItem());
-            if (falecidoId == null) throw new IllegalArgumentException("Beneficiário falecido inválido.");
             String nomeRequerente = jTextField33.getText().trim();
             String biRequerente = jTextField34.getText().trim();
             String parentesco = jTextField36.getText().trim();
             if (nomeRequerente.isEmpty() || biRequerente.isEmpty() || parentesco.isEmpty()) {
                 throw new IllegalArgumentException("Preencha o nome, o bilhete de identidade e o parentesco do requerente.");
             }
-            LocalDate dataPedido = lerData(jTextField23, "Data do pedido", true);
+            LocalDate dataPedido = dataPedidoPensaoMorte;
             Beneficiario requerente = null;
             for (Beneficiario b : beneficiarioController.pesquisar(biRequerente)) {
                 if (b.getNumeroBI() != null && b.getNumeroBI().trim().equalsIgnoreCase(biRequerente)) {
@@ -4274,7 +4285,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             anexar(obs, "Província", jTextField32.getText());
             anexar(obs, "Anos de contribuição do falecido", jTextField28.getText());
             anexar(obs, "Situação indicada", jComboBox11.getSelectedIndex() <= 0 ? "" : String.valueOf(jComboBox11.getSelectedItem()));
-            String numero = numeroProcessoNovo("PM");
+            String numero = numeroProcessoPensaoMorte;
             model.Pensao criada = pensaoController.guardar(null, numero, model.enums.TipoPensao.SOBREVIVENCIA,
                     requerenteId, valor, dataPedido, obs.toString().trim());
             if (criada instanceof model.PensaoSobrevivencia sobrevivencia) {
@@ -4286,8 +4297,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 campo.setText("");
             }
             jComboBox17.setSelectedIndex(0); jComboBox11.setSelectedIndex(0);
+            jComboBox5.setEnabled(true);
+            jComboBox5.setSelectedIndex(0);
+            jTextField21.setEditable(true);
+            btnVoltarDocumentos.setVisible(false);
+            btnContinuarRequerente.setVisible(false);
+            falecidoPensaoMorteId = null;
+            dataPedidoPensaoMorte = null;
+            numeroProcessoPensaoMorte = null;
             pesquisarProcessos();
             JOptionPane.showMessageDialog(this, "Pensão por morte registada. Processo nº " + numero + " (estado: Pendente).");
+            voltarParaFormularioPensaoMorte();
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Validação", JOptionPane.WARNING_MESSAGE);
         } catch (RuntimeException ex) {
