@@ -38,6 +38,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private final javax.swing.JPanel dadosRequerente = new javax.swing.JPanel(new java.awt.GridBagLayout());
     private final javax.swing.JButton btnVoltarDocumentos = new javax.swing.JButton("Voltar à pensão por morte");
     private final javax.swing.JButton btnContinuarRequerente = new javax.swing.JButton("Continuar para dados do requerente");
+    private final javax.swing.JButton btnDescartarDocumento = new javax.swing.JButton("Descartar ficheiro selecionado");
     private final javax.swing.JButton btnVoltarRequerente = new javax.swing.JButton("Voltar aos documentos");
     private final javax.swing.JButton btnGuardarPensaoMorte = new javax.swing.JButton("Guardar pensão por morte");
     private Long falecidoPensaoMorteId;
@@ -3662,11 +3663,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         acoesDocumentos.setOpaque(true);
         acoesDocumentos.setBackground(java.awt.Color.WHITE);
         acoesDocumentos.add(btnVoltarDocumentos);
+        acoesDocumentos.add(btnDescartarDocumento);
         acoesDocumentos.add(btnContinuarRequerente);
         documentos.add(acoesDocumentos,
                 new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 840, 700, 48));
         btnVoltarDocumentos.setVisible(false);
         btnContinuarRequerente.setVisible(false);
+        btnDescartarDocumento.setVisible(false);
 
         getContentPane().remove(centro);
         javax.swing.JScrollPane painelCentralRolavel = new javax.swing.JScrollPane(centro);
@@ -3695,16 +3698,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void iniciarFluxoPensaoMorte() {
         try {
-            if (jComboBox17.getSelectedIndex() <= 0) {
-                throw new IllegalArgumentException("Selecione o beneficiário falecido.");
-            }
-            falecidoPensaoMorteId = extrairIdBeneficiario(jComboBox17.getSelectedItem());
-            if (falecidoPensaoMorteId == null) {
-                throw new IllegalArgumentException("Beneficiário falecido inválido.");
-            }
-            dataPedidoPensaoMorte = lerData(jTextField23, "Data do pedido", true);
             if (numeroProcessoPensaoMorte == null) {
+                if (jComboBox17.getSelectedIndex() <= 0) {
+                    throw new IllegalArgumentException("Selecione o beneficiário falecido.");
+                }
+                falecidoPensaoMorteId = extrairIdBeneficiario(jComboBox17.getSelectedItem());
+                if (falecidoPensaoMorteId == null) {
+                    throw new IllegalArgumentException("Beneficiário falecido inválido.");
+                }
+                dataPedidoPensaoMorte = lerData(jTextField23, "Data do pedido", true);
                 numeroProcessoPensaoMorte = numeroProcessoNovo("PM");
+                jComboBox17.setEnabled(false);
+                jTextField23.setEditable(false);
             }
 
             jComboBox5.setSelectedItem(String.valueOf(falecidoPensaoMorteId));
@@ -3716,6 +3721,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jTextField21.setEditable(false);
             btnVoltarDocumentos.setVisible(true);
             btnContinuarRequerente.setVisible(true);
+            btnDescartarDocumento.setVisible(true);
             navegarPara("card6");
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Validação", JOptionPane.WARNING_MESSAGE);
@@ -3739,6 +3745,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         navegarPara("card-morte-requerente");
     }
 
+    private void descartarDocumentoSelecionado() {
+        documentoParaGuardar = null;
+        jLabel35.setText("Área para carregar e pré-visualizar ficheiro");
+        jLabel35.setToolTipText(null);
+    }
+
     /** Configura os comportamentos da interface que não pertencem ao código gerado pelo NetBeans. */
     private void configurarAplicacao() {
         // Ordenação por clique no cabeçalho de cada coluna das tabelas.
@@ -3750,6 +3762,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton3.addActionListener(e -> iniciarFluxoPensaoMorte());
         btnVoltarDocumentos.addActionListener(e -> voltarParaFormularioPensaoMorte());
         btnContinuarRequerente.addActionListener(e -> continuarParaDadosRequerente());
+        btnDescartarDocumento.addActionListener(e -> descartarDocumentoSelecionado());
         btnVoltarRequerente.addActionListener(e -> navegarPara("card6"));
         btnGuardarPensaoMorte.addActionListener(e -> guardarPensaoMorte());
         jButton33.addActionListener(e -> decidirProcesso(true));
@@ -4302,6 +4315,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jTextField21.setEditable(true);
             btnVoltarDocumentos.setVisible(false);
             btnContinuarRequerente.setVisible(false);
+            btnDescartarDocumento.setVisible(false);
+            jComboBox17.setEnabled(true);
+            jTextField23.setEditable(true);
             falecidoPensaoMorteId = null;
             dataPedidoPensaoMorte = null;
             numeroProcessoPensaoMorte = null;
